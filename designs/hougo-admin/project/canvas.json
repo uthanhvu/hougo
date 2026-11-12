@@ -1,0 +1,47 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-12T10:42:00Z"
+  },
+  "title": "Hougo Hotpot — Cổng Quản Trị Hệ Thống (Admin Portal)",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 1120,
+      "title": "Desktop Admin Portal (1440px)",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Tablet.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1024,
+      "h": 1120,
+      "title": "Tablet Admin Portal (1024px)",
+      "expand": "fill",
+      "is_interactive": true
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Tablet.dc.html"
+  ],
+  "notes": {
+    "admin_header": {
+      "x": 0,
+      "y": -260,
+      "text": "HOUGO ADMIN PORTAL — CỔNG QUẢN TRỊ NHÀ HÀNG",
+      "kind": "title1",
+      "maxW": 2544
+    }
+  },
+  "designSystems": []
+}
+

@@ -1,0 +1,46 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-12T01:10:00Z"
+  },
+  "title": "Hougo Hotpot — Sơ Đồ Bàn POS",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 940,
+      "title": "Desktop POS — 1440px",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Tablet.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1024,
+      "h": 860,
+      "title": "Tablet POS — 1024px",
+      "is_interactive": true
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Tablet.dc.html"
+  ],
+  "notes": {
+    "canvas-heading": {
+      "x": 0,
+      "y": -260,
+      "text": "HOUGO HOTPOT POS — Sơ Đồ Bàn, Mở Bàn & Điều Phối Ca",
+      "kind": "title1",
+      "maxW": 2540
+    }
+  },
+  "designSystems": []
+}
+

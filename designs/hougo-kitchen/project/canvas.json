@@ -1,0 +1,47 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-12T10:10:00Z"
+  },
+  "title": "Hougo Hotpot — Điều Phối Bếp KDT (3.1 & 3.2)",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 980,
+      "title": "Desktop KDT Bếp Ngang — 1440px",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Tablet.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 1024,
+      "h": 920,
+      "title": "Tablet KDT Bếp — 1024px",
+      "expand": "fill",
+      "is_interactive": true
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Tablet.dc.html"
+  ],
+  "notes": {
+    "canvas-heading": {
+      "x": 0,
+      "y": -260,
+      "text": "HOUGO KITCHEN (KDT) — Điều Phối Bếp (3.1) & Báo Hết Món (3.2)",
+      "kind": "title1",
+      "maxW": 2544
+    }
+  },
+  "designSystems": []
+}
+

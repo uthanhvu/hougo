@@ -1,0 +1,46 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-11T16:45:00Z"
+  },
+  "title": "Hougo Hotpot — Landing Page",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 3920,
+      "title": "Desktop — 1440px",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Mobile.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Mobile — 390px",
+      "is_interactive": true
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Mobile.dc.html"
+  ],
+  "notes": {
+    "canvas-heading": {
+      "x": 0,
+      "y": -280,
+      "text": "HOUGO HOTPOT — Desktop & Mobile Landing Page",
+      "kind": "title1",
+      "maxW": 1910
+    }
+  },
+  "designSystems": []
+}
+

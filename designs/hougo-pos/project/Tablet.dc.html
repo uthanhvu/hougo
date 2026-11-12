@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>HOUGO POS — Tablet Thu Ngân &amp; Phục Vụ (1024px)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;700;800&amp;family=Playfair+Display:wght@600;700&amp;display=swap">
+<style>
+body {
+  margin: 0;
+  background-color: #0B1120;
+  color: #F8FAFC;
+  font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+* {
+  box-sizing: border-box;
+}
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+button {
+  transition: transform 0.14s ease, filter 0.14s ease, background-color 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
+}
+button:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.pos-op-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: #F59E0B !important;
+  background: linear-gradient(180deg, #27354F 0%, #172033 100%) !important;
+  box-shadow: 0 8px 18px rgba(245, 158, 11, 0.2) !important;
+}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #F59E0B;
+  outline-offset: 2px;
+}
+input::placeholder,
+textarea::placeholder {
+  color: #94A3B8;
+}
+@keyframes tabletPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(1.25);
+  }
+}
+.tablet-live-dot {
+  animation: tabletPulse 1.8s ease-in-out infinite;
+}
+</style>
+</helmet>
+
+<div style="min-height: 100%; width: 100%; background-color: #0B1120; color: #F8FAFC; font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif; display: flex; flex-direction: column;">
+
+  <!-- Compact Tablet Header -->
+  <header style="width: 100%; background-color: #111827; border-bottom: 1px solid rgba(245, 158, 11, 0.24); padding: 9px 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <button type="button" onClick="{{ triggerBackHome }}" aria-label="Về Trang Chủ" style="min-height: 44px; padding: 0 12px; border-radius: 10px; background-color: #1E293B; border: 1px solid rgba(148, 163, 184, 0.26); color: #E2E8F0; font-size: 12.5px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M19 12H5"></path>
+          <path d="M12 19L5 12L12 5"></path>
+        </svg>
+        <span>Trang Chủ</span>
+      </button>
+
+      <div style="display: flex; align-items: center; gap: 9px;">
+        <svg width="34" height="34" viewBox="0 0 42 42" fill="none" aria-hidden="true">
+          <rect x="1" y="1" width="40" height="40" rx="10" fill="#991B1B" stroke="#F59E0B" stroke-width="1.5"></rect>
+          <path d="M12 22.5H30C29.5 27.2 25.8 30 21 30C16.2 30 12.5 27.2 12 22.5Z" stroke="#FDE68A" stroke-width="1.6" stroke-linejoin="round"></path>
+          <path d="M10.5 22.5H31.5" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round"></path>
+        </svg>
+        <div style="display: flex; flex-direction: column; gap: 1px;">
+          <div style="display: flex; align-items: center; gap: 7px;">
+            <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 17px; font-weight: 700; letter-spacing: 0.08em; color: #FAF7F2;">HOUGO POS</span>
+            <span style="padding: 2px 7px; border-radius: 5px; background-color: rgba(245, 158, 11, 0.16); color: #FBBF24; font-size: 10px; font-weight: 700;">TABLET</span>
+          </div>
+          <span style="font-size: 11px; color: #94A3B8;">Sơ đồ điều phối bàn cảm ứng</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 9px; flex-wrap: wrap;">
+      <div style="min-height: 44px; padding: 6px 12px; border-radius: 10px; background-color: #0F172A; border: 1px solid rgba(148, 163, 184, 0.2); display: flex; align-items: center; gap: 9px; font-size: 12px; color: #E2E8F0;">
+        <span style="display: inline-flex; align-items: center; gap: 6px;">
+          <span class="tablet-live-dot" style="width: 7px; height: 7px; border-radius: 999px; background-color: #10B981; display: inline-block;"></span>
+          <span>Ca: <strong style="color: #FBBF24;">Tối</strong></span>
+        </span>
+        <span style="color: #475569;">|</span>
+        <span>NV: <strong style="color: #F8FAFC;">Admin</strong></span>
+        <span style="color: #475569;">|</span>
+        <span>Hoạt động: <strong style="color: #FCA5A5; font-family: 'JetBrains Mono', monospace;">{{activeCount}}/16</strong></span>
+      </div>
+
+      <div style="min-height: 44px; padding: 6px 12px; border-radius: 10px; background-color: #1E293B; border: 1px solid rgba(245, 158, 11, 0.34); display: flex; align-items: center; gap: 7px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M12 7V12L15.5 14"></path>
+        </svg>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700; color: #FBBF24;">{{clockTime}}</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <div style="flex: 1; width: 100%; padding: 10px 18px 14px; display: flex; flex-direction: column; gap: 9px;">
+
+    <!-- Shift Revenue (Big #FBBF24) + Framed Quick Action Buttons (2.4) -->
+    <section style="background: linear-gradient(90deg, rgba(153, 27, 27, 0.4) 0%, #111827 52%); border: 1px solid rgba(245, 158, 11, 0.32); border-radius: 12px; padding: 9px 14px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+        <div style="display: flex; flex-direction: column; gap: 1px;">
+          <span style="font-size: 11px; font-weight: 600; color: #94A3B8;">Doanh thu tạm tính ca</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 800; color: #FBBF24; line-height: 1.1;">{{shiftRevenueFormatted}}</span>
+        </div>
+        <div style="height: 30px; width: 1px; background-color: rgba(148, 163, 184, 0.2);"></div>
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 12px;">
+          <span style="color: #A7F3D0;">Trống: <strong>{{countEmpty}}</strong></span>
+          <span style="color: #FECACA;">Có khách: <strong>{{countOccupied}}</strong></span>
+          <span style="color: #FDE68A;">Đặt trước: <strong>{{countReserved}}</strong></span>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+        <button type="button" class="pos-op-btn" onClick="{{ toggleTransferMode }}" style="{{transferBtnStyle}}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M17 3L21 7L17 11"></path>
+            <path d="M3 7H21"></path>
+            <path d="M7 21L3 17L7 13"></path>
+            <path d="M21 17H3"></path>
+          </svg>
+          <span>Chuyển bàn</span>
+        </button>
+        <button type="button" class="pos-op-btn" onClick="{{ toggleMergeMode }}" style="{{mergeBtnStyle}}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FCA5A5" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="8" cy="18" r="3"></circle>
+            <circle cx="16" cy="6" r="3"></circle>
+            <path d="M8 15V9A3 3 0 0 1 11 6H13"></path>
+            <path d="M16 9V15"></path>
+          </svg>
+          <span>Gộp bàn</span>
+        </button>
+        <button type="button" class="pos-op-btn" onClick="{{ toggleSplitMode }}" style="{{splitBtnStyle}}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6EE7B7" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 3H21V8"></path>
+            <path d="M4 20L21 3"></path>
+            <path d="M21 16V21H16"></path>
+            <path d="M15 15L21 21"></path>
+            <path d="M4 4L9 9"></path>
+          </svg>
+          <span>Tách bàn</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Action Feedback Banner -->
+    <sc-if value="{{ hasBanner }}" hint-placeholder-val="{{ false }}">
+      <div style="padding: 8px 14px; border-radius: 10px; background-color: {{bannerBg}}; border: 1px solid {{bannerBorder}}; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+        <span style="font-size: 12.5px; color: #F8FAFC; font-weight: 500;">{{bannerText}}</span>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <sc-if value="{{ isActionMode }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ cancelMode }}" style="min-height: 34px; padding: 0 11px; border-radius: 8px; background-color: #0F172A; border: 1px solid rgba(255, 255, 255, 0.22); color: #FBBF24; font-size: 12px; font-weight: 600; cursor: pointer;">Hủy chế độ</button>
+          </sc-if>
+          <button type="button" onClick="{{ dismissBanner }}" style="min-height: 34px; padding: 0 11px; border-radius: 8px; background-color: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.16); color: #CBD5E1; font-size: 12px; font-weight: 600; cursor: pointer;">Đóng</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- Separated Floor Segmented Tabs & Status Pills -->
+    <div style="background-color: #111827; border: 1px solid rgba(148, 163, 184, 0.18); border-radius: 12px; padding: 7px 10px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;">
+      <div role="tablist" aria-label="Chọn tầng" style="display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border-radius: 9px; background-color: #0B1120; border: 1px solid rgba(148, 163, 184, 0.16);">
+        <button type="button" role="tab" onClick="{{ selectFloorAll }}" style="{{floorAllStyle}}">Tất cả</button>
+        <button type="button" role="tab" onClick="{{ selectFloor1 }}" style="{{floor1Style}}">Tầng 1 (Sảnh)</button>
+        <button type="button" role="tab" onClick="{{ selectFloor2 }}" style="{{floor2Style}}">Tầng 2 (VIP)</button>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+        <button type="button" onClick="{{ selectStatusAll }}" style="{{statusAllStyle}}">Tất cả ({{countAll}})</button>
+        <button type="button" onClick="{{ selectStatusEmpty }}" style="{{statusEmptyStyle}}">Trống ({{countEmpty}})</button>
+        <button type="button" onClick="{{ selectStatusOccupied }}" style="{{statusOccupiedStyle}}">Có khách ({{countOccupied}})</button>
+        <button type="button" onClick="{{ selectStatusReserved }}" style="{{statusReservedStyle}}">Đã đặt ({{countReserved}})</button>
+      </div>
+    </div>
+
+    <!-- 16-Table Compact Single-Screen Touch Grid (4x4 at 1024px) -->
+    <main style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr)); gap: 10px;">
+      <sc-for list="{{visibleTables}}" as="tb" hint-placeholder-count="16">
+        <article style="{{tb.cardStyle}}">
+          <!-- Row 1: Single-line Bold 18px Name + Badge -->
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px;">
+            <div style="display: flex; align-items: center; gap: 6px; min-width: 0;">
+              <span style="font-size: 18px; font-weight: 800; color: #F8FAFC; white-space: nowrap; line-height: 1.1;">{{tb.name}}</span>
+              <span style="padding: 2px 5px; border-radius: 5px; background-color: rgba(15, 23, 42, 0.78); font-size: 10px; font-weight: 700; color: #CBD5E1; white-space: nowrap;">{{tb.zoneShort}}</span>
+            </div>
+            <span style="{{tb.badgeStyle}}">{{tb.badgeText}}</span>
+          </div>
+
+          <!-- Row 2: Tailored Body -->
+          <sc-if value="{{tb.isEmpty}}" hint-placeholder-val="{{true}}">
+            <div style="flex: 1; padding: 8px 10px; border-radius: 9px; background-color: rgba(15, 23, 42, 0.58); border: 1px solid rgba(16, 185, 129, 0.18); display: flex; flex-direction: column; justify-content: center; gap: 3px;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-size: 14px; font-weight: 700; color: #E2E8F0;">{{tb.seatsLabel}}</span>
+                <span style="font-size: 11px; font-weight: 600; color: #6EE7B7;">Sẵn sàng</span>
+              </div>
+              <span style="font-size: 11.5px; color: #94A3B8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{tb.note}}</span>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{tb.isOccupied}}" hint-placeholder-val="{{false}}">
+            <div style="flex: 1; padding: 8px 10px; border-radius: 9px; background-color: rgba(15, 23, 42, 0.68); border: 1px solid rgba(239, 68, 68, 0.25); display: flex; flex-direction: column; justify-content: space-between; gap: 4px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; color: #94A3B8;">
+                <span>{{tb.durationMin}} phút · {{tb.guestsCount}} khách</span>
+                <span>{{tb.staffShort}}</span>
+              </div>
+              <div style="display: flex; align-items: baseline; justify-content: space-between;">
+                <span style="font-size: 11px; font-weight: 600; color: #94A3B8;">Tạm tính</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 16.5px; font-weight: 800; color: #FBBF24;">{{tb.billFormatted}}</span>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{tb.isReserved}}" hint-placeholder-val="{{false}}">
+            <div style="flex: 1; padding: 8px 10px; border-radius: 9px; background-color: rgba(15, 23, 42, 0.62); border: 1px solid rgba(245, 158, 11, 0.25); display: flex; flex-direction: column; justify-content: center; gap: 3px;">
+              <span style="font-size: 12.5px; font-weight: 700; color: #FDE68A;">{{tb.reserveTime}} · {{tb.seatsLabel}} ({{tb.guestsCount}}K)</span>
+              <span style="font-size: 11.5px; color: #94A3B8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{tb.note}}</span>
+            </div>
+          </sc-if>
+
+          <!-- Row 3: Action CTA -->
+          <button type="button" onClick="{{tb.onCardAction}}" style="{{tb.actionStyle}}">
+            <span>{{tb.actionLabel}}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12H19"></path>
+              <path d="M13 6L19 12L13 18"></path>
+            </svg>
+          </button>
+        </article>
+      </sc-for>
+    </main>
+  </div>
+
+  <!-- MODAL 2.2: Mở Bàn Touch Dialog -->
+  <sc-if value="{{ showOpenModal }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-labelledby="tb-open-modal-title" style="position: fixed; inset: 0; background-color: rgba(2, 6, 23, 0.82); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 18px; z-index: 60;">
+      <div style="width: 100%; max-width: 490px; background-color: #111827; border: 1px solid rgba(245, 158, 11, 0.45); border-radius: 16px; padding: 22px; box-shadow: 0 24px 56px rgba(0, 0, 0, 0.65); display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+          <div style="display: flex; flex-direction: column; gap: 3px;">
+            <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: #F59E0B;">MỞ BÀN NHANH (2.2)</span>
+            <h2 id="tb-open-modal-title" style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 700; color: #FAF7F2;">{{openModalTitle}}</h2>
+          </div>
+          <button type="button" onClick="{{ closeOpenModal }}" aria-label="Đóng cửa sổ mở bàn" style="min-width: 44px; min-height: 44px; border-radius: 10px; background-color: #1E293B; border: 1px solid rgba(148, 163, 184, 0.24); color: #E2E8F0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 6L6 18"></path>
+              <path d="M6 6L18 18"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <label style="font-size: 13px; font-weight: 600; color: #E2E8F0;">Số lượng khách</label>
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+            <button type="button" onClick="{{ pickGuests2 }}" style="{{preset2Style}}">2 khách</button>
+            <button type="button" onClick="{{ pickGuests4 }}" style="{{preset4Style}}">4 khách</button>
+            <button type="button" onClick="{{ pickGuests6 }}" style="{{preset6Style}}">6 khách</button>
+            <button type="button" onClick="{{ pickGuests8 }}" style="{{preset8Style}}">8 khách</button>
+            <div style="margin-left: auto; display: inline-flex; align-items: center; gap: 6px; background-color: #0F172A; border: 1px solid rgba(148, 163, 184, 0.24); border-radius: 10px; padding: 3px;">
+              <button type="button" onClick="{{ decGuests }}" aria-label="Giảm khách" style="min-width: 38px; min-height: 38px; border-radius: 8px; border: none; background-color: #1E293B; color: #F8FAFC; font-size: 16px; font-weight: 700; cursor: pointer;">-</button>
+              <span style="min-width: 30px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700; color: #FBBF24;">{{openGuestsCount}}</span>
+              <button type="button" onClick="{{ incGuests }}" aria-label="Tăng khách" style="min-width: 38px; min-height: 38px; border-radius: 8px; border: none; background-color: #1E293B; color: #F8FAFC; font-size: 16px; font-weight: 700; cursor: pointer;">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label for="tb-staff-select" style="font-size: 13px; font-weight: 600; color: #E2E8F0;">Nhân viên phục vụ</label>
+          <select id="tb-staff-select" value="{{openStaff}}" onChange="{{onStaffChange}}" style="min-height: 46px; width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(148, 163, 184, 0.25); background-color: #0F172A; color: #F8FAFC; font-size: 14px;">
+            <option value="Nguyễn Văn Minh">Nguyễn Văn Minh (Tầng 1)</option>
+            <option value="Trần Thị Lan">Trần Thị Lan (Tầng 1)</option>
+            <option value="Lê Hoàng Nam">Lê Hoàng Nam (Sảnh)</option>
+            <option value="Phạm Thùy Linh">Phạm Thùy Linh (Phòng VIP)</option>
+          </select>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label for="tb-open-note" style="font-size: 13px; font-weight: 600; color: #E2E8F0;">Ghi chú / Vị lẩu mặc định</label>
+          <textarea id="tb-open-note" rows="2" value="{{openNote}}" onInput="{{onOpenNoteInput}}" placeholder="Ví dụ: Lẩu 2 ngăn, thêm ghế trẻ em..." style="width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(148, 163, 184, 0.25); background-color: #0F172A; color: #F8FAFC; font-size: 14px; resize: vertical;"></textarea>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
+          <button type="button" onClick="{{ closeOpenModal }}" style="min-height: 46px; padding: 0 18px; border-radius: 10px; background-color: #1E293B; border: 1px solid rgba(148, 163, 184, 0.28); color: #E2E8F0; font-size: 14px; font-weight: 600; cursor: pointer;">Hủy</button>
+          <button type="button" onClick="{{ confirmOpenTable }}" style="min-height: 46px; padding: 0 22px; border-radius: 10px; background-color: #B91C1C; border: 1px solid rgba(245, 158, 11, 0.5); color: #FAF7F2; font-size: 14px; font-weight: 700; cursor: pointer;">Bắt đầu phục vụ</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- MODAL 2.3/2.5 SIMULATION -->
+  <sc-if value="{{ showOrderModal }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-labelledby="tb-order-modal-title" style="position: fixed; inset: 0; background-color: rgba(2, 6, 23, 0.82); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 18px; z-index: 60;">
+      <div style="width: 100%; max-width: 490px; background-color: #111827; border: 1px solid rgba(239, 68, 68, 0.45); border-radius: 16px; padding: 22px; box-shadow: 0 24px 56px rgba(0, 0, 0, 0.65); display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+          <div style="display: flex; flex-direction: column; gap: 3px;">
+            <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: #FCA5A5;">GỌI MÓN (2.3) &amp; THANH TOÁN (2.5)</span>
+            <h2 id="tb-order-modal-title" style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 700; color: #FAF7F2;">{{orderModalTitle}}</h2>
+            <span style="font-size: 12.5px; color: #94A3B8;">{{orderModalMeta}}</span>
+          </div>
+          <button type="button" onClick="{{ closeOrderModal }}" aria-label="Đóng cửa sổ gọi món" style="min-width: 44px; min-height: 44px; border-radius: 10px; background-color: #1E293B; border: 1px solid rgba(148, 163, 184, 0.24); color: #E2E8F0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 6L6 18"></path>
+              <path d="M6 6L18 18"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div style="padding: 14px; border-radius: 12px; background-color: #0F172A; border: 1px solid rgba(148, 163, 184, 0.16); display: flex; flex-direction: column; gap: 8px;">
+          <div style="font-size: 12.5px; color: #CBD5E1;">{{orderModalNote}}</div>
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-size: 13.5px; font-weight: 600; color: #E2E8F0;">Tạm tính hiện tại</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 800; color: #FBBF24;">{{orderModalBill}}</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;">
+          <button type="button" onClick="{{ addQuickDishToOrder }}" style="min-height: 46px; padding: 0 16px; border-radius: 10px; background-color: #1E293B; border: 1px solid rgba(245, 158, 11, 0.45); color: #FBBF24; font-size: 13px; font-weight: 600; cursor: pointer;">+ Thêm Bò Wagyu (189K)</button>
+          <button type="button" onClick="{{ settleAndClearTable }}" style="min-height: 46px; padding: 0 20px; border-radius: 10px; background-color: #B91C1C; border: 1px solid rgba(245, 158, 11, 0.48); color: #FAF7F2; font-size: 13.5px; font-weight: 700; cursor: pointer;">Thanh toán &amp; Trả bàn</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1024,"height":860}}'>
+function formatVnd(n) {
+  return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ';
+}
+
+function pad2(num) {
+  return num < 10 ? '0' + num : '' + num;
+}
+
+function formatClock(d) {
+  return pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
+}
+
+const INITIAL_TABLES = [
+  { id: 1, name: 'BÀN 01', floor: 1, seats: 4, status: 'empty', durationMin: 0, bill: 0, guestsCount: 0, staff: '', note: 'Sảnh chính · Gần cửa sổ' },
+  { id: 2, name: 'BÀN 02', floor: 1, seats: 4, status: 'occupied', durationMin: 38, bill: 980000, guestsCount: 4, staff: 'Minh', note: 'Combo 269K · Lẩu 2 ngăn' },
+  { id: 3, name: 'BÀN 03', floor: 1, seats: 4, status: 'occupied', durationMin: 52, bill: 1420000, guestsCount: 4, staff: 'Lan', note: 'Lẩu Tứ Xuyên + Wagyu' },
+  { id: 4, name: 'BÀN 04', floor: 1, seats: 6, status: 'reserved', durationMin: 0, bill: 0, guestsCount: 6, staff: 'Lễ tân', note: 'Anh Tuấn · Ghế trẻ em', reserveTime: '19:15' },
+  { id: 5, name: 'BÀN 05', floor: 1, seats: 2, status: 'empty', durationMin: 0, bill: 0, guestsCount: 0, staff: '', note: 'Cặp đôi · Quầy gia vị' },
+  { id: 6, name: 'BÀN 06', floor: 1, seats: 6, status: 'occupied', durationMin: 24, bill: 1150000, guestsCount: 5, staff: 'Nam', note: 'Combo 269K x5' },
+  { id: 7, name: 'BÀN 07', floor: 1, seats: 4, status: 'empty', durationMin: 0, bill: 0, guestsCount: 0, staff: '', note: 'Sảnh trung tâm' },
+  { id: 8, name: 'BÀN 08', floor: 1, seats: 6, status: 'empty', durationMin: 0, bill: 0, guestsCount: 0, staff: '', note: 'Góc sảnh · Bàn dài' },
+  { id: 9, name: 'BÀN 09', floor: 2, seats: 8, status: 'occupied', durationMin: 68, bill: 2840000, guestsCount: 7, staff: 'Linh', note: 'VIP Hoa Mai · Combo 329K' },
+  { id: 10, name: 'BÀN 10', floor: 2, seats: 6, status: 'empty', durationMin: 0, bill: 0, guestsCount: 0, staff: '', note: 'Tầng 2 · Ban công' },
+  { id: 11, name: 'BÀN 11', floor: 2, seats: 8, status: 'occupied', durationMin: 41, bill: 3120000, guestsCount: 8, staff: 'Minh', note: 'VIP Trúc Lâm · Uyên Ương' },
+  { id: 12, name: 'BÀN 12', floor: 2, seats: 10, status: 'empty', durationMin: 0, bill: 0, guestsCount: 0, staff: '', note: 'VIP Mẫu Đơn · Cách âm' },
+  { id: 13, name: 'BÀN 13', floor: 2, seats: 6, status: 'occupied', durationMin: 15, bill: 760000, guestsCount: 4, staff: 'Lan', note: 'Lẩu Cà Chua · Gia đình' },
+  { id: 14, name: 'BÀN 14', floor: 2, seats: 4, status: 'empty', durationMin: 0, bill: 0, guestsCount: 0, staff: '', note: 'Tầng 2 · Bàn gia đình' },
+  { id: 15, name: 'BÀN 15', floor: 2, seats: 10, status: 'reserved', durationMin: 0, bill: 0, guestsCount: 10, staff: 'Lễ tân', note: 'Cty Minh Phát · Đã cọc', reserveTime: '20:00' },
+  { id: 16, name: 'BÀN 16', floor: 2, seats: 8, status: 'empty', durationMin: 0, bill: 0, guestsCount: 0, staff: '', note: 'VIP Kim Long · Đã dọn' }
+];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      clockTime: formatClock(new Date()),
+      floorFilter: 'all',
+      statusFilter: 'all',
+      tables: INITIAL_TABLES,
+      settledShiftRevenue: 8640000,
+      actionMode: null,
+      sourceTableId: null,
+      bannerMsg: '',
+      openModalTableId: null,
+      openGuestsCount: 4,
+      openStaff: 'Nguyễn Văn Minh',
+      openNote: '',
+      orderModalTableId: null
+    };
+  }
+
+  componentDidMount() {
+    this._timer = setInterval(() => {
+      this.setState({ clockTime: formatClock(new Date()) });
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    if (this._timer) {
+      clearInterval(this._timer);
+    }
+  }
+
+  handleCardClick(tb) {
+    const mode = this.state.actionMode;
+    const srcId = this.state.sourceTableId;
+
+    if (mode === 'transfer') {
+      if (!srcId) {
+        if (tb.status !== 'occupied') {
+          this.setState({ bannerMsg: 'Chuyển bàn: Chọn bàn ĐANG CÓ KHÁCH làm bàn nguồn trước.' });
+          return;
+        }
+        this.setState({ sourceTableId: tb.id, bannerMsg: 'Đã chọn ' + tb.name + '. Chạm vào một BÀN TRỐNG để chuyển sang.' });
+        return;
+      }
+      if (tb.id === srcId) {
+        this.setState({ sourceTableId: null, bannerMsg: 'Đã bỏ chọn bàn nguồn.' });
+        return;
+      }
+      if (tb.status !== 'empty') {
+        this.setState({ bannerMsg: 'Vui lòng chạm vào BÀN TRỐNG để nhận khách chuyển bàn.' });
+        return;
+      }
+      const src = this.state.tables.find((x) => x.id === srcId);
+      const updated = this.state.tables.map((item) => {
+        if (item.id === srcId) return { ...item, status: 'empty', durationMin: 0, bill: 0, guestsCount: 0, staff: '', note: 'Chuyển sang ' + tb.name };
+        if (item.id === tb.id && src) return { ...item, status: 'occupied', durationMin: src.durationMin, bill: src.bill, guestsCount: src.guestsCount, staff: src.staff, note: src.note };
+        return item;
+      });
+      this.setState({ tables: updated, actionMode: null, sourceTableId: null, bannerMsg: 'Đã chuyển ' + (src ? src.name : '') + ' sang ' + tb.name + '.' });
+      return;
+    }
+
+    if (mode === 'merge') {
+      if (tb.status !== 'occupied') {
+        this.setState({ bannerMsg: 'Gộp bàn: Chạm 2 bàn ĐANG CÓ KHÁCH để gộp hóa đơn.' });
+        return;
+      }
+      if (!srcId) {
+        this.setState({ sourceTableId: tb.id, bannerMsg: 'Đã chọn ' + tb.name + '. Chạm bàn CÓ KHÁCH thứ hai để gộp.' });
+        return;
+      }
+      if (tb.id === srcId) {
+        this.setState({ sourceTableId: null, bannerMsg: 'Đã bỏ chọn bàn nguồn.' });
+        return;
+      }
+      const src = this.state.tables.find((x) => x.id === srcId);
+      const updated = this.state.tables.map((item) => {
+        if (item.id === srcId) return { ...item, status: 'empty', durationMin: 0, bill: 0, guestsCount: 0, staff: '', note: 'Đã gộp -> ' + tb.name };
+        if (item.id === tb.id && src) return { ...item, guestsCount: item.guestsCount + src.guestsCount, bill: item.bill + src.bill, note: item.note + ' + ' + src.name };
+        return item;
+      });
+      this.setState({ tables: updated, actionMode: null, sourceTableId: null, bannerMsg: 'Đã gộp ' + (src ? src.name : '') + ' vào ' + tb.name + '.' });
+      return;
+    }
+
+    if (mode === 'split') {
+      if (!srcId) {
+        if (tb.status !== 'occupied' || tb.guestsCount < 2) {
+          this.setState({ bannerMsg: 'Tách bàn: Chạm bàn ĐANG CÓ KHÁCH (>= 2 người).' });
+          return;
+        }
+        this.setState({ sourceTableId: tb.id, bannerMsg: 'Đã chọn ' + tb.name + '. Chạm BÀN TRỐNG để tách nửa nhóm sang.' });
+        return;
+      }
+      if (tb.status !== 'empty') {
+        this.setState({ bannerMsg: 'Vui lòng chạm BÀN TRỐNG để nhận nhóm vừa tách.' });
+        return;
+      }
+      const src = this.state.tables.find((x) => x.id === srcId);
+      if (!src) return;
+      const moveGuests = Math.max(1, Math.floor(src.guestsCount / 2));
+      const keepGuests = src.guestsCount - moveGuests;
+      const moveBill = Math.round((src.bill / 2) / 1000) * 1000;
+      const keepBill = src.bill - moveBill;
+      const updated = this.state.tables.map((item) => {
+        if (item.id === srcId) return { ...item, guestsCount: keepGuests, bill: keepBill, note: item.note + ' (Đã tách)' };
+        if (item.id === tb.id) return { ...item, status: 'occupied', durationMin: src.durationMin, guestsCount: moveGuests, bill: moveBill, staff: src.staff, note: 'Tách từ ' + src.name };
+        return item;
+      });
+      this.setState({ tables: updated, actionMode: null, sourceTableId: null, bannerMsg: 'Đã tách ' + moveGuests + ' khách sang ' + tb.name + '.' });
+      return;
+    }
+
+    if (tb.status === 'empty' || tb.status === 'reserved') {
+      this.setState({
+        openModalTableId: tb.id,
+        openGuestsCount: tb.status === 'reserved' ? tb.guestsCount : Math.min(4, tb.seats),
+        openStaff: tb.floor === 2 ? 'Phạm Thùy Linh' : 'Nguyễn Văn Minh',
+        openNote: tb.status === 'reserved' ? ('Nhận khách đặt: ' + tb.note) : 'Lẩu 2 ngăn Tứ Xuyên - Nấm'
+      });
+    } else {
+      this.setState({ orderModalTableId: tb.id });
+    }
+  }
+
+  renderVals() {
+    const tables = this.state.tables;
+    const floorFilter = this.state.floorFilter;
+    const statusFilter = this.state.statusFilter;
+    const actionMode = this.state.actionMode;
+    const sourceTableId = this.state.sourceTableId;
+
+    const countAll = tables.length;
+    const countEmpty = tables.filter((t) => t.status === 'empty').length;
+    const countOccupied = tables.filter((t) => t.status === 'occupied').length;
+    const countReserved = tables.filter((t) => t.status === 'reserved').length;
+
+    const runningBill = tables.reduce((acc, t) => acc + (t.status === 'occupied' ? t.bill : 0), 0);
+    const shiftRevenue = this.state.settledShiftRevenue + runningBill;
+
+    const floorBtnStyle = (active) =>
+      'min-height: 38px; padding: 0 13px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; border: none; background-color: ' +
+      (active ? '#B91C1C' : 'transparent') +
+      '; color: ' + (active ? '#FDE68A' : '#94A3B8') + ';';
+
+    const statusBtnStyle = (active, borderCol) =>
+      'min-height: 38px; padding: 0 11px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; border: ' +
+      (active ? ('1.5px solid ' + borderCol) : '1px solid rgba(148, 163, 184, 0.2)') +
+      '; background-color: ' + (active ? '#1E293B' : '#0F172A') +
+      '; color: ' + (active ? '#F8FAFC' : '#CBD5E1') + ';';
+
+    const dockBtnStyle = (active) =>
+      'min-height: 44px; padding: 0 14px; border-radius: 10px; font-size: 12.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; border: ' +
+      (active ? '1.5px solid #FBBF24' : '1.5px solid rgba(148, 163, 184, 0.3)') +
+      '; background: ' +
+      (active ? 'linear-gradient(180deg, rgba(185, 28, 28, 0.5) 0%, rgba(69, 10, 10, 0.72) 100%)' : 'linear-gradient(180deg, #1E293B 0%, #141C2B 100%)') +
+      '; box-shadow: ' + (active ? '0 6px 16px rgba(245, 158, 11, 0.2)' : '0 3px 10px rgba(2, 6, 23, 0.32)') +
+      '; color: ' + (active ? '#FBBF24' : '#F8FAFC') + ';';
+
+    const presetStyle = (active) =>
+      'min-height: 44px; padding: 0 12px; border-radius: 9px; font-size: 12.5px; font-weight: 600; cursor: pointer; border: ' +
+      (active ? '1.5px solid #F59E0B' : '1px solid rgba(148, 163, 184, 0.24)') +
+      '; background-color: ' + (active ? '#991B1B' : '#0F172A') +
+      '; color: ' + (active ? '#FDE68A' : '#E2E8F0') + ';';
+
+    const visibleTables = tables
+      .filter((t) => {
+        if (floorFilter === '1' && t.floor !== 1) return false;
+        if (floorFilter === '2' && t.floor !== 2) return false;
+        if (statusFilter !== 'all' && t.status !== statusFilter) return false;
+        return true;
+      })
+      .map((tb) => {
+        const isSource = sourceTableId === tb.id;
+        const isEmpty = tb.status === 'empty';
+        const isOccupied = tb.status === 'occupied';
+        const isReserved = tb.status === 'reserved';
+
+        let cardBg = '#111827';
+        let cardBorder = '1.5px solid rgba(16, 185, 129, 0.55)';
+        let cardShadow = '0 8px 18px rgba(2, 6, 23, 0.32)';
+        if (isOccupied) {
+          cardBg = 'linear-gradient(160deg, #450A0A 0%, #1F121B 100%)';
+          cardBorder = '1.5px solid #EF4444';
+        } else if (isReserved) {
+          cardBg = 'linear-gradient(160deg, rgba(245, 158, 11, 0.14) 0%, #111827 100%)';
+          cardBorder = '1.5px solid #F59E0B';
+        }
+        if (isSource) {
+          cardBorder = '2px solid #FBBF24';
+          cardShadow = '0 0 0 3px rgba(251, 191, 36, 0.35)';
+        }
+
+        const cardStyle =
+          'padding: 11px 12px; border-radius: 12px; min-height: 152px; display: flex; flex-direction: column; justify-content: space-between; gap: 7px; background: ' +
+          cardBg + '; border: ' + cardBorder + '; box-shadow: ' + cardShadow + ';';
+
+        let badgeStyle = 'padding: 3px 8px; border-radius: 999px; font-size: 10.5px; font-weight: 700; white-space: nowrap; flex-shrink: 0; background-color: rgba(16, 185, 129, 0.18); color: #A7F3D0; border: 1px solid rgba(16, 185, 129, 0.45);';
+        let badgeText = 'Trống';
+        if (isOccupied) {
+          badgeStyle = 'padding: 3px 8px; border-radius: 999px; font-size: 10.5px; font-weight: 700; white-space: nowrap; flex-shrink: 0; background-color: rgba(239, 68, 68, 0.24); color: #FECACA; border: 1px solid rgba(239, 68, 68, 0.55);';
+          badgeText = 'Có khách';
+        } else if (isReserved) {
+          badgeStyle = 'padding: 3px 8px; border-radius: 999px; font-size: 10.5px; font-weight: 700; white-space: nowrap; flex-shrink: 0; background-color: rgba(245, 158, 11, 0.2); color: #FDE68A; border: 1px solid rgba(245, 158, 11, 0.5);';
+          badgeText = 'Đã đặt';
+        }
+
+        let actionStyle = 'min-height: 44px; width: 100%; padding: 0 11px; border-radius: 9px; font-size: 12.5px; font-weight: 700; white-space: nowrap; cursor: pointer; display: inline-flex; align-items: center; justify-content: space-between; border: 1.5px solid #10B981; background-color: #065F46; color: #ECFDF5;';
+        let actionLabel = 'Mở bàn';
+        if (isOccupied) {
+          actionStyle = 'min-height: 44px; width: 100%; padding: 0 11px; border-radius: 9px; font-size: 12.5px; font-weight: 700; white-space: nowrap; cursor: pointer; display: inline-flex; align-items: center; justify-content: space-between; border: 1px solid rgba(251, 191, 36, 0.55); background-color: #B91C1C; color: #FAF7F2;';
+          actionLabel = 'Gọi món / Thanh toán';
+        } else if (isReserved) {
+          actionStyle = 'min-height: 44px; width: 100%; padding: 0 11px; border-radius: 9px; font-size: 12.5px; font-weight: 700; white-space: nowrap; cursor: pointer; display: inline-flex; align-items: center; justify-content: space-between; border: 1px solid rgba(245, 158, 11, 0.6); background-color: rgba(245, 158, 11, 0.2); color: #FDE68A;';
+          actionLabel = 'Nhận bàn';
+        }
+
+        return {
+          ...tb,
+          zoneShort: tb.floor === 1 ? 'T1' : 'VIP',
+          seatsLabel: tb.seats + ' Ghế',
+          staffShort: tb.staff ? ('NV: ' + tb.staff) : '',
+          isEmpty,
+          isOccupied,
+          isReserved,
+          billFormatted: formatVnd(tb.bill),
+          cardStyle,
+          badgeStyle,
+          badgeText,
+          actionStyle,
+          actionLabel,
+          onCardAction: () => this.handleCardClick(tb)
+        };
+      });
+
+    const openTarget = tables.find((t) => t.id === this.state.openModalTableId) || null;
+    const orderTarget = tables.find((t) => t.id === this.state.orderModalTableId) || null;
+
+    return {
+      clockTime: this.state.clockTime,
+      activeCount: countOccupied,
+      countAll,
+      countEmpty,
+      countOccupied,
+      countReserved,
+      visibleTables,
+      shiftRevenueFormatted: formatVnd(shiftRevenue),
+
+      hasBanner: Boolean(this.state.bannerMsg),
+      bannerText: this.state.bannerMsg,
+      isActionMode: Boolean(actionMode),
+      bannerBg: actionMode ? 'rgba(185, 28, 28, 0.25)' : 'rgba(30, 41, 59, 0.9)',
+      bannerBorder: actionMode ? 'rgba(245, 158, 11, 0.5)' : 'rgba(148, 163, 184, 0.25)',
+
+      floorAllStyle: floorBtnStyle(floorFilter === 'all'),
+      floor1Style: floorBtnStyle(floorFilter === '1'),
+      floor2Style: floorBtnStyle(floorFilter === '2'),
+
+      statusAllStyle: statusBtnStyle(statusFilter === 'all', '#F59E0B'),
+      statusEmptyStyle: statusBtnStyle(statusFilter === 'empty', '#10B981'),
+      statusOccupiedStyle: statusBtnStyle(statusFilter === 'occupied', '#EF4444'),
+      statusReservedStyle: statusBtnStyle(statusFilter === 'reserved', '#F59E0B'),
+
+      transferBtnStyle: dockBtnStyle(actionMode === 'transfer'),
+      mergeBtnStyle: dockBtnStyle(actionMode === 'merge'),
+      splitBtnStyle: dockBtnStyle(actionMode === 'split'),
+
+      showOpenModal: Boolean(openTarget),
+      openModalTitle: openTarget ? (openTarget.name + ' (' + openTarget.seats + ' Ghế)') : '',
+      openGuestsCount: this.state.openGuestsCount,
+      openStaff: this.state.openStaff,
+      openNote: this.state.openNote,
+      preset2Style: presetStyle(this.state.openGuestsCount === 2),
+      preset4Style: presetStyle(this.state.openGuestsCount === 4),
+      preset6Style: presetStyle(this.state.openGuestsCount === 6),
+      preset8Style: presetStyle(this.state.openGuestsCount === 8),
+
+      showOrderModal: Boolean(orderTarget),
+      orderModalTitle: orderTarget ? (orderTarget.name + ' (' + orderTarget.durationMin + ' phút)') : '',
+      orderModalMeta: orderTarget ? (orderTarget.guestsCount + ' khách · NV: ' + orderTarget.staff) : '',
+      orderModalNote: orderTarget ? orderTarget.note : '',
+      orderModalBill: orderTarget ? formatVnd(orderTarget.bill) : '0đ',
+
+      selectFloorAll: () => this.setState({ floorFilter: 'all' }),
+      selectFloor1: () => this.setState({ floorFilter: '1' }),
+      selectFloor2: () => this.setState({ floorFilter: '2' }),
+      selectStatusAll: () => this.setState({ statusFilter: 'all' }),
+      selectStatusEmpty: () => this.setState({ statusFilter: 'empty' }),
+      selectStatusOccupied: () => this.setState({ statusFilter: 'occupied' }),
+      selectStatusReserved: () => this.setState({ statusFilter: 'reserved' }),
+
+      triggerBackHome: () => this.setState({ bannerMsg: 'Liên kết Trang Chủ trỏ tới home.jsp trong Java Web.' }),
+      dismissBanner: () => this.setState({ bannerMsg: '', actionMode: null, sourceTableId: null }),
+      cancelMode: () => this.setState({ actionMode: null, sourceTableId: null, bannerMsg: '' }),
+
+      toggleTransferMode: () => this.setState((prev) => ({
+        actionMode: prev.actionMode === 'transfer' ? null : 'transfer',
+        sourceTableId: null,
+        bannerMsg: prev.actionMode === 'transfer' ? '' : 'Chế độ Chuyển bàn: Chạm bàn CÓ KHÁCH nguồn -> chạm BÀN TRỐNG đích.'
+      })),
+      toggleMergeMode: () => this.setState((prev) => ({
+        actionMode: prev.actionMode === 'merge' ? null : 'merge',
+        sourceTableId: null,
+        bannerMsg: prev.actionMode === 'merge' ? '' : 'Chế độ Gộp bàn: Chạm 2 bàn CÓ KHÁCH để gộp hóa đơn.'
+      })),
+      toggleSplitMode: () => this.setState((prev) => ({
+        actionMode: prev.actionMode === 'split' ? null : 'split',
+        sourceTableId: null,
+        bannerMsg: prev.actionMode === 'split' ? '' : 'Chế độ Tách bàn: Chạm bàn CÓ KHÁCH (>= 2 người) -> chạm BÀN TRỐNG.'
+      })),
+
+      closeOpenModal: () => this.setState({ openModalTableId: null }),
+      pickGuests2: () => this.setState({ openGuestsCount: 2 }),
+      pickGuests4: () => this.setState({ openGuestsCount: 4 }),
+      pickGuests6: () => this.setState({ openGuestsCount: 6 }),
+      pickGuests8: () => this.setState({ openGuestsCount: 8 }),
+      decGuests: () => this.setState((prev) => ({ openGuestsCount: Math.max(1, prev.openGuestsCount - 1) })),
+      incGuests: () => this.setState((prev) => ({ openGuestsCount: Math.min(16, prev.openGuestsCount + 1) })),
+      onStaffChange: (e) => this.setState({ openStaff: e.target.value }),
+      onOpenNoteInput: (e) => this.setState({ openNote: e.target.value }),
+      confirmOpenTable: () => {
+        const targetId = this.state.openModalTableId;
+        if (!targetId) return;
+        const target = this.state.tables.find((x) => x.id === targetId);
+        const updated = this.state.tables.map((item) =>
+          item.id === targetId
+            ? { ...item, status: 'occupied', durationMin: 1, bill: 0, guestsCount: this.state.openGuestsCount, staff: this.state.openStaff, note: this.state.openNote || 'Mới mở bàn' }
+            : item
+        );
+        this.setState({
+          tables: updated,
+          openModalTableId: null,
+          bannerMsg: 'Đã mở ' + (target ? target.name : '') + ' (' + this.state.openGuestsCount + ' khách). Sẵn sàng gọi món (2.3).'
+        });
+      },
+
+      closeOrderModal: () => this.setState({ orderModalTableId: null }),
+      addQuickDishToOrder: () => {
+        const targetId = this.state.orderModalTableId;
+        if (!targetId) return;
+        const updated = this.state.tables.map((item) => (item.id === targetId ? { ...item, bill: item.bill + 189000 } : item));
+        this.setState({ tables: updated });
+      },
+      settleAndClearTable: () => {
+        const targetId = this.state.orderModalTableId;
+        if (!targetId) return;
+        const target = this.state.tables.find((x) => x.id === targetId);
+        const billPaid = target ? target.bill : 0;
+        const updated = this.state.tables.map((item) =>
+          item.id === targetId ? { ...item, status: 'empty', durationMin: 0, bill: 0, guestsCount: 0, staff: '', note: 'Đã thanh toán' } : item
+        );
+        this.setState((prev) => ({
+          tables: updated,
+          settledShiftRevenue: prev.settledShiftRevenue + billPaid,
+          orderModalTableId: null,
+          bannerMsg: 'Đã thanh toán ' + formatVnd(billPaid) + ' cho ' + (target ? target.name : '') + '.'
+        }));
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

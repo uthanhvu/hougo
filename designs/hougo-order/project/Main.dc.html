@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>HOUGO POS — Order Gọi Món &amp; Hóa Đơn Chi Tiết</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;700;800&amp;family=Playfair+Display:wght@600;700&amp;display=swap">
+<style>
+body {
+  margin: 0;
+  background-color: #0B1120;
+  color: #F8FAFC;
+  font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+* {
+  box-sizing: border-box;
+}
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+button {
+  transition: transform 0.14s ease, filter 0.14s ease, background-color 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
+}
+button:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+button:active:not(:disabled) {
+  transform: scale(0.985);
+}
+.dish-card {
+  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+.dish-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(245, 158, 11, 0.55) !important;
+}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #F59E0B;
+  outline-offset: 2px;
+}
+input::placeholder {
+  color: #94A3B8;
+}
+@keyframes orderPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(1.25);
+  }
+}
+.order-live-dot {
+  animation: orderPulse 1.8s ease-in-out infinite;
+}
+.pos-scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.pos-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.pos-scroll::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.28);
+  border-radius: 999px;
+}
+.tab-scroll::-webkit-scrollbar {
+  display: none;
+}
+</style>
+</helmet>
+
+<div style="height: 100vh; min-height: 100%; width: 100%; background-color: #0B1120; color: #F8FAFC; font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; overflow: hidden;">
+
+  <!-- Feedback Toast Banner -->
+  <sc-if value="{{ hasBanner }}" hint-placeholder-val="{{ false }}">
+    <div style="flex-shrink: 0; margin: 10px 20px 0; padding: 9px 16px; border-radius: 10px; background-color: rgba(185, 28, 28, 0.25); border: 1px solid rgba(245, 158, 11, 0.52); display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+      <div style="display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 500; color: #F8FAFC;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 16V12"></path>
+          <path d="M12 8H12.01"></path>
+        </svg>
+        <span>{{bannerMsg}}</span>
+      </div>
+      <button type="button" onClick="{{ dismissBanner }}" style="min-height: 36px; padding: 0 12px; border-radius: 8px; background-color: #0F172A; border: 1px solid rgba(255, 255, 255, 0.2); color: #CBD5E1; font-size: 12px; font-weight: 600; cursor: pointer;">Đóng</button>
+    </div>
+  </sc-if>
+
+  <!-- Main 2-Column POS Split Layout (65% Left Catalog | 35% Right Order & Billing) -->
+  <div style="flex: 1; min-height: 0; width: 100%; padding: 14px 20px; display: flex; align-items: stretch; gap: 18px;">
+
+    <!-- LEFT COLUMN (65%): Header + Category Tabs + Dish Grid -->
+    <main style="flex: 1.85 1 0; min-width: 0; height: 100%; min-height: 0; display: flex; flex-direction: column; gap: 10px;">
+
+      <!-- Left Top Header Bar: Back to Floor Map + Table Meta + Quick Search -->
+      <header style="flex-shrink: 0; background-color: #111827; border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 14px; padding: 10px 14px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <button type="button" onClick="{{ goBackPos }}" style="min-height: 44px; padding: 0 14px; border-radius: 10px; background-color: #1E293B; border: 1px solid rgba(148, 163, 184, 0.28); color: #E2E8F0; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M19 12H5"></path>
+              <path d="M12 19L5 12L12 5"></path>
+            </svg>
+            <span>Quay lại Sơ đồ bàn</span>
+          </button>
+
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <span style="font-size: 18px; font-weight: 800; color: #F8FAFC; white-space: nowrap;">BÀN 03 <span style="font-size: 13px; font-weight: 600; color: #94A3B8;">(Tầng 1)</span></span>
+            <span style="{{tableBadgeStyle}}">
+              <span class="order-live-dot" style="{{tableDotStyle}}"></span>
+              <span>{{tableStatusText}}</span>
+            </span>
+            <span style="padding: 5px 10px; border-radius: 8px; background-color: #0F172A; border: 1px solid rgba(148, 163, 184, 0.2); font-size: 12px; font-weight: 600; color: #CBD5E1; white-space: nowrap;">4 Khách | NV: Linh</span>
+          </div>
+        </div>
+
+        <!-- Quick Search + Quick Tags -->
+        <div style="display: flex; align-items: center; gap: 8px; flex: 1 1 260px; max-width: 340px;">
+          <div style="position: relative; width: 100%; display: flex; align-items: center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; left: 12px; pointer-events: none;">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="M21 21L16.65 16.65"></path>
+            </svg>
+            <input type="search" aria-label="Tìm món ăn nhanh" value="{{searchQuery}}" onInput="{{onSearchInput}}" placeholder="Tìm nhanh tên món (Bò, Mala, Tôm...)" style="min-height: 44px; width: 100%; padding: 0 12px 0 36px; border-radius: 10px; border: 1px solid rgba(148, 163, 184, 0.26); background-color: #0F172A; color: #F8FAFC; font-size: 13px;">
+          </div>
+          <button type="button" onClick="{{ toggleBestSellerOnly }}" style="{{quickFilterStyle}}" aria-label="Lọc nhanh Best Seller">Best Seller</button>
+        </div>
+      </header>
+
+      <!-- Category Tabs Bar -->
+      <nav aria-label="Danh mục thực đơn" class="tab-scroll" style="flex-shrink: 0; background-color: #111827; border: 1px solid rgba(148, 163, 184, 0.16); border-radius: 12px; padding: 6px; display: flex; flex-wrap: nowrap; align-items: center; gap: 6px; white-space: nowrap; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
+        <sc-for list="{{categoryTabs}}" as="cat" hint-placeholder-count="7">
+          <button type="button" onClick="{{cat.onSelect}}" style="{{cat.style}}">{{cat.label}}</button>
+        </sc-for>
+      </nav>
+
+      <!-- Dish Grid -->
+      <div class="pos-scroll" style="flex: 1; min-height: 0; overflow-y: auto; padding-right: 4px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(210px, 100%), 1fr)); gap: 12px; align-content: start;">
+        <sc-for list="{{visibleDishes}}" as="dish" hint-placeholder-count="12">
+          <article class="dish-card" style="{{dish.cardStyle}}">
+            <!-- Thumbnail Image + Corner Tag -->
+            <div style="position: relative; width: 100%; height: 102px; border-radius: 9px; overflow: hidden; background-color: #0B1120;">
+              <img src="{{dish.img}}" alt="{{dish.name}}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+              <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11, 17, 32, 0.08) 40%, rgba(11, 17, 32, 0.72) 100%); pointer-events: none;"></div>
+              <span style="{{dish.tagStyle}}">{{dish.tag}}</span>
+              <sc-if value="{{dish.inCart}}" hint-placeholder-val="{{false}}">
+                <span style="position: absolute; bottom: 7px; right: 7px; padding: 2px 8px; border-radius: 999px; background-color: #B91C1C; border: 1px solid #FBBF24; color: #FDE68A; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800;">x{{dish.qty}}</span>
+              </sc-if>
+            </div>
+
+            <!-- Dish Title + Category Sub -->
+            <div style="display: flex; flex-direction: column; gap: 3px; flex: 1;">
+              <h3 style="margin: 0; font-size: 13.5px; font-weight: 700; color: #F8FAFC; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{dish.name}}</h3>
+              <span style="font-size: 11.5px; color: #94A3B8;">{{dish.categoryLabel}}</span>
+            </div>
+
+            <!-- Price + Direct Add / Qty Stepper -->
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 6px; border-top: 1px dashed rgba(148, 163, 184, 0.16);">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 14.5px; font-weight: 800; color: #FBBF24; white-space: nowrap;">{{dish.priceFormatted}}</span>
+
+              <sc-if value="{{dish.notInCart}}" hint-placeholder-val="{{true}}">
+                <button type="button" onClick="{{dish.onInc}}" style="min-height: 44px; padding: 0 14px; border-radius: 9px; background-color: #B91C1C; border: 1px solid rgba(251, 191, 36, 0.48); color: #FAF7F2; font-size: 12.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 5V19"></path>
+                    <path d="M5 12H19"></path>
+                  </svg>
+                  <span>Thêm</span>
+                </button>
+              </sc-if>
+
+              <sc-if value="{{dish.inCart}}" hint-placeholder-val="{{false}}">
+                <div style="display: inline-flex; align-items: center; gap: 4px; background-color: #0B1120; border: 1px solid rgba(245, 158, 11, 0.5); border-radius: 9px; padding: 2px;">
+                  <button type="button" onClick="{{dish.onDec}}" aria-label="Giảm số lượng món" style="min-width: 36px; min-height: 40px; border-radius: 7px; border: none; background-color: #1E293B; color: #F8FAFC; font-size: 16px; font-weight: 700; cursor: pointer;">-</button>
+                  <span style="min-width: 24px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; font-weight: 800; color: #FBBF24;">{{dish.qty}}</span>
+                  <button type="button" onClick="{{dish.onInc}}" aria-label="Tăng số lượng món" style="min-width: 36px; min-height: 40px; border-radius: 7px; border: none; background-color: #991B1B; color: #FDE68A; font-size: 16px; font-weight: 700; cursor: pointer;">+</button>
+                </div>
+              </sc-if>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </main>
+
+    <!-- RIGHT COLUMN (35%): Sticky Header + Independent Order List + Sticky Billing & Actions Footer -->
+    <aside style="flex: 0 0 460px; width: 460px; max-width: 100%; height: 100%; min-height: 0; background-color: #111827; border: 1px solid rgba(245, 158, 11, 0.32); border-radius: 16px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 18px 40px rgba(2, 6, 23, 0.55);">
+
+      <!-- Order Header (Fixed at top) -->
+      <div style="flex-shrink: 0; padding: 14px 16px 12px; border-bottom: 1px solid rgba(148, 163, 184, 0.18); display: flex; align-items: center; justify-content: space-between; gap: 10px; background-color: #111827;">
+        <div style="display: flex; flex-direction: column; gap: 2px;">
+          <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: #F59E0B;">PHIẾU ORDER TẠI BÀN</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 15.5px; font-weight: 800; color: #F8FAFC;">#ORD-20261112-003</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="text-align: right; display: flex; flex-direction: column; gap: 2px;">
+            <span style="font-size: 11.5px; color: #94A3B8;">Vào bàn: <strong style="color: #E2E8F0;">45 phút trước</strong></span>
+            <span style="font-size: 11.5px; color: #6EE7B7; font-weight: 600;">{{totalItemCount}} phần · {{pendingKitchenCount}} chờ bếp</span>
+          </div>
+          <button type="button" onClick="{{ handleCancelChangeTable }}" style="min-height: 38px; padding: 0 10px; border-radius: 8px; background-color: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); color: #FECACA; font-size: 11.5px; font-weight: 700; cursor: pointer; white-space: nowrap;">Hủy / Đổi bàn</button>
+        </div>
+      </div>
+
+      <!-- Scrollable Ordered Items List -->
+      <div class="pos-scroll" style="flex: 1; min-height: 0; overflow-y: auto; max-height: calc(100vh - 340px); padding: 12px 16px; display: flex; flex-direction: column; gap: 8px;">
+        <sc-for list="{{orderLines}}" as="line" hint-placeholder-count="4">
+          <div style="{{line.rowStyle}}">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;">
+              <div style="display: flex; flex-direction: column; gap: 3px; min-width: 0;">
+                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                  <span style="font-size: 13.5px; font-weight: 700; color: #F8FAFC;">{{line.name}}</span>
+                  <span style="{{line.statusStyle}}">{{line.statusLabel}}</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: #94A3B8;">
+                  <span style="font-family: 'JetBrains Mono', monospace;">Đơn giá: {{line.priceFormatted}}</span>
+                  <button type="button" onClick="{{line.onCycleNote}}" style="padding: 2px 7px; border-radius: 6px; background-color: rgba(30, 41, 59, 0.9); border: 1px solid rgba(148, 163, 184, 0.25); color: #CBD5E1; font-size: 11px; cursor: pointer;">Ghi chú: {{line.noteDisplay}}</button>
+                </div>
+              </div>
+
+              <button type="button" onClick="{{line.onRemove}}" aria-label="Xóa món khỏi phiếu order" style="min-width: 36px; min-height: 36px; border-radius: 8px; background-color: rgba(239, 68, 68, 0.14); border: 1px solid rgba(239, 68, 68, 0.35); color: #FCA5A5; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M3 6H21"></path>
+                  <path d="M19 6V20A2 2 0 0 1 17 22H7A2 2 0 0 1 5 20V6"></path>
+                  <path d="M8 6V4A2 2 0 0 1 10 2H14A2 2 0 0 1 16 4V6"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 4px; border-top: 1px dashed rgba(148, 163, 184, 0.14);">
+              <div style="display: inline-flex; align-items: center; gap: 4px; background-color: #0B1120; border: 1px solid rgba(148, 163, 184, 0.24); border-radius: 8px; padding: 2px;">
+                <button type="button" onClick="{{line.onDec}}" aria-label="Giảm số lượng" style="min-width: 34px; min-height: 34px; border-radius: 6px; border: none; background-color: #1E293B; color: #F8FAFC; font-size: 15px; font-weight: 700; cursor: pointer;">-</button>
+                <span style="min-width: 24px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 800; color: #F8FAFC;">{{line.qty}}</span>
+                <button type="button" onClick="{{line.onInc}}" aria-label="Tăng số lượng" style="min-width: 34px; min-height: 34px; border-radius: 6px; border: none; background-color: #1E293B; color: #F8FAFC; font-size: 15px; font-weight: 700; cursor: pointer;">+</button>
+              </div>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 800; color: #FBBF24;">{{line.lineTotalFormatted}}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- Sticky Footer: Billing Breakdown + Secondary Actions + Primary Pay CTA -->
+      <footer style="position: sticky; bottom: 0; flex-shrink: 0; background-color: #0F172A; border-top: 1px solid rgba(245, 158, 11, 0.28); padding: 14px 16px 16px; border-radius: 0 0 15px 15px; display: flex; flex-direction: column; gap: 11px; z-index: 5;">
+
+        <!-- Billing Calculation Table -->
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; font-size: 13px;">
+            <span style="color: #94A3B8;">Tạm tính</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #E2E8F0;">{{subtotalFormatted}}</span>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px;">
+            <label for="order-discount-select" style="color: #94A3B8; white-space: nowrap;">Chiết khấu / Voucher</label>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <select id="order-discount-select" value="{{discountType}}" onChange="{{onDiscountChange}}" style="min-height: 32px; padding: 2px 8px; border-radius: 7px; border: 1px solid rgba(148, 163, 184, 0.28); background-color: #1E293B; color: #FDE68A; font-size: 12px; font-weight: 600;">
+                <option value="none">Không áp dụng (0đ)</option>
+                <option value="member5">Thành viên Bạc (-5%)</option>
+                <option value="vip10">VIP Gold (-10%)</option>
+                <option value="voucher100">Voucher (-100.000đ)</option>
+              </select>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #6EE7B7;">-{{discountFormatted}}</span>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; font-size: 13px;">
+            <span style="color: #94A3B8;">Thuế VAT 8%</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #E2E8F0;">+{{vatFormatted}}</span>
+          </div>
+
+          <div style="height: 1px; background-color: rgba(245, 158, 11, 0.25); margin: 2px 0;"></div>
+
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px;">
+            <span style="font-size: 14.5px; font-weight: 700; color: #F8FAFC; letter-spacing: 0.02em;">TỔNG CỘNG</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 27px; font-weight: 800; color: #FBBF24; letter-spacing: -0.02em;">{{grandTotalFormatted}}</span>
+          </div>
+        </div>
+
+        <!-- Secondary Action Buttons Row -->
+        <div style="display: grid; grid-template-columns: 1fr 1.35fr; gap: 8px;">
+          <button type="button" onClick="{{ handlePrintTemp }}" style="min-height: 44px; padding: 0 12px; border-radius: 10px; background-color: transparent; border: 1.5px solid #334155; color: #E2E8F0; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 7px; white-space: nowrap;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M6 9V2H18V9"></path>
+              <path d="M6 18H4A2 2 0 0 1 2 16V11A2 2 0 0 1 4 9H20A2 2 0 0 1 22 11V16A2 2 0 0 1 20 18H18"></path>
+              <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            <span>In tạm tính</span>
+          </button>
+
+          <button type="button" onClick="{{ handleSendKitchen }}" style="{{sendKitchenBtnStyle}}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2C12 2 17 6.5 17 11.5A5 5 0 1 1 7 11.5C7 9.5 8 7.5 9.5 6C9.5 6 10 8 11.5 8C11.5 6 12 2 12 2Z"></path>
+            </svg>
+            <span>{{sendKitchenLabel}}</span>
+          </button>
+        </div>
+
+        <!-- Primary Full-Width Checkout CTA -->
+        <button type="button" onClick="{{ openPaymentModal }}" style="height: 48px; min-height: 48px; width: 100%; padding: 0 20px; border-radius: 11px; background-color: #B91C1C; border: 1.5px solid rgba(251, 191, 36, 0.72); color: #FFFFFF; font-size: 15px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 10px 24px rgba(185, 28, 28, 0.45);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+            <path d="M2 10H22"></path>
+          </svg>
+          <span>THANH TOÁN &amp; TRẢ BÀN</span>
+        </button>
+      </footer>
+    </aside>
+  </div>
+
+  <!-- PAYMENT MODAL (2.5): Cash vs VietQR -->
+  <sc-if value="{{ showPayModal }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-labelledby="pay-modal-title" style="position: fixed; inset: 0; background-color: rgba(2, 6, 23, 0.84); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 60;">
+      <div style="width: 100%; max-width: 560px; background-color: #111827; border: 1px solid rgba(251, 191, 36, 0.48); border-radius: 18px; padding: 24px; box-shadow: 0 28px 64px rgba(0, 0, 0, 0.7); display: flex; flex-direction: column; gap: 18px;">
+
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+          <div style="display: flex; flex-direction: column; gap: 3px;">
+            <span style="font-size: 11.5px; font-weight: 700; letter-spacing: 0.16em; color: #F59E0B;">THANH TOÁN &amp; TRẢ BÀN (2.5)</span>
+            <h2 id="pay-modal-title" style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; font-weight: 700; color: #FAF7F2;">BÀN 03 — #ORD-20261112-003</h2>
+          </div>
+          <button type="button" onClick="{{ closePaymentModal }}" aria-label="Đóng cửa sổ thanh toán" style="min-width: 44px; min-height: 44px; border-radius: 10px; background-color: #1E293B; border: 1px solid rgba(148, 163, 184, 0.25); color: #E2E8F0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 6L6 18"></path>
+              <path d="M6 6L18 18"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Amount Due Hero -->
+        <div style="padding: 14px 18px; border-radius: 12px; background: linear-gradient(135deg, rgba(153, 27, 27, 0.45), rgba(15, 23, 42, 0.96)); border: 1px solid rgba(251, 191, 36, 0.35); display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-size: 13.5px; font-weight: 600; color: #CBD5E1;">Số tiền cần thu (Gồm VAT 8%)</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 800; color: #FBBF24;">{{grandTotalFormatted}}</span>
+        </div>
+
+        <!-- Method Switcher: Tiền mặt / VietQR -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <button type="button" onClick="{{ pickCashMethod }}" style="{{cashTabStyle}}">Tiền mặt tại quầy</button>
+          <button type="button" onClick="{{ pickQrMethod }}" style="{{qrTabStyle}}">Chuyển khoản VietQR</button>
+        </div>
+
+        <!-- Cash View -->
+        <sc-if value="{{ isCashMethod }}" hint-placeholder-val="{{ true }}">
+          <div style="padding: 16px; border-radius: 12px; background-color: #0F172A; border: 1px solid rgba(148, 163, 184, 0.2); display: flex; flex-direction: column; gap: 12px;">
+            <label for="cash-received-input" style="font-size: 13px; font-weight: 600; color: #E2E8F0;">Khách đưa (VND)</label>
+            <input id="cash-received-input" type="number" value="{{cashGiven}}" onInput="{{onCashInput}}" style="min-height: 46px; width: 100%; padding: 0 14px; border-radius: 10px; border: 1px solid rgba(148, 163, 184, 0.28); background-color: #1E293B; color: #FBBF24; font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 800;">
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <button type="button" onClick="{{ pickExactCash }}" style="min-height: 40px; padding: 0 12px; border-radius: 8px; background-color: #1E293B; border: 1px solid rgba(148, 163, 184, 0.26); color: #E2E8F0; font-size: 12.5px; font-weight: 600; cursor: pointer;">Đưa đủ</button>
+              <button type="button" onClick="{{ pickCash1500 }}" style="min-height: 40px; padding: 0 12px; border-radius: 8px; background-color: #1E293B; border: 1px solid rgba(148, 163, 184, 0.26); color: #E2E8F0; font-size: 12.5px; font-weight: 600; cursor: pointer;">1.500.000đ</button>
+              <button type="button" onClick="{{ pickCash2000 }}" style="min-height: 40px; padding: 0 12px; border-radius: 8px; background-color: #1E293B; border: 1px solid rgba(148, 163, 184, 0.26); color: #E2E8F0; font-size: 12.5px; font-weight: 600; cursor: pointer;">2.000.000đ</button>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px dashed rgba(148, 163, 184, 0.2);">
+              <span style="font-size: 13.5px; color: #94A3B8;">Tiền thối lại khách</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 800; color: #6EE7B7;">{{changeFormatted}}</span>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- VietQR View -->
+        <sc-if value="{{ isQrMethod }}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 16px; border-radius: 12px; background-color: #0F172A; border: 1px solid rgba(16, 185, 129, 0.35); display: flex; align-items: center; gap: 18px;">
+            <div style="padding: 10px; border-radius: 12px; background-color: #FFFFFF; flex-shrink: 0;">
+              <svg width="124" height="124" viewBox="0 0 124 124" fill="none" role="img" aria-label="Mã thanh toán VietQR HOUGO HOTPOT">
+                <rect width="124" height="124" fill="#FFFFFF"></rect>
+                <rect x="8" y="8" width="32" height="32" stroke="#111827" stroke-width="6"></rect>
+                <rect x="17" y="17" width="14" height="14" fill="#991B1B"></rect>
+                <rect x="84" y="8" width="32" height="32" stroke="#111827" stroke-width="6"></rect>
+                <rect x="93" y="17" width="14" height="14" fill="#991B1B"></rect>
+                <rect x="8" y="84" width="32" height="32" stroke="#111827" stroke-width="6"></rect>
+                <rect x="17" y="93" width="14" height="14" fill="#991B1B"></rect>
+                <rect x="48" y="10" width="8" height="8" fill="#111827"></rect>
+                <rect x="64" y="10" width="12" height="8" fill="#111827"></rect>
+                <rect x="48" y="26" width="12" height="12" fill="#111827"></rect>
+                <rect x="68" y="28" width="8" height="8" fill="#111827"></rect>
+                <rect x="10" y="48" width="12" height="8" fill="#111827"></rect>
+                <rect x="30" y="52" width="10" height="10" fill="#111827"></rect>
+                <rect x="52" y="52" width="20" height="20" rx="4" fill="#B91C1C"></rect>
+                <rect x="82" y="48" width="12" height="12" fill="#111827"></rect>
+                <rect x="102" y="52" width="14" height="8" fill="#111827"></rect>
+                <rect x="10" y="66" width="16" height="8" fill="#111827"></rect>
+                <rect x="48" y="82" width="14" height="10" fill="#111827"></rect>
+                <rect x="70" y="78" width="12" height="14" fill="#111827"></rect>
+                <rect x="92" y="84" width="22" height="10" fill="#111827"></rect>
+                <rect x="50" y="102" width="10" height="14" fill="#111827"></rect>
+                <rect x="70" y="104" width="18" height="10" fill="#111827"></rect>
+                <rect x="98" y="100" width="16" height="16" fill="#111827"></rect>
+              </svg>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13px;">
+              <span style="font-weight: 800; color: #6EE7B7; font-size: 14px;">Quét mã VietQR tự động khớp đơn</span>
+              <span style="color: #CBD5E1;">Ngân hàng: <strong style="color: #F8FAFC;">MB Bank · HOUGO HOTPOT</strong></span>
+              <span style="color: #CBD5E1;">Số tài khoản: <strong style="color: #FBBF24; font-family: 'JetBrains Mono', monospace;">8888 9999 2026</strong></span>
+              <span style="color: #94A3B8;">Nội dung: <strong style="color: #E2E8F0;">TT BAN 03 ORD003</strong></span>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 10px; padding-top: 4px;">
+          <button type="button" onClick="{{ closePaymentModal }}" style="min-height: 46px; padding: 0 18px; border-radius: 10px; background-color: #1E293B; border: 1px solid rgba(148, 163, 184, 0.28); color: #E2E8F0; font-size: 14px; font-weight: 600; cursor: pointer;">Đóng</button>
+          <button type="button" onClick="{{ confirmCompletePayment }}" style="min-height: 46px; padding: 0 24px; border-radius: 10px; background-color: #059669; border: 1px solid #34D399; color: #FFFFFF; font-size: 14.5px; font-weight: 800; cursor: pointer; box-shadow: 0 10px 24px rgba(16, 185, 129, 0.3);">Xác nhận Đã Thu Tiền &amp; Trả Bàn</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":980}}'>
+function formatVnd(n) {
+  return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ';
+}
+
+const CATEGORIES = [
+  { id: 'all', label: 'Tất cả' },
+  { id: 'broth', label: 'Nước lẩu Signature' },
+  { id: 'combo', label: 'Gói Buffet / Combo' },
+  { id: 'meat', label: 'Bò & Thịt nhúng' },
+  { id: 'seafood', label: 'Hải sản tươi' },
+  { id: 'veggie', label: 'Rau nấm & Đậu mì' },
+  { id: 'drink', label: 'Đồ uống & Tráng miệng' }
+];
+
+const DISHES = [
+  { id: 'mala', name: 'Nước Lẩu Tứ Xuyên Mala', cat: 'broth', categoryLabel: 'Nước lẩu Signature', price: 149000, tag: 'Cay 3/3', tagType: 'hot', bestSeller: true, img: '/_blob/8bd8d394a44585882ffe282c79948232' },
+  { id: 'tomyum', name: 'Nước Lẩu Tomyum Hải Sản', cat: 'broth', categoryLabel: 'Nước lẩu Signature', price: 159000, tag: 'Cay 2/3', tagType: 'hot', bestSeller: true, img: '/_blob/946ee003607b2e348636f394aaf9b552' },
+  { id: 'mushroom', name: 'Nước Lẩu Nấm Dưỡng Sinh', cat: 'broth', categoryLabel: 'Nước lẩu Signature', price: 139000, tag: 'Không cay', tagType: 'mild', bestSeller: false, img: '/_blob/54cda9ffbe549b4cdee31eae82ce4ba8' },
+  { id: 'tomato', name: 'Nước Lẩu Cà Chua Collagen', cat: 'broth', categoryLabel: 'Nước lẩu Signature', price: 145000, tag: 'Best Seller', tagType: 'gold', bestSeller: true, img: '/_blob/8980f57461f25fe22f9ab69f50ac7f69' },
+  { id: 'combo269', name: 'Combo Buffet Hougo 269K', cat: 'combo', categoryLabel: 'Gói Buffet / Combo', price: 269000, tag: 'Best Seller', tagType: 'gold', bestSeller: true, img: '/_blob/b140d3f9da1fe115e59e4e298432ebea' },
+  { id: 'combo329', name: 'Combo Buffet Thượng Hạng 329K', cat: 'combo', categoryLabel: 'Gói Buffet / Combo', price: 329000, tag: 'VIP Choice', tagType: 'gold', bestSeller: false, img: '/_blob/b140d3f9da1fe115e59e4e298432ebea' },
+  { id: 'wagyu', name: 'Bò Wagyu Nhật A5 (150g)', cat: 'meat', categoryLabel: 'Bò & Thịt nhúng', price: 289000, tag: 'Thượng hạng', tagType: 'gold', bestSeller: true, img: '/_blob/6cdb0c2e502b868d5b711a819cab5975' },
+  { id: 'beefplate', name: 'Ba Chỉ Bò Mỹ Nhúng Lẩu', cat: 'meat', categoryLabel: 'Bò & Thịt nhúng', price: 129000, tag: 'Best Seller', tagType: 'gold', bestSeller: true, img: '/_blob/6cdb0c2e502b868d5b711a819cab5975' },
+  { id: 'seafoodmix', name: 'Đĩa Hải Sản Tươi Tổng Hợp', cat: 'seafood', categoryLabel: 'Hải sản tươi', price: 259000, tag: 'Tươi sống', tagType: 'fresh', bestSeller: true, img: '/_blob/73f3311434dbb5b9e6cc3a56e37e696e' },
+  { id: 'shrimpsquid', name: 'Tôm Sú & Mực Hoa Tươi', cat: 'seafood', categoryLabel: 'Hải sản tươi', price: 179000, tag: 'Tươi sống', tagType: 'fresh', bestSeller: false, img: '/_blob/73f3311434dbb5b9e6cc3a56e37e696e' },
+  { id: 'veggiemix', name: 'Tháp Rau Nấm & Váng Đậu', cat: 'veggie', categoryLabel: 'Rau nấm & Đậu mì', price: 95000, tag: 'Thanh mát', tagType: 'mild', bestSeller: false, img: '/_blob/3ba53040925d7cfbc5548db574b26426' },
+  { id: 'drinkjug', name: 'Trà Bí Đao Hạt Chia (Bình)', cat: 'drink', categoryLabel: 'Đồ uống & Tráng miệng', price: 75000, tag: 'Giải nhiệt', tagType: 'fresh', bestSeller: false, img: '/_blob/30ca133ec51384b9da0c7d7816c16ea5' }
+];
+
+const NOTE_PRESETS = ['Bình thường', 'Ít cay', 'Không ớt', 'Thái mỏng', 'Ít đá'];
+
+const INITIAL_ORDER = [
+  { dishId: 'mala', name: 'Nước Lẩu Tứ Xuyên Mala', price: 149000, qty: 1, status: 'sent', note: 'Ít cay' },
+  { dishId: 'combo269', name: 'Combo Buffet Hougo 269K', price: 269000, qty: 4, status: 'sent', note: 'Bình thường' },
+  { dishId: 'drinkjug', name: 'Trà Bí Đao Hạt Chia (Bình)', price: 75000, qty: 1, status: 'sent', note: 'Ít đá' },
+  { dishId: 'beefplate', name: 'Ba Chỉ Bò Mỹ Nhúng Lẩu', price: 129000, qty: 1, status: 'new', note: 'Thái mỏng' }
+];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeCat: 'all',
+      searchQuery: '',
+      bestSellerOnly: false,
+      orderItems: INITIAL_ORDER,
+      discountType: 'none',
+      tablePaid: false,
+      showPayModal: false,
+      payMethod: 'cash',
+      cashGiven: 1600000,
+      bannerMsg: ''
+    };
+  }
+
+  adjustDishQty(dish, delta) {
+    this.setState((prev) => {
+      const items = [...prev.orderItems];
+      const idx = items.findIndex((it) => it.dishId === dish.id);
+      if (idx === -1 && delta > 0) {
+        items.push({ dishId: dish.id, name: dish.name, price: dish.price, qty: 1, status: 'new', note: 'Bình thường' });
+      } else if (idx !== -1) {
+        const nextQty = items[idx].qty + delta;
+        if (nextQty <= 0) {
+          items.splice(idx, 1);
+        } else {
+          items[idx] = { ...items[idx], qty: nextQty, status: delta > 0 && items[idx].status === 'sent' ? 'new' : items[idx].status };
+        }
+      }
+      return { orderItems: items };
+    });
+  }
+
+  renderVals() {
+    const activeCat = this.state.activeCat;
+    const query = (this.state.searchQuery || '').trim().toLowerCase();
+    const orderItems = this.state.orderItems;
+
+    const categoryTabs = CATEGORIES.map((c) => {
+      const isActive = activeCat === c.id;
+      return {
+        ...c,
+        style:
+          'flex: 0 0 auto; min-height: 40px; padding: 0 13px; border-radius: 9px; font-size: 12.5px; font-weight: 700; cursor: pointer; white-space: nowrap; border: ' +
+          (isActive ? '1px solid rgba(245, 158, 11, 0.7)' : '1px solid transparent') +
+          '; background-color: ' + (isActive ? '#B91C1C' : 'transparent') +
+          '; color: ' + (isActive ? '#FDE68A' : '#94A3B8') + ';',
+        onSelect: () => this.setState({ activeCat: c.id })
+      };
+    });
+
+    const filteredDishes = DISHES.filter((d) => {
+      if (activeCat !== 'all' && d.cat !== activeCat) return false;
+      if (this.state.bestSellerOnly && !d.bestSeller) return false;
+      if (query && d.name.toLowerCase().indexOf(query) === -1 && d.categoryLabel.toLowerCase().indexOf(query) === -1) return false;
+      return true;
+    });
+
+    const visibleDishes = filteredDishes.map((d) => {
+      const found = orderItems.find((it) => it.dishId === d.id);
+      const qty = found ? found.qty : 0;
+      const inCart = qty > 0;
+
+      let tagBg = 'rgba(245, 158, 11, 0.22)';
+      let tagColor = '#FDE68A';
+      let tagBorder = 'rgba(245, 158, 11, 0.5)';
+      if (d.tagType === 'hot') {
+        tagBg = 'rgba(239, 68, 68, 0.28)';
+        tagColor = '#FECACA';
+        tagBorder = 'rgba(239, 68, 68, 0.55)';
+      } else if (d.tagType === 'mild') {
+        tagBg = 'rgba(16, 185, 129, 0.22)';
+        tagColor = '#A7F3D0';
+        tagBorder = 'rgba(16, 185, 129, 0.5)';
+      } else if (d.tagType === 'fresh') {
+        tagBg = 'rgba(14, 165, 233, 0.24)';
+        tagColor = '#BAE6FD';
+        tagBorder = 'rgba(56, 189, 248, 0.5)';
+      }
+
+      return {
+        ...d,
+        qty,
+        inCart,
+        notInCart: !inCart,
+        priceFormatted: formatVnd(d.price),
+        cardStyle:
+          'padding: 10px; border-radius: 13px; background-color: #111827; display: flex; flex-direction: column; gap: 8px; border: ' +
+          (inCart ? '1.5px solid #F59E0B' : '1px solid rgba(148, 163, 184, 0.2)') +
+          '; box-shadow: ' + (inCart ? '0 8px 20px rgba(245, 158, 11, 0.16)' : '0 6px 16px rgba(2, 6, 23, 0.35)') + ';',
+        tagStyle:
+          'position: absolute; top: 7px; left: 7px; padding: 3px 8px; border-radius: 999px; font-size: 10.5px; font-weight: 700; backdrop-filter: blur(4px); background-color: ' +
+          tagBg + '; color: ' + tagColor + '; border: 1px solid ' + tagBorder + ';',
+        onInc: () => this.adjustDishQty(d, 1),
+        onDec: () => this.adjustDishQty(d, -1)
+      };
+    });
+
+    const orderLines = orderItems.map((it) => {
+      const isNew = it.status === 'new';
+      return {
+        ...it,
+        noteDisplay: it.note || 'Bình thường',
+        priceFormatted: formatVnd(it.price),
+        lineTotalFormatted: formatVnd(it.price * it.qty),
+        statusLabel: isNew ? 'Món mới chọn' : 'Đã gửi bếp',
+        rowStyle:
+          'padding: 10px 11px; border-radius: 11px; display: flex; flex-direction: column; gap: 7px; background-color: ' +
+          (isNew ? 'rgba(245, 158, 11, 0.08)' : '#0F172A') +
+          '; border: 1px solid ' + (isNew ? 'rgba(245, 158, 11, 0.4)' : 'rgba(148, 163, 184, 0.16)') + ';',
+        statusStyle:
+          'padding: 2px 8px; border-radius: 999px; font-size: 10.5px; font-weight: 700; background-color: ' +
+          (isNew ? 'rgba(245, 158, 11, 0.22)' : 'rgba(16, 185, 129, 0.16)') +
+          '; color: ' + (isNew ? '#FDE68A' : '#6EE7B7') +
+          '; border: 1px solid ' + (isNew ? 'rgba(245, 158, 11, 0.48)' : 'rgba(16, 185, 129, 0.35)') + ';',
+        onInc: () => this.setState((prev) => ({
+          orderItems: prev.orderItems.map((x) => (x.dishId === it.dishId ? { ...x, qty: x.qty + 1 } : x))
+        })),
+        onDec: () => this.setState((prev) => ({
+          orderItems: prev.orderItems
+            .map((x) => (x.dishId === it.dishId ? { ...x, qty: x.qty - 1 } : x))
+            .filter((x) => x.qty > 0)
+        })),
+        onRemove: () => this.setState((prev) => ({
+          orderItems: prev.orderItems.filter((x) => x.dishId !== it.dishId)
+        })),
+        onCycleNote: () => this.setState((prev) => ({
+          orderItems: prev.orderItems.map((x) => {
+            if (x.dishId !== it.dishId) return x;
+            const curIdx = NOTE_PRESETS.indexOf(x.note || 'Bình thường');
+            const nextNote = NOTE_PRESETS[(curIdx + 1) % NOTE_PRESETS.length];
+            return { ...x, note: nextNote };
+          })
+        }))
+      };
+    });
+
+    const subtotal = orderItems.reduce((sum, it) => sum + it.price * it.qty, 0);
+    let discount = 0;
+    if (this.state.discountType === 'member5') discount = Math.round(subtotal * 0.05);
+    else if (this.state.discountType === 'vip10') discount = Math.round(subtotal * 0.1);
+    else if (this.state.discountType === 'voucher100') discount = Math.min(subtotal, 100000);
+
+    const afterDiscount = Math.max(0, subtotal - discount);
+    const vat = Math.round(afterDiscount * 0.08);
+    const grandTotal = afterDiscount + vat;
+    const changeAmt = Math.max(0, (Number(this.state.cashGiven) || 0) - grandTotal);
+
+    const pendingKitchenCount = orderItems.filter((it) => it.status === 'new').reduce((s, it) => s + it.qty, 0);
+    const totalItemCount = orderItems.reduce((s, it) => s + it.qty, 0);
+
+    const payTabStyle = (active) =>
+      'min-height: 44px; padding: 0 14px; border-radius: 10px; font-size: 13.5px; font-weight: 700; cursor: pointer; border: ' +
+      (active ? '1.5px solid #FBBF24' : '1px solid rgba(148, 163, 184, 0.25)') +
+      '; background-color: ' + (active ? '#991B1B' : '#0F172A') +
+      '; color: ' + (active ? '#FDE68A' : '#CBD5E1') + ';';
+
+    return {
+      searchQuery: this.state.searchQuery,
+      quickFilterStyle:
+        'min-height: 44px; padding: 0 12px; border-radius: 10px; font-size: 12px; font-weight: 700; white-space: nowrap; cursor: pointer; border: ' +
+        (this.state.bestSellerOnly ? '1.5px solid #F59E0B' : '1px solid rgba(148, 163, 184, 0.26)') +
+        '; background-color: ' + (this.state.bestSellerOnly ? '#991B1B' : '#0F172A') +
+        '; color: ' + (this.state.bestSellerOnly ? '#FDE68A' : '#CBD5E1') + ';',
+      categoryTabs,
+      visibleDishes,
+      orderLines,
+      totalItemCount,
+      pendingKitchenCount,
+
+      tableStatusText: this.state.tablePaid ? 'Đã thanh toán' : 'Đang phục vụ',
+      tableBadgeStyle:
+        'padding: 4px 10px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700; white-space: nowrap; background-color: ' +
+        (this.state.tablePaid ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.24)') +
+        '; color: ' + (this.state.tablePaid ? '#A7F3D0' : '#FECACA') +
+        '; border: 1px solid ' + (this.state.tablePaid ? 'rgba(16, 185, 129, 0.5)' : 'rgba(239, 68, 68, 0.55)') + ';',
+      tableDotStyle:
+        'width: 7px; height: 7px; border-radius: 999px; display: inline-block; background-color: ' + (this.state.tablePaid ? '#10B981' : '#EF4444') + ';',
+
+      discountType: this.state.discountType,
+      subtotalFormatted: formatVnd(subtotal),
+      discountFormatted: formatVnd(discount),
+      vatFormatted: formatVnd(vat),
+      grandTotalFormatted: formatVnd(grandTotal),
+
+      sendKitchenLabel: pendingKitchenCount > 0 ? ('Gửi bếp (' + pendingKitchenCount + ' món mới)') : 'Đã gửi đủ bếp',
+      sendKitchenBtnStyle:
+        'min-height: 44px; padding: 0 12px; border-radius: 10px; font-size: 13px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; border: ' +
+        (pendingKitchenCount > 0 ? '1.5px solid #FB923C' : '1px solid rgba(16, 185, 129, 0.45)') +
+        '; background-color: ' + (pendingKitchenCount > 0 ? '#EA580C' : 'rgba(16, 185, 129, 0.16)') +
+        '; color: ' + (pendingKitchenCount > 0 ? '#FFFFFF' : '#6EE7B7') +
+        (pendingKitchenCount > 0 ? '; box-shadow: 0 6px 16px rgba(234, 88, 12, 0.35);' : ';'),
+
+      hasBanner: Boolean(this.state.bannerMsg),
+      bannerMsg: this.state.bannerMsg,
+
+      showPayModal: this.state.showPayModal,
+      isCashMethod: this.state.payMethod === 'cash',
+      isQrMethod: this.state.payMethod === 'qr',
+      cashTabStyle: payTabStyle(this.state.payMethod === 'cash'),
+      qrTabStyle: payTabStyle(this.state.payMethod === 'qr'),
+      cashGiven: this.state.cashGiven,
+      changeFormatted: formatVnd(changeAmt),
+
+      onSearchInput: (e) => this.setState({ searchQuery: e.target.value }),
+      toggleBestSellerOnly: () => this.setState((prev) => ({ bestSellerOnly: !prev.bestSellerOnly })),
+      onDiscountChange: (e) => this.setState({ discountType: e.target.value }),
+
+      goBackPos: () => this.setState({ bannerMsg: 'Điều hướng về màn hình Sơ đồ bàn POS (/pos) khi tích hợp Java Web.' }),
+      dismissBanner: () => this.setState({ bannerMsg: '' }),
+
+      handlePrintTemp: () => this.setState({ bannerMsg: 'Đã gửi lệnh in Phiếu tạm tính #ORD-20261112-003 (' + formatVnd(grandTotal) + ') ra máy in thu ngân.' }),
+      handleSendKitchen: () => {
+        if (pendingKitchenCount === 0) {
+          this.setState({ bannerMsg: 'Tất cả món trong phiếu đã được gửi xuống bếp trước đó.' });
+          return;
+        }
+        this.setState((prev) => ({
+          orderItems: prev.orderItems.map((it) => ({ ...it, status: 'sent' })),
+          bannerMsg: 'Đã báo chế biến (3.1) xuống Bếp Nóng & Bar cho ' + pendingKitchenCount + ' phần món mới.'
+        }));
+      },
+      handleCancelChangeTable: () => this.setState({ bannerMsg: 'Chức năng Hủy / Đổi bàn sẽ mở luồng chuyển trạng thái Bàn 03 về Sơ đồ bàn POS.' }),
+
+      openPaymentModal: () => this.setState({ showPayModal: true, cashGiven: Math.max(grandTotal, 1600000) }),
+      closePaymentModal: () => this.setState({ showPayModal: false }),
+      pickCashMethod: () => this.setState({ payMethod: 'cash' }),
+      pickQrMethod: () => this.setState({ payMethod: 'qr' }),
+      onCashInput: (e) => this.setState({ cashGiven: Number(e.target.value) || 0 }),
+      pickExactCash: () => this.setState({ cashGiven: grandTotal }),
+      pickCash1500: () => this.setState({ cashGiven: 1500000 }),
+      pickCash2000: () => this.setState({ cashGiven: 2000000 }),
+      confirmCompletePayment: () => this.setState({
+        showPayModal: false,
+        tablePaid: true,
+        bannerMsg: 'Thanh toán thành công ' + formatVnd(grandTotal) + ' cho BÀN 03 (' + (this.state.payMethod === 'qr' ? 'VietQR' : 'Tiền mặt') + '). Bàn đã sẵn sàng trả trống.'
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

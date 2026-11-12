@@ -1,0 +1,1466 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>HOUGO ADMIN — Tablet Quản Trị (1024px)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;700;800&amp;family=Playfair+Display:wght@600;700&amp;display=swap">
+<style>
+body {
+  margin: 0;
+  background-color: #0B1120;
+  color: #F8FAFC;
+  font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+* {
+  box-sizing: border-box;
+}
+button,
+input,
+select {
+  font-family: inherit;
+}
+button {
+  transition: transform 0.14s ease, filter 0.14s ease, background-color 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
+}
+button:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+button:active:not(:disabled) {
+  transform: scale(0.985);
+}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #F59E0B;
+  outline-offset: 2px;
+}
+input::placeholder {
+  color: #94A3B8;
+}
+@keyframes adminPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(1.25);
+  }
+}
+.admin-live-dot {
+  animation: adminPulse 1.8s ease-in-out infinite;
+}
+.admin-scroll::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+.admin-scroll::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.28);
+  border-radius: 999px;
+}
+</style>
+</helmet>
+
+<div style="min-height: 100%; width: 100%; background-color: #0B1120; color: #F8FAFC; font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif; display: flex; flex-wrap: wrap; align-items: stretch;">
+
+  <!-- SIDEBAR TABLET (228px trên 1024px) -->
+  <aside style="flex: 1 1 228px; min-width: 220px; background-color: #111827; border-right: 1px solid #334155; padding: 16px 11px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px;">
+
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; align-items: center; gap: 9px; padding: 2px 4px 12px; border-bottom: 1px solid rgba(245, 158, 11, 0.25);">
+        <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #B91C1C, #7F1D1D); border: 1.5px solid rgba(251, 191, 36, 0.65); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FDE68A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2L15 8L21 9L16.5 14L17.5 21L12 17.5L6.5 21L7.5 14L3 9L9 8L12 2Z"></path>
+          </svg>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1px;">
+          <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 15px; font-weight: 700; letter-spacing: 0.05em; color: #FAF7F2;">HOUGO ADMIN</span>
+          <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: #FBBF24;">TABLET QUẢN TRỊ</span>
+        </div>
+      </div>
+
+      <nav aria-label="Điều hướng Quản trị Tablet" style="display: flex; flex-direction: column; gap: 6px;">
+        <span style="padding: 0 8px 2px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; color: #94A3B8; text-transform: uppercase;">Nghiệp vụ Quản trị</span>
+
+        <button type="button" onClick="{{ selectReportsTab }}" style="{{ reportsTabStyle }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;">
+            <path d="M3 3V21H21"></path>
+            <path d="M18 17V9"></path>
+            <path d="M13 17V5"></path>
+            <path d="M8 17V14"></path>
+          </svg>
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px;">
+            <span style="font-size: 12.5px; font-weight: 700; line-height: 1.2;">Báo cáo &amp; Thống kê</span>
+            <span style="{{ reportsSubStyle }}">Doanh thu &amp; KPI</span>
+          </div>
+        </button>
+
+        <button type="button" onClick="{{ selectBookingsTab }}" style="{{ bookingsTabStyle }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;">
+            <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+            <path d="M16 2V6"></path>
+            <path d="M8 2V6"></path>
+            <path d="M3 10H21"></path>
+          </svg>
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px;">
+            <span style="font-size: 12.5px; font-weight: 700; line-height: 1.2;">Quản lý Đặt bàn</span>
+            <span style="{{ bookingsSubStyle }}">Xếp bàn trực tuyến</span>
+          </div>
+          <span style="padding: 2px 6px; border-radius: 999px; background-color: rgba(245, 158, 11, 0.22); border: 1px solid rgba(245, 158, 11, 0.55); color: #FDE68A; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 800; flex-shrink: 0;">{{pendingBookingsCount}}</span>
+        </button>
+
+        <button type="button" onClick="{{ selectMenuTab }}" style="{{ menuTabStyle }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;">
+            <path d="M3 2V7C3 9.21 4.79 11 7 11V22"></path>
+            <path d="M7 2V11"></path>
+            <path d="M17 2V22"></path>
+          </svg>
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px;">
+            <span style="font-size: 12.5px; font-weight: 700; line-height: 1.2;">Quản trị Thực đơn</span>
+            <span style="{{ menuSubStyle }}">Món ăn &amp; Đơn giá</span>
+          </div>
+        </button>
+
+        <button type="button" onClick="{{ selectTablesTab }}" style="{{ tablesTabStyle }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;">
+            <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+            <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+            <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+          </svg>
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px;">
+            <span style="font-size: 12.5px; font-weight: 700; line-height: 1.2;">Quản trị Bàn ăn</span>
+            <span style="{{ tablesSubStyle }}">Tầng &amp; Phòng VIP</span>
+          </div>
+        </button>
+
+        <button type="button" onClick="{{ selectAccountsTab }}" style="{{ accountsTabStyle }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;">
+            <path d="M16 21V19C16 16.79 14.21 15 12 15H6C3.79 15 2 16.79 2 19V21"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+          </svg>
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px;">
+            <span style="font-size: 12.5px; font-weight: 700; line-height: 1.2;">Tài khoản &amp; Phân quyền</span>
+            <span style="{{ accountsSubStyle }}">Nhân sự &amp; Vai trò</span>
+          </div>
+        </button>
+      </nav>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 6px; padding-top: 12px; border-top: 1px solid #334155;">
+      <button type="button" onClick="{{ quickNavPos }}" style="min-height: 44px; width: 100%; padding: 0 10px; border-radius: 9px; background-color: #1E293B; border: 1px solid #334155; color: #E2E8F0; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+        <span>Sơ đồ POS</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #FBBF24;">/pos</span>
+      </button>
+
+      <button type="button" onClick="{{ quickNavKitchen }}" style="min-height: 44px; width: 100%; padding: 0 10px; border-radius: 9px; background-color: #1E293B; border: 1px solid #334155; color: #E2E8F0; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+        <span>Bếp KDT</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #FCA5A5;">/kitchen</span>
+      </button>
+
+      <button type="button" onClick="{{ quickNavHome }}" style="min-height: 44px; width: 100%; padding: 0 10px; border-radius: 9px; background-color: #0F172A; border: 1px solid #334155; color: #CBD5E1; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+        <span>Trang chủ</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #94A3B8;">/home</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT TABLET -->
+  <main style="flex: 999 1 620px; min-width: 0; padding: 16px 18px 24px; display: flex; flex-direction: column; gap: 14px;">
+
+    <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #334155;">
+      <div style="display: flex; flex-direction: column; gap: 3px;">
+        <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: #F59E0B;">{{currentModuleTag}}</span>
+        <h1 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 700; color: #FAF7F2;">{{currentModuleTitle}}</h1>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+        <div style="min-height: 44px; padding: 0 11px; border-radius: 10px; background-color: #111827; border: 1px solid #334155; display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: #CBD5E1;">
+          <span class="admin-live-dot" style="width: 7px; height: 7px; border-radius: 999px; background-color: #10B981; display: inline-block;"></span>
+          <span>POS/KDT</span>
+        </div>
+
+        <div style="min-height: 44px; padding: 0 11px; border-radius: 10px; background-color: #1E293B; border: 1px solid rgba(245, 158, 11, 0.38); display: inline-flex; align-items: center; gap: 8px;">
+          <div style="width: 26px; height: 26px; border-radius: 999px; background-color: #991B1B; color: #FDE68A; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center;">QT</div>
+          <span style="font-size: 12px; font-weight: 700; color: #F8FAFC;">Nguyễn Hoàng Hải</span>
+        </div>
+
+        <button type="button" onClick="{{ handleLogout }}" style="min-height: 44px; padding: 0 11px; border-radius: 10px; background-color: rgba(153, 27, 27, 0.35); border: 1px solid rgba(248, 113, 113, 0.55); color: #FECACA; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 21H5C3.9 21 3 20.1 3 19V5C3 3.9 3.9 3 5 3H9"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Đăng xuất</span>
+        </button>
+      </div>
+    </header>
+
+    <sc-if value="{{ hasBanner }}" hint-placeholder-val="{{ false }}">
+      <div role="status" style="padding: 9px 13px; border-radius: 10px; background-color: rgba(185, 28, 28, 0.24); border: 1px solid rgba(245, 158, 11, 0.55); display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+        <span style="font-size: 12.5px; font-weight: 600; color: #F8FAFC;">{{bannerMsg}}</span>
+        <button type="button" onClick="{{ dismissBanner }}" style="min-height: 44px; padding: 0 12px; border-radius: 8px; background-color: #111827; border: 1px solid #334155; color: #CBD5E1; font-size: 12px; font-weight: 700; cursor: pointer;">Đóng</button>
+      </div>
+    </sc-if>
+
+    <!-- TAB 1: REPORTS (4.5) -->
+    <sc-if value="{{ isReportsTab }}" hint-placeholder-val="{{ true }}">
+      <section style="display: flex; flex-direction: column; gap: 14px;">
+
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; background-color: #111827; border: 1px solid #334155; border-radius: 13px; padding: 10px 12px;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+            <span style="font-size: 12px; font-weight: 700; color: #CBD5E1;">Kỳ:</span>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              <sc-for list="{{periodButtons}}" as="p" hint-placeholder-count="4">
+                <button type="button" onClick="{{p.onSelect}}" style="{{p.style}}">{{p.label}}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 7px;">
+            <button type="button" onClick="{{ exportExcelReport }}" style="min-height: 44px; padding: 0 12px; border-radius: 9px; background-color: #064E3B; border: 1px solid rgba(52, 211, 153, 0.55); color: #A7F3D0; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8Z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="8" y1="13" x2="16" y2="17"></line>
+                <line x1="16" y1="13" x2="8" y2="17"></line>
+              </svg>
+              <span>Xuất Excel (.xlsx)</span>
+            </button>
+
+            <button type="button" onClick="{{ printShiftReport }}" style="min-height: 44px; padding: 0 12px; border-radius: 9px; background-color: #1E293B; border: 1px solid #475569; color: #F8FAFC; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4C2.9 18 2 17.1 2 16V11C2 9.9 2.9 9 4 9H20C21.1 9 22 9.9 22 11V16C22 17.1 21.1 18 20 18H18"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+              </svg>
+              <span>In báo cáo ca</span>
+            </button>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(175px, 100%), 1fr)); gap: 11px;">
+          <div style="background-color: #1E293B; border: 1px solid rgba(245, 158, 11, 0.42); border-radius: 13px; padding: 14px; display: flex; flex-direction: column; gap: 6px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 12px; font-weight: 600; color: #CBD5E1;">Tổng doanh thu</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: #6EE7B7;">{{report.revDelta}}</span>
+            </div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 800; color: #FBBF24;">{{report.revenue}}</span>
+          </div>
+
+          <div style="background-color: #1E293B; border: 1px solid #334155; border-radius: 13px; padding: 14px; display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-size: 12px; font-weight: 600; color: #CBD5E1;">Hóa đơn xong</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 800; color: #F8FAFC;">{{report.bills}}</span>
+          </div>
+
+          <div style="background-color: #1E293B; border: 1px solid #334155; border-radius: 13px; padding: 14px; display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-size: 12px; font-weight: 600; color: #CBD5E1;">Tỷ lệ lấp đầy</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 800; color: #6EE7B7;">{{report.occupancy}}</span>
+            <div style="height: 5px; width: 100%; border-radius: 999px; background-color: #0F172A; overflow: hidden;">
+              <div style="{{report.occupancyBarStyle}}"></div>
+            </div>
+          </div>
+
+          <div style="background-color: #1E293B; border: 1px solid #334155; border-radius: 13px; padding: 14px; display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-size: 12px; font-weight: 600; color: #CBD5E1;">Giá trị TB / Bàn</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 800; color: #FDE68A;">{{report.avgTicket}}</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 14px;">
+          <div style="flex: 1.35 1 360px; min-width: 0; background-color: #111827; border: 1px solid #334155; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+              <div>
+                <h2 style="margin: 0; font-size: 15px; font-weight: 800; color: #FAF7F2;">Biểu Đồ Doanh Thu ({{report.periodTitle}})</h2>
+                <span style="font-size: 11.5px; color: #94A3B8;">{{report.chartSubtitle}}</span>
+              </div>
+              <span style="padding: 3px 8px; border-radius: 7px; background-color: #1E293B; border: 1px solid #334155; font-size: 11px; font-weight: 700; color: #FBBF24;">{{report.unitLabel}}</span>
+            </div>
+
+            <div style="height: 190px; padding: 12px 8px 6px; border-radius: 11px; background-color: #0F172A; border: 1px solid rgba(51, 65, 85, 0.7); display: flex; align-items: flex-end; justify-content: space-between; gap: 8px;">
+              <sc-for list="{{report.bars}}" as="bar" hint-placeholder-count="7">
+                <div style="flex: 1; min-width: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px;">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #E2E8F0;">{{bar.valLabel}}</span>
+                  <div style="{{bar.barStyle}}"></div>
+                  <span style="font-size: 11px; font-weight: 600; color: #94A3B8;">{{bar.axis}}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="flex: 1 1 260px; min-width: 0; background-color: #111827; border: 1px solid #334155; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+            <h2 style="margin: 0; font-size: 15px; font-weight: 800; color: #FAF7F2;">4 Vị Nước Lẩu Signature</h2>
+            <div style="height: 12px; width: 100%; border-radius: 999px; overflow: hidden; display: flex; gap: 2px; background-color: #0F172A;">
+              <sc-for list="{{report.broths}}" as="brSeg" hint-placeholder-count="4">
+                <div style="{{brSeg.segStyle}}"></div>
+              </sc-for>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <sc-for list="{{report.broths}}" as="br" hint-placeholder-count="4">
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+                    <span style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: #F8FAFC;">
+                      <span style="{{br.dotStyle}}"></span>
+                      <span>{{br.name}}</span>
+                    </span>
+                    <span style="font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #E2E8F0;">{{br.pct}}%</span>
+                  </div>
+                  <div style="height: 6px; width: 100%; border-radius: 999px; background-color: #0F172A; overflow: hidden;">
+                    <div style="{{br.fillStyle}}"></div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <div style="background-color: #111827; border: 1px solid #334155; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+          <h2 style="margin: 0; font-size: 15px; font-weight: 800; color: #FAF7F2;">Top 5 Món Nhúng &amp; Combo Bán Chạy Nhất</h2>
+          <div class="admin-scroll" style="overflow-x: auto;">
+            <div style="min-width: 680px; display: flex; flex-direction: column; gap: 6px;">
+              <div style="display: grid; grid-template-columns: 54px 1.9fr 1fr 95px 125px 80px; gap: 10px; padding: 9px 12px; border-radius: 8px; background-color: #0F172A; font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase;">
+                <span>Hạng</span>
+                <span>Món nhúng / Combo</span>
+                <span>Phân loại</span>
+                <span>Lượt gọi</span>
+                <span>Doanh thu</span>
+                <span>Tỷ trọng</span>
+              </div>
+              <sc-for list="{{report.top5}}" as="top" hint-placeholder-count="5">
+                <div style="display: grid; grid-template-columns: 54px 1.9fr 1fr 95px 125px 80px; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 9px; background-color: #1E293B; border: 1px solid #334155;">
+                  <span style="{{top.rankStyle}}">{{top.rank}}</span>
+                  <span style="font-size: 13px; font-weight: 700; color: #F8FAFC;">{{top.name}}</span>
+                  <span style="font-size: 12px; color: #CBD5E1;">{{top.category}}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 700; color: #6EE7B7;">{{top.orders}}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 800; color: #FBBF24;">{{top.rev}}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #E2E8F0;">{{top.share}}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- TAB 2: BOOKINGS (4.3) -->
+    <sc-if value="{{ isBookingsTab }}" hint-placeholder-val="{{ false }}">
+      <section style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 7px; background-color: #111827; border: 1px solid #334155; border-radius: 13px; padding: 10px 12px;">
+          <sc-for list="{{bookingFilterButtons}}" as="bf" hint-placeholder-count="5">
+            <button type="button" onClick="{{bf.onSelect}}" style="{{bf.style}}">{{bf.label}}</button>
+          </sc-for>
+        </div>
+
+        <div class="admin-scroll" style="background-color: #111827; border: 1px solid #334155; border-radius: 14px; padding: 14px; overflow-x: auto;">
+          <div style="min-width: 900px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: grid; grid-template-columns: 90px 1.2fr 110px 120px 68px 1.2fr 110px 90px 210px; gap: 8px; padding: 9px 12px; border-radius: 8px; background-color: #0F172A; font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase;">
+              <span>Mã</span>
+              <span>Khách hàng</span>
+              <span>SĐT</span>
+              <span>Giờ đến</span>
+              <span>Khách</span>
+              <span>Combo</span>
+              <span>Trạng thái</span>
+              <span>Bàn</span>
+              <span>Thao tác</span>
+            </div>
+
+            <sc-for list="{{visibleBookings}}" as="bk" hint-placeholder-count="5">
+              <div style="display: grid; grid-template-columns: 90px 1.2fr 110px 120px 68px 1.2fr 110px 90px 210px; gap: 8px; align-items: center; padding: 10px 12px; border-radius: 10px; background-color: #1E293B; border: 1px solid #334155;">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 800; color: #FBBF24;">{{bk.code}}</span>
+                <span style="font-size: 13px; font-weight: 700; color: #F8FAFC;">{{bk.customer}}</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #CBD5E1;">{{bk.phone}}</span>
+                <span style="font-size: 12px; color: #E2E8F0;">{{bk.arrival}}</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 700; color: #F8FAFC;">{{bk.guests}}</span>
+                <span style="font-size: 12px; color: #CBD5E1;">{{bk.combo}}</span>
+                <span style="{{bk.statusStyle}}">{{bk.statusLabel}}</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 800; color: #6EE7B7;">{{bk.assignedTable}}</span>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <button type="button" onClick="{{bk.onOpenAssign}}" style="{{bk.assignBtnStyle}}">{{bk.assignBtnLabel}}</button>
+                  <button type="button" onClick="{{bk.onReject}}" style="min-height: 44px; padding: 0 10px; border-radius: 9px; background-color: #0F172A; border: 1px solid rgba(239, 68, 68, 0.55); color: #FECACA; font-size: 12px; font-weight: 700; cursor: pointer;">Hủy</button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- TAB 3: MENU MANAGEMENT (4.1) -->
+    <sc-if value="{{ isMenuTab }}" hint-placeholder-val="{{ false }}">
+      <section style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="background-color: #111827; border: 1px solid #334155; border-radius: 13px; padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+            <input type="search" aria-label="Tìm món ăn" value="{{menuSearch}}" onInput="{{onMenuSearchInput}}" placeholder="Tìm mã món hoặc tên món..." style="min-height: 44px; flex: 1 1 220px; padding: 0 13px; border-radius: 10px; border: 1px solid #334155; background-color: #0F172A; color: #F8FAFC; font-size: 13px;">
+            <button type="button" onClick="{{ openNewMenuModal }}" style="min-height: 44px; padding: 0 16px; border-radius: 10px; background-color: #B91C1C; border: 1.5px solid rgba(251, 191, 36, 0.65); color: #FFFFFF; font-size: 13px; font-weight: 800; cursor: pointer;">+ Thêm món mới</button>
+          </div>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 7px;">
+            <sc-for list="{{menuCategoryButtons}}" as="mc" hint-placeholder-count="7">
+              <button type="button" onClick="{{mc.onSelect}}" style="{{mc.style}}">{{mc.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div class="admin-scroll" style="background-color: #111827; border: 1px solid #334155; border-radius: 14px; padding: 14px; overflow-x: auto;">
+          <div style="min-width: 840px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: grid; grid-template-columns: 58px 85px 1.6fr 1fr 95px 115px 150px 140px; gap: 10px; padding: 9px 12px; border-radius: 8px; background-color: #0F172A; font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase;">
+              <span>Ảnh</span>
+              <span>Mã</span>
+              <span>Tên món / Combo</span>
+              <span>Danh mục</span>
+              <span>ĐVT</span>
+              <span>Giá bán</span>
+              <span>Trạng thái</span>
+              <span>Thao tác</span>
+            </div>
+
+            <sc-for list="{{visibleMenuItems}}" as="mi" hint-placeholder-count="8">
+              <div style="display: grid; grid-template-columns: 58px 85px 1.6fr 1fr 95px 115px 150px 140px; gap: 10px; align-items: center; padding: 9px 12px; border-radius: 10px; background-color: #1E293B; border: 1px solid #334155;">
+                <img src="{{mi.img}}" alt="{{mi.name}}" style="width: 44px; height: 44px; border-radius: 9px; object-fit: cover; border: 1px solid rgba(251, 191, 36, 0.35);">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 800; color: #CBD5E1;">{{mi.code}}</span>
+                <span style="font-size: 13px; font-weight: 700; color: #F8FAFC;">{{mi.name}}</span>
+                <span style="font-size: 12px; color: #CBD5E1;">{{mi.category}}</span>
+                <span style="font-size: 12px; color: #94A3B8;">{{mi.unit}}</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 800; color: #FBBF24;">{{mi.priceFormatted}}</span>
+
+                <button type="button" role="switch" aria-checked="{{mi.available}}" onClick="{{mi.onToggleAvailable}}" style="{{mi.toggleWrapStyle}}">
+                  <span style="{{mi.toggleTrackStyle}}">
+                    <span style="{{mi.toggleKnobStyle}}"></span>
+                  </span>
+                  <span style="{{mi.toggleLabelStyle}}">{{mi.availableText}}</span>
+                </button>
+
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <button type="button" onClick="{{mi.onEdit}}" style="min-height: 44px; padding: 0 11px; border-radius: 8px; background-color: #0F172A; border: 1px solid #475569; color: #E2E8F0; font-size: 12px; font-weight: 700; cursor: pointer;">Sửa</button>
+                  <button type="button" onClick="{{mi.onDelete}}" style="min-height: 44px; padding: 0 11px; border-radius: 8px; background-color: rgba(153, 27, 27, 0.45); border: 1px solid rgba(239, 68, 68, 0.55); color: #FECACA; font-size: 12px; font-weight: 700; cursor: pointer;">Xóa</button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- TAB 4: TABLE MANAGEMENT (4.2) -->
+    <sc-if value="{{ isTablesTab }}" hint-placeholder-val="{{ false }}">
+      <section style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; background-color: #111827; border: 1px solid #334155; border-radius: 13px; padding: 10px 12px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 7px;">
+            <sc-for list="{{tableZoneButtons}}" as="tz" hint-placeholder-count="3">
+              <button type="button" onClick="{{tz.onSelect}}" style="{{tz.style}}">{{tz.label}}</button>
+            </sc-for>
+          </div>
+          <button type="button" onClick="{{ openNewTableModal }}" style="min-height: 44px; padding: 0 16px; border-radius: 10px; background-color: #B91C1C; border: 1.5px solid rgba(251, 191, 36, 0.65); color: #FFFFFF; font-size: 13px; font-weight: 800; cursor: pointer;">+ Thêm bàn mới</button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(230px, 100%), 1fr)); gap: 12px;">
+          <sc-for list="{{visibleTables}}" as="tb" hint-placeholder-count="8">
+            <div style="{{tb.cardStyle}}">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                <span style="font-size: 17px; font-weight: 800; color: #F8FAFC;">{{tb.name}}</span>
+                <span style="{{tb.statusBadgeStyle}}">{{tb.statusLabel}}</span>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; color: #CBD5E1;">
+                <span>Khu vực: <strong style="color: #F8FAFC;">{{tb.zone}}</strong></span>
+                <span>Số ghế: <strong style="font-family: 'JetBrains Mono', monospace; color: #FBBF24;">{{tb.seats}} ghế</strong></span>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 6px; padding-top: 4px; border-top: 1px solid rgba(148, 163, 184, 0.16);">
+                <button type="button" onClick="{{tb.onEdit}}" style="flex: 1; min-height: 44px; padding: 0 10px; border-radius: 9px; background-color: #0F172A; border: 1px solid #475569; color: #E2E8F0; font-size: 12px; font-weight: 700; cursor: pointer;">Sửa</button>
+                <button type="button" onClick="{{tb.onToggleActive}}" style="{{tb.toggleBtnStyle}}">{{tb.toggleBtnLabel}}</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- TAB 5: ACCOUNTS & ROLES (4.4) -->
+    <sc-if value="{{ isAccountsTab }}" hint-placeholder-val="{{ false }}">
+      <section style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; background-color: #111827; border: 1px solid #334155; border-radius: 13px; padding: 10px 12px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 7px;">
+            <sc-for list="{{accountRoleButtons}}" as="ar" hint-placeholder-count="5">
+              <button type="button" onClick="{{ar.onSelect}}" style="{{ar.style}}">{{ar.label}}</button>
+            </sc-for>
+          </div>
+          <button type="button" onClick="{{ openNewAccountModal }}" style="min-height: 44px; padding: 0 16px; border-radius: 10px; background-color: #B91C1C; border: 1.5px solid rgba(251, 191, 36, 0.65); color: #FFFFFF; font-size: 13px; font-weight: 800; cursor: pointer;">+ Cấp tài khoản mới</button>
+        </div>
+
+        <div class="admin-scroll" style="background-color: #111827; border: 1px solid #334155; border-radius: 14px; padding: 14px; overflow-x: auto;">
+          <div style="min-width: 820px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: grid; grid-template-columns: 82px 1.3fr 1fr 1.15fr 110px 105px 180px; gap: 10px; padding: 9px 12px; border-radius: 8px; background-color: #0F172A; font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase;">
+              <span>Mã NV</span>
+              <span>Họ tên</span>
+              <span>Tài khoản</span>
+              <span>Vai trò</span>
+              <span>Ca</span>
+              <span>Trạng thái</span>
+              <span>Thao tác</span>
+            </div>
+
+            <sc-for list="{{visibleAccounts}}" as="acc" hint-placeholder-count="6">
+              <div style="display: grid; grid-template-columns: 82px 1.3fr 1fr 1.15fr 110px 105px 180px; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 10px; background-color: #1E293B; border: 1px solid #334155;">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 800; color: #FBBF24;">{{acc.code}}</span>
+                <span style="font-size: 13px; font-weight: 700; color: #F8FAFC;">{{acc.fullName}}</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #CBD5E1;">{{acc.username}}</span>
+                <span style="{{acc.roleBadgeStyle}}">{{acc.role}}</span>
+                <span style="font-size: 12px; color: #CBD5E1;">{{acc.shift}}</span>
+                <span style="{{acc.statusBadgeStyle}}">{{acc.statusLabel}}</span>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <button type="button" onClick="{{acc.onEdit}}" style="min-height: 44px; padding: 0 10px; border-radius: 8px; background-color: #0F172A; border: 1px solid #475569; color: #E2E8F0; font-size: 11.5px; font-weight: 700; cursor: pointer;">Phân quyền</button>
+                  <button type="button" onClick="{{acc.onToggleLock}}" style="{{acc.lockBtnStyle}}">{{acc.lockBtnLabel}}</button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+  </main>
+
+  <!-- MODAL 1: ASSIGN TABLE (4.3) -->
+  <sc-if value="{{ showAssignModal }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-labelledby="t-modal-assign-title" style="position: fixed; inset: 0; background-color: rgba(2, 6, 23, 0.84); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 60;">
+      <div style="width: 100%; max-width: 500px; background-color: #111827; border: 1px solid rgba(251, 191, 36, 0.45); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;">
+          <div>
+            <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: #FBBF24;">DUYỆT ĐẶT BÀN &amp; GÁN BÀN</span>
+            <h2 id="t-modal-assign-title" style="margin: 4px 0 0; font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 700; color: #FAF7F2;">Chọn Bàn Cho {{assignTargetCustomer}}</h2>
+          </div>
+          <button type="button" onClick="{{ closeAssignModal }}" aria-label="Đóng hộp thoại gán bàn" style="min-width: 44px; min-height: 44px; border-radius: 10px; background-color: #1E293B; border: 1px solid #334155; color: #E2E8F0; cursor: pointer;">&times;</button>
+        </div>
+
+        <span style="font-size: 12.5px; color: #CBD5E1;">Yêu cầu: <strong style="color: #FDE68A;">{{assignTargetInfo}}</strong></span>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 8px;">
+          <sc-for list="{{assignTableOptions}}" as="opt" hint-placeholder-count="6">
+            <button type="button" onClick="{{opt.onPick}}" style="{{opt.style}}">
+              <span style="font-size: 13.5px; font-weight: 800;">{{opt.name}}</span>
+              <span style="font-size: 11px; color: #CBD5E1;">{{opt.zone}} &middot; {{opt.seats}} ghế</span>
+            </button>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px; padding-top: 6px; border-top: 1px solid #334155;">
+          <button type="button" onClick="{{ closeAssignModal }}" style="min-height: 44px; padding: 0 16px; border-radius: 10px; background-color: #1E293B; border: 1px solid #334155; color: #E2E8F0; font-size: 13px; font-weight: 700; cursor: pointer;">Hủy</button>
+          <button type="button" onClick="{{ confirmAssignTable }}" style="min-height: 44px; padding: 0 18px; border-radius: 10px; background-color: #047857; border: 1px solid #34D399; color: #FFFFFF; font-size: 13px; font-weight: 800; cursor: pointer;">Xác nhận Gán bàn</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- MODAL 2: MENU ITEM (4.1) -->
+  <sc-if value="{{ showMenuModal }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-labelledby="t-modal-menu-title" style="position: fixed; inset: 0; background-color: rgba(2, 6, 23, 0.84); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 60;">
+      <div style="width: 100%; max-width: 500px; background-color: #111827; border: 1px solid rgba(251, 191, 36, 0.45); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+          <h2 id="t-modal-menu-title" style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 700; color: #FAF7F2;">{{menuModalTitle}}</h2>
+          <button type="button" onClick="{{ closeMenuModal }}" aria-label="Đóng hộp thoại món ăn" style="min-width: 44px; min-height: 44px; border-radius: 10px; background-color: #1E293B; border: 1px solid #334155; color: #E2E8F0; cursor: pointer;">&times;</button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 110px 1fr; gap: 10px;">
+          <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 700; color: #CBD5E1;">
+            <span>Mã món</span>
+            <input type="text" value="{{formMenuCode}}" onInput="{{onFormMenuCode}}" style="min-height: 44px; padding: 0 11px; border-radius: 9px; border: 1px solid #334155; background-color: #0F172A; color: #F8FAFC; font-size: 13px;">
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 700; color: #CBD5E1;">
+            <span>Tên món ăn / Combo</span>
+            <input type="text" value="{{formMenuName}}" onInput="{{onFormMenuName}}" style="min-height: 44px; padding: 0 11px; border-radius: 9px; border: 1px solid #334155; background-color: #0F172A; color: #F8FAFC; font-size: 13px;">
+          </label>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 700; color: #CBD5E1;">
+            <span>Đơn vị tính</span>
+            <input type="text" value="{{formMenuUnit}}" onInput="{{onFormMenuUnit}}" style="min-height: 44px; padding: 0 11px; border-radius: 9px; border: 1px solid #334155; background-color: #0F172A; color: #F8FAFC; font-size: 13px;">
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 700; color: #CBD5E1;">
+            <span>Giá bán (VNĐ)</span>
+            <input type="number" value="{{formMenuPrice}}" onInput="{{onFormMenuPrice}}" style="min-height: 44px; padding: 0 11px; border-radius: 9px; border: 1px solid #334155; background-color: #0F172A; color: #FBBF24; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px;">
+          </label>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+          <sc-for list="{{formMenuCatOptions}}" as="co" hint-placeholder-count="6">
+            <button type="button" onClick="{{co.onPick}}" style="{{co.style}}">{{co.label}}</button>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px; padding-top: 6px; border-top: 1px solid #334155;">
+          <button type="button" onClick="{{ closeMenuModal }}" style="min-height: 44px; padding: 0 16px; border-radius: 10px; background-color: #1E293B; border: 1px solid #334155; color: #E2E8F0; font-size: 13px; font-weight: 700; cursor: pointer;">Hủy</button>
+          <button type="button" onClick="{{ saveMenuModal }}" style="min-height: 44px; padding: 0 20px; border-radius: 10px; background-color: #B91C1C; border: 1px solid rgba(251, 191, 36, 0.65); color: #FFFFFF; font-size: 13px; font-weight: 800; cursor: pointer;">Lưu Món</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- MODAL 3: TABLE CONFIG (4.2) -->
+  <sc-if value="{{ showTableModal }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-labelledby="t-modal-table-title" style="position: fixed; inset: 0; background-color: rgba(2, 6, 23, 0.84); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 60;">
+      <div style="width: 100%; max-width: 460px; background-color: #111827; border: 1px solid rgba(251, 191, 36, 0.45); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+          <h2 id="t-modal-table-title" style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 700; color: #FAF7F2;">{{tableModalTitle}}</h2>
+          <button type="button" onClick="{{ closeTableModal }}" aria-label="Đóng hộp thoại bàn ăn" style="min-width: 44px; min-height: 44px; border-radius: 10px; background-color: #1E293B; border: 1px solid #334155; color: #E2E8F0; cursor: pointer;">&times;</button>
+        </div>
+
+        <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 700; color: #CBD5E1;">
+          <span>Tên bàn</span>
+          <input type="text" value="{{formTableName}}" onInput="{{onFormTableName}}" style="min-height: 44px; padding: 0 11px; border-radius: 9px; border: 1px solid #334155; background-color: #0F172A; color: #F8FAFC; font-size: 13px;">
+        </label>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 7px;">
+          <sc-for list="{{formTableZoneOptions}}" as="zo" hint-placeholder-count="2">
+            <button type="button" onClick="{{zo.onPick}}" style="{{zo.style}}">{{zo.label}}</button>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 7px;">
+          <sc-for list="{{formTableSeatOptions}}" as="so" hint-placeholder-count="5">
+            <button type="button" onClick="{{so.onPick}}" style="{{so.style}}">{{so.label}}</button>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px; padding-top: 6px; border-top: 1px solid #334155;">
+          <button type="button" onClick="{{ closeTableModal }}" style="min-height: 44px; padding: 0 16px; border-radius: 10px; background-color: #1E293B; border: 1px solid #334155; color: #E2E8F0; font-size: 13px; font-weight: 700; cursor: pointer;">Hủy</button>
+          <button type="button" onClick="{{ saveTableModal }}" style="min-height: 44px; padding: 0 20px; border-radius: 10px; background-color: #B91C1C; border: 1px solid rgba(251, 191, 36, 0.65); color: #FFFFFF; font-size: 13px; font-weight: 800; cursor: pointer;">Lưu Bàn</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- MODAL 4: ACCOUNT & ROLE (4.4) -->
+  <sc-if value="{{ showAccountModal }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-labelledby="t-modal-acc-title" style="position: fixed; inset: 0; background-color: rgba(2, 6, 23, 0.84); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 60;">
+      <div style="width: 100%; max-width: 500px; background-color: #111827; border: 1px solid rgba(251, 191, 36, 0.45); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+          <h2 id="t-modal-acc-title" style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 700; color: #FAF7F2;">{{accountModalTitle}}</h2>
+          <button type="button" onClick="{{ closeAccountModal }}" aria-label="Đóng hộp thoại tài khoản" style="min-width: 44px; min-height: 44px; border-radius: 10px; background-color: #1E293B; border: 1px solid #334155; color: #E2E8F0; cursor: pointer;">&times;</button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 700; color: #CBD5E1;">
+            <span>Họ tên nhân viên</span>
+            <input type="text" value="{{formAccName}}" onInput="{{onFormAccName}}" style="min-height: 44px; padding: 0 11px; border-radius: 9px; border: 1px solid #334155; background-color: #0F172A; color: #F8FAFC; font-size: 13px;">
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 700; color: #CBD5E1;">
+            <span>Tên đăng nhập</span>
+            <input type="text" value="{{formAccUser}}" onInput="{{onFormAccUser}}" style="min-height: 44px; padding: 0 11px; border-radius: 9px; border: 1px solid #334155; background-color: #0F172A; color: #FBBF24; font-family: 'JetBrains Mono', monospace; font-size: 13px;">
+          </label>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+          <sc-for list="{{formAccRoleOptions}}" as="ro" hint-placeholder-count="4">
+            <button type="button" onClick="{{ro.onPick}}" style="{{ro.style}}">{{ro.label}}</button>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+          <sc-for list="{{formAccShiftOptions}}" as="sho" hint-placeholder-count="4">
+            <button type="button" onClick="{{sho.onPick}}" style="{{sho.style}}">{{sho.label}}</button>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px; padding-top: 6px; border-top: 1px solid #334155;">
+          <button type="button" onClick="{{ closeAccountModal }}" style="min-height: 44px; padding: 0 16px; border-radius: 10px; background-color: #1E293B; border: 1px solid #334155; color: #E2E8F0; font-size: 13px; font-weight: 700; cursor: pointer;">Hủy</button>
+          <button type="button" onClick="{{ saveAccountModal }}" style="min-height: 44px; padding: 0 20px; border-radius: 10px; background-color: #B91C1C; border: 1px solid rgba(251, 191, 36, 0.65); color: #FFFFFF; font-size: 13px; font-weight: 800; cursor: pointer;">Lưu Tài Khoản</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1024,"height":1120}}'>
+function formatVnd(n) {
+  return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ';
+}
+
+const REPORTS_DATA = {
+  today: {
+    periodTitle: 'Hôm nay · 12/11/2026',
+    chartSubtitle: 'Doanh thu theo khung giờ · Tổng cộng 48.65M khớp KPI',
+    revenue: '48.650.000đ',
+    revDelta: '+14.8%',
+    bills: '42 hóa đơn',
+    billsDelta: '+6 đơn',
+    occupancy: '78%',
+    occPctNum: 78,
+    avgTicket: '1.158.000đ',
+    bars: [
+      { axis: '10h', val: 3.2, valLabel: '3.2M', peak: false },
+      { axis: '12h', val: 8.5, valLabel: '8.5M', peak: false },
+      { axis: '14h', val: 4.1, valLabel: '4.1M', peak: false },
+      { axis: '16h', val: 2.8, valLabel: '2.8M', peak: false },
+      { axis: '18h', val: 10.4, valLabel: '10.4M', peak: false },
+      { axis: '20h', val: 13.8, valLabel: '13.8M', peak: true },
+      { axis: '22h', val: 5.85, valLabel: '5.85M', peak: false }
+    ],
+    broths: [
+      { name: 'Lẩu Tứ Xuyên Mala', pct: 38, pots: '24 nồi', color: '#EF4444' },
+      { name: 'Lẩu Tomyum Hải Sản', pct: 27, pots: '17 nồi', color: '#F59E0B' },
+      { name: 'Lẩu Nấm Dưỡng Sinh', pct: 20, pots: '13 nồi', color: '#10B981' },
+      { name: 'Lẩu Cà Chua Collagen', pct: 15, pots: '9 nồi', color: '#38BDF8' }
+    ],
+    top5: [
+      { rank: '#01', name: 'Set Combo Tuyết Hoa Tứ Hải (269K)', category: 'Combo Buffet', orders: '52 phần', rev: '13.988.000đ', share: '28.8%' },
+      { rank: '#02', name: 'Bò Wagyu Nhật A5 (150g)', category: 'Thịt bò', orders: '34 khay', rev: '9.860.000đ', share: '20.3%' },
+      { rank: '#03', name: 'Đĩa Hải Sản Tươi Tổng Hợp', category: 'Hải sản', orders: '28 đĩa', rev: '8.372.000đ', share: '17.2%' },
+      { rank: '#04', name: 'Lõi Vai Bò Mỹ Thượng Hạng', category: 'Thịt bò', orders: '26 khay', rev: '4.810.000đ', share: '9.9%' },
+      { rank: '#05', name: 'Nước Lẩu Tứ Xuyên Mala', category: 'Nước lẩu', orders: '24 nồi', rev: '3.576.000đ', share: '7.4%' }
+    ]
+  },
+  week: {
+    periodTitle: 'Tuần này · T2 – CN',
+    chartSubtitle: 'Tổng hợp doanh thu 7 ngày · Lũy kế 342.80M khớp KPI',
+    revenue: '342.800.000đ',
+    revDelta: '+18.2%',
+    bills: '294 hóa đơn',
+    billsDelta: '+34 đơn',
+    occupancy: '84%',
+    occPctNum: 84,
+    avgTicket: '1.166.000đ',
+    bars: [
+      { axis: 'T2', val: 34.5, valLabel: '34.5M', peak: false },
+      { axis: 'T3', val: 38.2, valLabel: '38.2M', peak: false },
+      { axis: 'T4', val: 41.0, valLabel: '41.0M', peak: false },
+      { axis: 'T5', val: 45.6, valLabel: '45.6M', peak: false },
+      { axis: 'T6', val: 56.4, valLabel: '56.4M', peak: false },
+      { axis: 'T7', val: 68.9, valLabel: '68.9M', peak: true },
+      { axis: 'CN', val: 58.2, valLabel: '58.2M', peak: false }
+    ],
+    broths: [
+      { name: 'Lẩu Tứ Xuyên Mala', pct: 40, pots: '162 nồi', color: '#EF4444' },
+      { name: 'Lẩu Tomyum Hải Sản', pct: 26, pots: '105 nồi', color: '#F59E0B' },
+      { name: 'Lẩu Nấm Dưỡng Sinh', pct: 19, pots: '77 nồi', color: '#10B981' },
+      { name: 'Lẩu Cà Chua Collagen', pct: 15, pots: '61 nồi', color: '#38BDF8' }
+    ],
+    top5: [
+      { rank: '#01', name: 'Set Combo Tuyết Hoa Tứ Hải (269K)', category: 'Combo Buffet', orders: '364 phần', rev: '97.916.000đ', share: '28.6%' },
+      { rank: '#02', name: 'Bò Wagyu Nhật A5 (150g)', category: 'Thịt bò', orders: '240 khay', rev: '69.600.000đ', share: '20.3%' },
+      { rank: '#03', name: 'Đĩa Hải Sản Tươi Tổng Hợp', category: 'Hải sản', orders: '196 đĩa', rev: '58.604.000đ', share: '17.1%' },
+      { rank: '#04', name: 'Lõi Vai Bò Mỹ Thượng Hạng', category: 'Thịt bò', orders: '180 khay', rev: '33.300.000đ', share: '9.7%' },
+      { rank: '#05', name: 'Nước Lẩu Tứ Xuyên Mala', category: 'Nước lẩu', orders: '162 nồi', rev: '24.138.000đ', share: '7.0%' }
+    ]
+  },
+  month: {
+    periodTitle: 'Tháng 11/2026',
+    chartSubtitle: 'Tiến độ doanh thu · Lũy kế 1.486,20M khớp KPI',
+    revenue: '1.486.200.000đ',
+    revDelta: '+21.5%',
+    bills: '1.268 hóa đơn',
+    billsDelta: '+148 đơn',
+    occupancy: '86%',
+    occPctNum: 86,
+    avgTicket: '1.172.000đ',
+    bars: [
+      { axis: '01-05', val: 238, valLabel: '238M', peak: false },
+      { axis: '06-10', val: 264, valLabel: '264M', peak: false },
+      { axis: '11-15', val: 289.2, valLabel: '289.2M', peak: true },
+      { axis: '16-20', val: 251, valLabel: '251M', peak: false },
+      { axis: '21-25', val: 232, valLabel: '232M', peak: false },
+      { axis: '26-30', val: 212, valLabel: '212M', peak: false }
+    ],
+    broths: [
+      { name: 'Lẩu Tứ Xuyên Mala', pct: 39, pots: '698 nồi', color: '#EF4444' },
+      { name: 'Lẩu Tomyum Hải Sản', pct: 28, pots: '501 nồi', color: '#F59E0B' },
+      { name: 'Lẩu Nấm Dưỡng Sinh', pct: 18, pots: '322 nồi', color: '#10B981' },
+      { name: 'Lẩu Cà Chua Collagen', pct: 15, pots: '268 nồi', color: '#38BDF8' }
+    ],
+    top5: [
+      { rank: '#01', name: 'Set Combo Tuyết Hoa Tứ Hải (269K)', category: 'Combo Buffet', orders: '1.580 phần', rev: '425.020.000đ', share: '28.6%' },
+      { rank: '#02', name: 'Bò Wagyu Nhật A5 (150g)', category: 'Thịt bò', orders: '1.040 khay', rev: '301.600.000đ', share: '20.3%' },
+      { rank: '#03', name: 'Đĩa Hải Sản Tươi Tổng Hợp', category: 'Hải sản', orders: '850 đĩa', rev: '254.150.000đ', share: '17.1%' },
+      { rank: '#04', name: 'Lõi Vai Bò Mỹ Thượng Hạng', category: 'Thịt bò', orders: '780 khay', rev: '144.300.000đ', share: '9.7%' },
+      { rank: '#05', name: 'Nước Lẩu Tứ Xuyên Mala', category: 'Nước lẩu', orders: '698 nồi', rev: '104.002.000đ', share: '7.0%' }
+    ]
+  },
+  year: {
+    periodTitle: 'Năm 2026',
+    chartSubtitle: 'Doanh thu các quý 2026 · Tổng cộng 16.92B khớp KPI',
+    revenue: '16.920.000.000đ',
+    revDelta: '+28.4%',
+    bills: '14.380 hóa đơn',
+    billsDelta: '+2.4K đơn',
+    occupancy: '82%',
+    occPctNum: 82,
+    avgTicket: '1.176.000đ',
+    bars: [
+      { axis: 'Q1/26', val: 3820, valLabel: '3.82B', peak: false },
+      { axis: 'Q2/26', val: 4050, valLabel: '4.05B', peak: false },
+      { axis: 'Q3/26', val: 4310, valLabel: '4.31B', peak: false },
+      { axis: 'Q4/26*', val: 4740, valLabel: '4.74B', peak: true }
+    ],
+    broths: [
+      { name: 'Lẩu Tứ Xuyên Mala', pct: 37, pots: '7.840 nồi', color: '#EF4444' },
+      { name: 'Lẩu Tomyum Hải Sản', pct: 27, pots: '5.720 nồi', color: '#F59E0B' },
+      { name: 'Lẩu Nấm Dưỡng Sinh', pct: 21, pots: '4.450 nồi', color: '#10B981' },
+      { name: 'Lẩu Cà Chua Collagen', pct: 15, pots: '3.180 nồi', color: '#38BDF8' }
+    ],
+    top5: [
+      { rank: '#01', name: 'Set Combo Tuyết Hoa Tứ Hải (269K)', category: 'Combo Buffet', orders: '18.200 phần', rev: '4.895.800.000đ', share: '28.9%' },
+      { rank: '#02', name: 'Bò Wagyu Nhật A5 (150g)', category: 'Thịt bò', orders: '11.800 khay', rev: '3.422.000.000đ', share: '20.2%' },
+      { rank: '#03', name: 'Đĩa Hải Sản Tươi Tổng Hợp', category: 'Hải sản', orders: '9.600 đĩa', rev: '2.870.400.000đ', share: '17.0%' },
+      { rank: '#04', name: 'Lõi Vai Bò Mỹ Thượng Hạng', category: 'Thịt bò', orders: '8.800 khay', rev: '1.628.000.000đ', share: '9.6%' },
+      { rank: '#05', name: 'Nước Lẩu Tứ Xuyên Mala', category: 'Nước lẩu', orders: '7.840 nồi', rev: '1.168.160.000đ', share: '6.9%' }
+    ]
+  }
+};
+
+const INITIAL_BOOKINGS = [
+  { id: 'b1', code: '#RES-1108', customer: 'Trần Minh Khôi', phone: '0908 312 459', arrival: '19:30 · Hôm nay', guests: 6, combo: 'Combo 269K Tuyết Hoa', status: 'pending', assignedTable: 'Chưa gán' },
+  { id: 'b2', code: '#RES-1109', customer: 'Nguyễn Thảo Vy', phone: '0912 774 881', arrival: '19:45 · Hôm nay', guests: 8, combo: 'Lẩu Uyên Ương + Wagyu', status: 'pending', assignedTable: 'Chưa gán' },
+  { id: 'b3', code: '#RES-1110', customer: 'Lê Gia Bảo', phone: '0979 551 024', arrival: '20:00 · Hôm nay', guests: 4, combo: 'Combo Hải Sản 329K', status: 'pending', assignedTable: 'Chưa gán' },
+  { id: 'b4', code: '#RES-1104', customer: 'Phạm Hoàng Anh', phone: '0933 882 910', arrival: '18:30 · Hôm nay', guests: 6, combo: 'Lẩu Tứ Xuyên + Bò Mỹ', status: 'confirmed', assignedTable: 'BÀN 10' },
+  { id: 'b5', code: '#RES-1099', customer: 'Đặng Quỳnh Chi', phone: '0984 119 362', arrival: '18:00 · Hôm nay', guests: 4, combo: 'Combo 269K Tuyết Hoa', status: 'seated', assignedTable: 'BÀN 03' }
+];
+
+const INITIAL_MENU = [
+  { id: 'm1', code: 'NL-01', name: 'Nước Lẩu Tứ Xuyên Mala', category: 'Nước lẩu', unit: 'Nồi', price: 149000, available: true, img: '/_blob/8bd8d394a44585882ffe282c79948232' },
+  { id: 'm2', code: 'NL-02', name: 'Nước Lẩu Tomyum Hải Sản', category: 'Nước lẩu', unit: 'Nồi', price: 159000, available: true, img: '/_blob/946ee003607b2e348636f394aaf9b552' },
+  { id: 'm3', code: 'NL-03', name: 'Nước Lẩu Nấm Dưỡng Sinh', category: 'Nước lẩu', unit: 'Nồi', price: 139000, available: true, img: '/_blob/54cda9ffbe549b4cdee31eae82ce4ba8' },
+  { id: 'm4', code: 'NL-04', name: 'Nước Lẩu Cà Chua Collagen', category: 'Nước lẩu', unit: 'Nồi', price: 145000, available: true, img: '/_blob/8980f57461f25fe22f9ab69f50ac7f69' },
+  { id: 'm5', code: 'CB-01', name: 'Set Combo Tuyết Hoa Tứ Hải', category: 'Combo', unit: 'Set/Người', price: 269000, available: true, img: '/_blob/b140d3f9da1fe115e59e4e298432ebea' },
+  { id: 'm6', code: 'TB-01', name: 'Bò Wagyu Nhật A5 (150g)', category: 'Thịt bò', unit: 'Khay 150g', price: 290000, available: true, img: '/_blob/6cdb0c2e502b868d5b711a819cab5975' },
+  { id: 'm7', code: 'HS-01', name: 'Đĩa Hải Sản Tươi Tổng Hợp', category: 'Hải sản', unit: 'Đĩa lớn', price: 299000, available: false, img: '/_blob/73f3311434dbb5b9e6cc3a56e37e696e' },
+  { id: 'm8', code: 'RN-01', name: 'Tháp Rau Nấm & Váng Đậu', category: 'Rau nấm', unit: 'Tháp', price: 89000, available: true, img: '/_blob/3ba53040925d7cfbc5548db574b26426' },
+  { id: 'm9', code: 'DU-01', name: 'Trà Bí Đao Hạt Chia (Bình)', category: 'Đồ uống', unit: 'Bình 1L', price: 65000, available: true, img: '/_blob/30ca133ec51384b9da0c7d7816c16ea5' }
+];
+
+const INITIAL_TABLES = [
+  { id: 'tb1', name: 'BÀN 01', zone: 'Tầng 1 Sảnh chung', seats: 4, status: 'empty' },
+  { id: 'tb2', name: 'BÀN 02', zone: 'Tầng 1 Sảnh chung', seats: 4, status: 'busy' },
+  { id: 'tb3', name: 'BÀN 03', zone: 'Tầng 1 Sảnh chung', seats: 4, status: 'busy' },
+  { id: 'tb4', name: 'BÀN 04', zone: 'Tầng 1 Sảnh chung', seats: 6, status: 'empty' },
+  { id: 'tb5', name: 'BÀN 05', zone: 'Tầng 1 Sảnh chung', seats: 2, status: 'empty' },
+  { id: 'tb6', name: 'BÀN 06', zone: 'Tầng 1 Sảnh chung', seats: 6, status: 'busy' },
+  { id: 'tb9', name: 'BÀN 09', zone: 'Tầng 2 Phòng VIP', seats: 8, status: 'busy' },
+  { id: 'tb10', name: 'BÀN 10', zone: 'Tầng 2 Phòng VIP', seats: 6, status: 'empty' },
+  { id: 'tb11', name: 'BÀN 11', zone: 'Tầng 2 Phòng VIP', seats: 8, status: 'busy' },
+  { id: 'tb12', name: 'BÀN 12', zone: 'Tầng 2 Phòng VIP', seats: 10, status: 'empty' },
+  { id: 'tb15', name: 'BÀN 15', zone: 'Tầng 2 Phòng VIP', seats: 10, status: 'empty' },
+  { id: 'tb16', name: 'BÀN 16', zone: 'Tầng 2 Phòng VIP', seats: 8, status: 'maintenance' }
+];
+
+const INITIAL_ACCOUNTS = [
+  { id: 'a1', code: 'NV-001', fullName: 'Nguyễn Hoàng Hải', username: 'admin.hai', role: 'Quản trị viên', shift: 'Toàn thời gian', active: true },
+  { id: 'a2', code: 'NV-002', fullName: 'Phạm Thùy Linh', username: 'pos.linh', role: 'Thu ngân POS', shift: 'Ca Tối', active: true },
+  { id: 'a3', code: 'NV-003', fullName: 'Nguyễn Văn Minh', username: 'srv.minh', role: 'Phục vụ', shift: 'Ca Tối', active: true },
+  { id: 'a4', code: 'NV-004', fullName: 'Trần Thị Lan', username: 'srv.lan', role: 'Phục vụ', shift: 'Ca Chiều', active: true },
+  { id: 'a5', code: 'NV-005', fullName: 'Lê Hoàng Nam', username: 'kds.nam', role: 'Điều phối Bếp', shift: 'Ca Tối', active: true },
+  { id: 'a6', code: 'NV-006', fullName: 'Vũ Quốc Khánh', username: 'kds.khanh', role: 'Điều phối Bếp', shift: 'Ca Sáng', active: false }
+];
+
+const MENU_CATS = ['Tất cả', 'Nước lẩu', 'Combo', 'Thịt bò', 'Hải sản', 'Rau nấm', 'Đồ uống'];
+const ROLES = ['Quản trị viên', 'Thu ngân POS', 'Phục vụ', 'Điều phối Bếp'];
+const SHIFTS = ['Toàn thời gian', 'Ca Sáng', 'Ca Chiều', 'Ca Tối'];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: 'reports',
+      period: 'today',
+      bookingFilter: 'all',
+      menuFilter: 'Tất cả',
+      menuSearch: '',
+      tableZoneFilter: 'all',
+      accountRoleFilter: 'all',
+      bookings: INITIAL_BOOKINGS,
+      menuItems: INITIAL_MENU,
+      tables: INITIAL_TABLES,
+      accounts: INITIAL_ACCOUNTS,
+      bannerMsg: '',
+
+      assignModalBookingId: null,
+      pickedTableName: '',
+
+      showMenuModal: false,
+      editMenuId: null,
+      formMenuCode: 'MN-10',
+      formMenuName: '',
+      formMenuCat: 'Thịt bò',
+      formMenuUnit: 'Đĩa 150g',
+      formMenuPrice: '185000',
+
+      showTableModal: false,
+      editTableId: null,
+      formTableName: '',
+      formTableZone: 'Tầng 1 Sảnh chung',
+      formTableSeats: 4,
+
+      showAccountModal: false,
+      editAccountId: null,
+      formAccName: '',
+      formAccUser: '',
+      formAccRole: 'Phục vụ',
+      formAccShift: 'Ca Tối'
+    };
+  }
+
+  navBtnStyle(active) {
+    return 'min-height: 50px; width: 100%; padding: 7px 10px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 8px; border: 1px solid ' +
+      (active ? 'rgba(245, 158, 11, 0.72)' : 'transparent') +
+      '; background-color: ' + (active ? '#B91C1C' : 'rgba(15, 23, 42, 0.45)') +
+      '; color: ' + (active ? '#FAF7F2' : '#E2E8F0') + ';';
+  }
+
+  navSubStyle(active) {
+    return 'font-size: 10px; font-weight: 500; color: ' +
+      (active ? '#FDE68A' : '#94A3B8') + ';';
+  }
+
+  switchTab(tab) {
+    this.setState({
+      activeTab: tab,
+      assignModalBookingId: null,
+      showMenuModal: false,
+      showTableModal: false,
+      showAccountModal: false,
+      bannerMsg: ''
+    });
+  }
+
+  pillBtnStyle(active) {
+    return 'min-height: 44px; padding: 0 12px; border-radius: 9px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; border: 1px solid ' +
+      (active ? 'rgba(245, 158, 11, 0.75)' : '#334155') +
+      '; background-color: ' + (active ? '#991B1B' : '#0F172A') +
+      '; color: ' + (active ? '#FDE68A' : '#CBD5E1') + ';';
+  }
+
+  openEditMenu(mi) {
+    this.setState({
+      showMenuModal: true,
+      editMenuId: mi.id,
+      formMenuCode: mi.code,
+      formMenuName: mi.name,
+      formMenuCat: mi.category,
+      formMenuUnit: mi.unit,
+      formMenuPrice: String(mi.price)
+    });
+  }
+
+  openNewMenu() {
+    this.setState({
+      showMenuModal: true,
+      editMenuId: null,
+      formMenuCode: 'MN-' + (this.state.menuItems.length + 10),
+      formMenuName: '',
+      formMenuCat: 'Thịt bò',
+      formMenuUnit: 'Đĩa 150g',
+      formMenuPrice: '195000'
+    });
+  }
+
+  saveMenu() {
+    const name = (this.state.formMenuName || '').trim() || 'Món Lẩu Mới Hougo';
+    const code = (this.state.formMenuCode || '').trim() || 'MN-NEW';
+    const unit = (this.state.formMenuUnit || '').trim() || 'Phần';
+    const price = Math.max(0, Number(this.state.formMenuPrice) || 0);
+    const cat = this.state.formMenuCat;
+
+    if (this.state.editMenuId) {
+      this.setState((prev) => ({
+        menuItems: prev.menuItems.map((m) => (m.id === prev.editMenuId ? { ...m, code, name, category: cat, unit, price } : m)),
+        showMenuModal: false,
+        bannerMsg: 'Đã cập nhật món "' + name + '" (' + formatVnd(price) + ').'
+      }));
+    } else {
+      const newItem = {
+        id: 'm-' + Date.now(),
+        code,
+        name,
+        category: cat,
+        unit,
+        price,
+        available: true,
+        img: '/_blob/6cdb0c2e502b868d5b711a819cab5975'
+      };
+      this.setState((prev) => ({
+        menuItems: [newItem, ...prev.menuItems],
+        showMenuModal: false,
+        bannerMsg: 'Đã thêm món mới "' + name + '" vào thực đơn.'
+      }));
+    }
+  }
+
+  openEditTable(tb) {
+    this.setState({
+      showTableModal: true,
+      editTableId: tb.id,
+      formTableName: tb.name,
+      formTableZone: tb.zone,
+      formTableSeats: tb.seats
+    });
+  }
+
+  openNewTable() {
+    this.setState({
+      showTableModal: true,
+      editTableId: null,
+      formTableName: 'BÀN ' + (this.state.tables.length + 17),
+      formTableZone: 'Tầng 1 Sảnh chung',
+      formTableSeats: 4
+    });
+  }
+
+  saveTable() {
+    const name = (this.state.formTableName || '').trim() || 'BÀN MỚI';
+    if (this.state.editTableId) {
+      this.setState((prev) => ({
+        tables: prev.tables.map((t) => (t.id === prev.editTableId ? { ...t, name, zone: prev.formTableZone, seats: prev.formTableSeats } : t)),
+        showTableModal: false,
+        bannerMsg: 'Đã cập nhật ' + name + ' (' + this.state.formTableSeats + ' ghế).'
+      }));
+    } else {
+      const nt = {
+        id: 'tb-' + Date.now(),
+        name,
+        zone: this.state.formTableZone,
+        seats: this.state.formTableSeats,
+        status: 'empty'
+      };
+      this.setState((prev) => ({
+        tables: [...prev.tables, nt],
+        showTableModal: false,
+        bannerMsg: 'Đã thêm ' + name + ' vào ' + this.state.formTableZone + '.'
+      }));
+    }
+  }
+
+  openEditAccount(acc) {
+    this.setState({
+      showAccountModal: true,
+      editAccountId: acc.id,
+      formAccName: acc.fullName,
+      formAccUser: acc.username,
+      formAccRole: acc.role,
+      formAccShift: acc.shift
+    });
+  }
+
+  openNewAccount() {
+    this.setState({
+      showAccountModal: true,
+      editAccountId: null,
+      formAccName: '',
+      formAccUser: '',
+      formAccRole: 'Phục vụ',
+      formAccShift: 'Ca Tối'
+    });
+  }
+
+  saveAccount() {
+    const fullName = (this.state.formAccName || '').trim() || 'Nhân sự Mới';
+    const username = (this.state.formAccUser || '').trim() || ('user.' + (this.state.accounts.length + 1));
+    if (this.state.editAccountId) {
+      this.setState((prev) => ({
+        accounts: prev.accounts.map((a) => (a.id === prev.editAccountId ? { ...a, fullName, username, role: prev.formAccRole, shift: prev.formAccShift } : a)),
+        showAccountModal: false,
+        bannerMsg: 'Đã cập nhật phân quyền "' + this.state.formAccRole + '" cho ' + fullName + '.'
+      }));
+    } else {
+      const na = {
+        id: 'a-' + Date.now(),
+        code: 'NV-' + String(this.state.accounts.length + 1).padStart(3, '0'),
+        fullName,
+        username,
+        role: this.state.formAccRole,
+        shift: this.state.formAccShift,
+        active: true
+      };
+      this.setState((prev) => ({
+        accounts: [...prev.accounts, na],
+        showAccountModal: false,
+        bannerMsg: 'Đã cấp tài khoản "' + username + '" (' + this.state.formAccRole + ').'
+      }));
+    }
+  }
+
+  renderVals() {
+    const tabMeta = {
+      reports: { tag: 'BÁO CÁO ĐIỀU HÀNH', title: 'Báo Cáo & Thống Kê Doanh Thu' },
+      bookings: { tag: 'QUẢN LÝ ĐẶT CHỖ', title: 'Quản Lý Đặt Bàn & Xếp Bàn' },
+      menu: { tag: 'DANH MỤC THỰC ĐƠN', title: 'Danh Mục Món Ăn & Trạng Thái' },
+      tables: { tag: 'SƠ ĐỒ & PHÒNG BÀN', title: 'Quản Trị Bàn Ăn & Khu Vực' },
+      accounts: { tag: 'NHÂN SỰ & PHÂN QUYỀN', title: 'Tài Khoản & Phân Quyền' }
+    };
+    const meta = tabMeta[this.state.activeTab] || tabMeta.reports;
+    const pendingBookingsCount = this.state.bookings.filter((b) => b.status === 'pending').length;
+
+    const rawReport = REPORTS_DATA[this.state.period] || REPORTS_DATA.today;
+    const maxBar = Math.max(...rawReport.bars.map((b) => b.val), 1);
+    const bars = rawReport.bars.map((b) => {
+      const hPx = Math.max(16, Math.round((b.val / maxBar) * 124));
+      return {
+        ...b,
+        barStyle:
+          'width: 100%; max-width: 38px; height: ' + hPx + 'px; border-radius: 7px 7px 3px 3px; background: ' +
+          (b.peak
+            ? 'linear-gradient(180deg, #FBBF24 0%, #B91C1C 100%)'
+            : 'linear-gradient(180deg, #EF4444 0%, #7F1D1D 100%)') +
+          '; border: 1px solid ' + (b.peak ? '#FDE68A' : 'rgba(248, 113, 113, 0.45)') + ';'
+      };
+    });
+
+    const broths = rawReport.broths.map((br) => ({
+      ...br,
+      segStyle: 'width: ' + br.pct + '%; background-color: ' + br.color + '; border-radius: 4px;',
+      dotStyle: 'width: 8px; height: 8px; border-radius: 999px; background-color: ' + br.color + '; display: inline-block;',
+      fillStyle: 'width: ' + br.pct + '%; height: 100%; background-color: ' + br.color + '; border-radius: 999px;'
+    }));
+
+    const top5 = rawReport.top5.map((t, idx) => ({
+      ...t,
+      rankStyle:
+        'font-family: \'JetBrains Mono\', monospace; font-size: 12.5px; font-weight: 800; color: ' +
+        (idx === 0 ? '#FBBF24' : (idx === 1 ? '#E2E8F0' : '#94A3B8')) + ';'
+    }));
+
+    const periodButtons = [
+      { id: 'today', label: 'Hôm nay' },
+      { id: 'week', label: 'Tuần này' },
+      { id: 'month', label: 'Tháng 11/2026' },
+      { id: 'year', label: 'Năm 2026' }
+    ].map((p) => ({
+      ...p,
+      style: this.pillBtnStyle(this.state.period === p.id),
+      onSelect: () => this.setState({ period: p.id })
+    }));
+
+    const bookingFilterButtons = [
+      { id: 'all', label: 'Tất cả (' + this.state.bookings.length + ')' },
+      { id: 'pending', label: 'Chờ duyệt (' + pendingBookingsCount + ')' },
+      { id: 'confirmed', label: 'Đã xác nhận' },
+      { id: 'seated', label: 'Đã nhận bàn' },
+      { id: 'cancelled', label: 'Đã hủy' }
+    ].map((bf) => ({
+      ...bf,
+      style: this.pillBtnStyle(this.state.bookingFilter === bf.id),
+      onSelect: () => this.setState({ bookingFilter: bf.id })
+    }));
+
+    const visibleBookings = this.state.bookings
+      .filter((b) => this.state.bookingFilter === 'all' || b.status === this.state.bookingFilter)
+      .map((b) => {
+        const stMap = {
+          pending: { label: 'Chờ duyệt', bg: 'rgba(245, 158, 11, 0.2)', col: '#FDE68A', bdr: 'rgba(245, 158, 11, 0.55)' },
+          confirmed: { label: 'Đã xác nhận', bg: 'rgba(56, 189, 248, 0.2)', col: '#BAE6FD', bdr: 'rgba(56, 189, 248, 0.5)' },
+          seated: { label: 'Đã nhận bàn', bg: 'rgba(16, 185, 129, 0.2)', col: '#A7F3D0', bdr: 'rgba(16, 185, 129, 0.5)' },
+          cancelled: { label: 'Đã hủy', bg: 'rgba(239, 68, 68, 0.2)', col: '#FECACA', bdr: 'rgba(239, 68, 68, 0.5)' }
+        };
+        const st = stMap[b.status] || stMap.pending;
+        return {
+          ...b,
+          statusLabel: st.label,
+          statusStyle:
+            'padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 800; text-align: center; background-color: ' +
+            st.bg + '; color: ' + st.col + '; border: 1px solid ' + st.bdr + ';',
+          assignBtnLabel: b.status === 'pending' ? 'Duyệt & Gán bàn' : 'Đổi bàn',
+          assignBtnStyle:
+            'min-height: 44px; padding: 0 11px; border-radius: 9px; font-size: 11.5px; font-weight: 700; cursor: pointer; white-space: nowrap; border: 1px solid #34D399; background-color: #065F46; color: #FFFFFF;',
+          onOpenAssign: () => {
+            const firstEmpty = this.state.tables.find((t) => t.status === 'empty');
+            this.setState({
+              assignModalBookingId: b.id,
+              pickedTableName: firstEmpty ? firstEmpty.name : ''
+            });
+          },
+          onReject: () => this.setState((prev) => ({
+            bookings: prev.bookings.map((x) => (x.id === b.id ? { ...x, status: 'cancelled', assignedTable: 'Đã hủy' } : x)),
+            bannerMsg: 'Đã hủy lịch đặt ' + b.code + ' của khách ' + b.customer + '.'
+          }))
+        };
+      });
+
+    const assignTarget = this.state.bookings.find((x) => x.id === this.state.assignModalBookingId);
+    const assignTableOptions = this.state.tables
+      .filter((t) => t.status === 'empty')
+      .map((t) => {
+        const picked = this.state.pickedTableName === t.name;
+        return {
+          ...t,
+          style:
+            'min-height: 52px; padding: 7px 9px; border-radius: 10px; cursor: pointer; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; border: 1.5px solid ' +
+            (picked ? '#FBBF24' : '#334155') +
+            '; background-color: ' + (picked ? '#991B1B' : '#0F172A') +
+            '; color: ' + (picked ? '#FDE68A' : '#F8FAFC') + ';',
+          onPick: () => this.setState({ pickedTableName: t.name })
+        };
+      });
+
+    const menuCategoryButtons = MENU_CATS.map((cat) => ({
+      label: cat,
+      style: this.pillBtnStyle(this.state.menuFilter === cat),
+      onSelect: () => this.setState({ menuFilter: cat })
+    }));
+
+    const qMenu = (this.state.menuSearch || '').trim().toLowerCase();
+    const visibleMenuItems = this.state.menuItems
+      .filter((m) => {
+        const catOk = this.state.menuFilter === 'Tất cả' || m.category === this.state.menuFilter;
+        const searchOk = !qMenu || m.name.toLowerCase().indexOf(qMenu) !== -1 || m.code.toLowerCase().indexOf(qMenu) !== -1;
+        return catOk && searchOk;
+      })
+      .map((m) => ({
+        ...m,
+        priceFormatted: formatVnd(m.price),
+        availableText: m.available ? 'Đang bán' : 'Tạm hết',
+        toggleWrapStyle:
+          'min-height: 44px; padding: 0 9px; border-radius: 9px; background-color: #0F172A; border: 1px solid ' +
+          (m.available ? 'rgba(16, 185, 129, 0.45)' : 'rgba(239, 68, 68, 0.45)') +
+          '; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;',
+        toggleTrackStyle:
+          'width: 36px; height: 20px; border-radius: 999px; padding: 3px; display: inline-flex; align-items: center; justify-content: ' +
+          (m.available ? 'flex-end' : 'flex-start') +
+          '; background-color: ' + (m.available ? '#059669' : '#475569') + ';',
+        toggleKnobStyle: 'width: 14px; height: 14px; border-radius: 999px; background-color: #FFFFFF;',
+        toggleLabelStyle: 'font-size: 11.5px; font-weight: 700; color: ' + (m.available ? '#6EE7B7' : '#FECACA') + ';',
+        onToggleAvailable: () => this.setState((prev) => ({
+          menuItems: prev.menuItems.map((x) => (x.id === m.id ? { ...x, available: !x.available } : x)),
+          bannerMsg: (m.available ? 'Đã chuyển sang Tạm hết: ' : 'Đã mở bán lại: ') + m.name + '.'
+        })),
+        onEdit: () => this.openEditMenu(m),
+        onDelete: () => this.setState((prev) => ({
+          menuItems: prev.menuItems.filter((x) => x.id !== m.id),
+          bannerMsg: 'Đã xóa món "' + m.name + '".'
+        }))
+      }));
+
+    const tableZoneButtons = [
+      { id: 'all', label: 'Tất cả (' + this.state.tables.length + ')' },
+      { id: 'Tầng 1 Sảnh chung', label: 'Tầng 1' },
+      { id: 'Tầng 2 Phòng VIP', label: 'Tầng 2 VIP' }
+    ].map((tz) => ({
+      ...tz,
+      style: this.pillBtnStyle(this.state.tableZoneFilter === tz.id),
+      onSelect: () => this.setState({ tableZoneFilter: tz.id })
+    }));
+
+    const visibleTables = this.state.tables
+      .filter((t) => this.state.tableZoneFilter === 'all' || t.zone === this.state.tableZoneFilter)
+      .map((t) => {
+        const isMaint = t.status === 'maintenance';
+        const isBusy = t.status === 'busy';
+        const badgeCol = isMaint ? '#FECACA' : (isBusy ? '#FDE68A' : '#6EE7B7');
+        const badgeBg = isMaint ? 'rgba(239, 68, 68, 0.22)' : (isBusy ? 'rgba(245, 158, 11, 0.2)' : 'rgba(16, 185, 129, 0.2)');
+        const statusLabel = isMaint ? 'Bảo trì' : (isBusy ? 'Có khách' : 'Sẵn sàng');
+        return {
+          ...t,
+          statusLabel,
+          cardStyle:
+            'background-color: #1E293B; border: 1px solid ' +
+            (isMaint ? 'rgba(239, 68, 68, 0.5)' : (isBusy ? 'rgba(245, 158, 11, 0.5)' : '#334155')) +
+            '; border-radius: 13px; padding: 14px; display: flex; flex-direction: column; gap: 10px;',
+          statusBadgeStyle:
+            'padding: 3px 8px; border-radius: 999px; font-size: 11px; font-weight: 800; background-color: ' +
+            badgeBg + '; color: ' + badgeCol + ';',
+          toggleBtnLabel: isMaint ? 'Mở lại' : 'Bảo trì',
+          toggleBtnStyle:
+            'min-height: 44px; padding: 0 11px; border-radius: 9px; font-size: 12px; font-weight: 700; cursor: pointer; border: 1px solid ' +
+            (isMaint ? '#10B981' : 'rgba(245, 158, 11, 0.5)') +
+            '; background-color: ' + (isMaint ? '#065F46' : '#0F172A') +
+            '; color: ' + (isMaint ? '#FFFFFF' : '#FDE68A') + ';',
+          onEdit: () => this.openEditTable(t),
+          onToggleActive: () => this.setState((prev) => ({
+            tables: prev.tables.map((x) => (x.id === t.id ? { ...x, status: x.status === 'maintenance' ? 'empty' : 'maintenance' } : x)),
+            bannerMsg: 'Đã cập nhật trạng thái ' + t.name + '.'
+          }))
+        };
+      });
+
+    const accountRoleButtons = ['all', ...ROLES].map((r) => ({
+      label: r === 'all' ? 'Tất cả (' + this.state.accounts.length + ')' : r,
+      style: this.pillBtnStyle(this.state.accountRoleFilter === r),
+      onSelect: () => this.setState({ accountRoleFilter: r })
+    }));
+
+    const visibleAccounts = this.state.accounts
+      .filter((a) => this.state.accountRoleFilter === 'all' || a.role === this.state.accountRoleFilter)
+      .map((a) => {
+        const roleColMap = {
+          'Quản trị viên': { bg: 'rgba(185, 28, 28, 0.35)', col: '#FDE68A', bdr: 'rgba(251, 191, 36, 0.5)' },
+          'Thu ngân POS': { bg: 'rgba(16, 185, 129, 0.2)', col: '#A7F3D0', bdr: 'rgba(16, 185, 129, 0.45)' },
+          'Phục vụ': { bg: 'rgba(56, 189, 248, 0.18)', col: '#BAE6FD', bdr: 'rgba(56, 189, 248, 0.45)' },
+          'Điều phối Bếp': { bg: 'rgba(245, 158, 11, 0.2)', col: '#FDE68A', bdr: 'rgba(245, 158, 11, 0.45)' }
+        };
+        const rc = roleColMap[a.role] || roleColMap['Phục vụ'];
+        return {
+          ...a,
+          roleBadgeStyle:
+            'padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; text-align: center; background-color: ' +
+            rc.bg + '; color: ' + rc.col + '; border: 1px solid ' + rc.bdr + ';',
+          statusLabel: a.active ? 'Hoạt động' : 'Khóa',
+          statusBadgeStyle:
+            'padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; text-align: center; background-color: ' +
+            (a.active ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)') +
+            '; color: ' + (a.active ? '#6EE7B7' : '#FECACA') + ';',
+          lockBtnLabel: a.active ? 'Khóa' : 'Mở',
+          lockBtnStyle:
+            'min-height: 44px; padding: 0 10px; border-radius: 8px; font-size: 11.5px; font-weight: 700; cursor: pointer; border: 1px solid ' +
+            (a.active ? 'rgba(239, 68, 68, 0.5)' : '#10B981') +
+            '; background-color: ' + (a.active ? 'rgba(153, 27, 27, 0.4)' : '#065F46') +
+            '; color: ' + (a.active ? '#FECACA' : '#FFFFFF') + ';',
+          onEdit: () => this.openEditAccount(a),
+          onToggleLock: () => this.setState((prev) => ({
+            accounts: prev.accounts.map((x) => (x.id === a.id ? { ...x, active: !x.active } : x)),
+            bannerMsg: (a.active ? 'Đã khóa tài khoản ' : 'Đã mở khóa ') + a.username + '.'
+          }))
+        };
+      });
+
+    return {
+      currentModuleTag: meta.tag,
+      currentModuleTitle: meta.title,
+      pendingBookingsCount,
+      hasBanner: Boolean(this.state.bannerMsg),
+      bannerMsg: this.state.bannerMsg,
+
+      isReportsTab: this.state.activeTab === 'reports',
+      isBookingsTab: this.state.activeTab === 'bookings',
+      isMenuTab: this.state.activeTab === 'menu',
+      isTablesTab: this.state.activeTab === 'tables',
+      isAccountsTab: this.state.activeTab === 'accounts',
+
+      reportsTabStyle: this.navBtnStyle(this.state.activeTab === 'reports'),
+      bookingsTabStyle: this.navBtnStyle(this.state.activeTab === 'bookings'),
+      menuTabStyle: this.navBtnStyle(this.state.activeTab === 'menu'),
+      tablesTabStyle: this.navBtnStyle(this.state.activeTab === 'tables'),
+      accountsTabStyle: this.navBtnStyle(this.state.activeTab === 'accounts'),
+
+      reportsSubStyle: this.navSubStyle(this.state.activeTab === 'reports'),
+      bookingsSubStyle: this.navSubStyle(this.state.activeTab === 'bookings'),
+      menuSubStyle: this.navSubStyle(this.state.activeTab === 'menu'),
+      tablesSubStyle: this.navSubStyle(this.state.activeTab === 'tables'),
+      accountsSubStyle: this.navSubStyle(this.state.activeTab === 'accounts'),
+
+      selectReportsTab: () => this.switchTab('reports'),
+      selectBookingsTab: () => this.switchTab('bookings'),
+      selectMenuTab: () => this.switchTab('menu'),
+      selectTablesTab: () => this.switchTab('tables'),
+      selectAccountsTab: () => this.switchTab('accounts'),
+
+      quickNavPos: () => this.setState({ bannerMsg: 'Điều hướng tới Sơ đồ bàn POS (/pos) khi tích hợp Java Web.' }),
+      quickNavKitchen: () => this.setState({ bannerMsg: 'Điều hướng tới Màn hình Bếp (/kitchen) khi tích hợp Java Web.' }),
+      quickNavHome: () => this.setState({ bannerMsg: 'Điều hướng tới Trang chủ (/home) khi tích hợp Java Web.' }),
+      handleLogout: () => this.setState({ bannerMsg: 'Đã đăng xuất phiên quản trị của Nguyễn Hoàng Hải — chuyển về trang đăng nhập (/login).' }),
+      exportExcelReport: () => this.setState({ bannerMsg: 'Đã xuất file Excel "Bao_Cao_Hougo_' + rawReport.periodTitle + '.xlsx" gồm KPI, doanh thu giờ & Top 5 món.' }),
+      printShiftReport: () => this.setState({ bannerMsg: 'Đang gửi lệnh In báo cáo ca (' + rawReport.periodTitle + ' · ' + rawReport.revenue + ') tới máy in quản lý.' }),
+      dismissBanner: () => this.setState({ bannerMsg: '' }),
+
+      periodButtons,
+      report: {
+        ...rawReport,
+        unitLabel: this.state.period === 'year' ? 'Tỷ VNĐ' : 'Triệu VNĐ',
+        occupancyBarStyle: 'width: ' + rawReport.occPctNum + '%; height: 100%; background-color: #10B981; border-radius: 999px;',
+        bars,
+        broths,
+        top5
+      },
+
+      bookingFilterButtons,
+      visibleBookings,
+      showAssignModal: Boolean(assignTarget),
+      assignTargetCustomer: assignTarget ? assignTarget.customer : '',
+      assignTargetInfo: assignTarget ? (assignTarget.code + ' · ' + assignTarget.guests + ' khách · ' + assignTarget.arrival) : '',
+      assignTableOptions,
+      closeAssignModal: () => this.setState({ assignModalBookingId: null }),
+      confirmAssignTable: () => this.setState((prev) => {
+        if (!prev.pickedTableName) {
+          return { assignModalBookingId: null, bannerMsg: 'Hiện không còn bàn trống khả dụng để gán.' };
+        }
+        const currentBooking = prev.bookings.find((b) => b.id === prev.assignModalBookingId);
+        const oldTable = currentBooking ? currentBooking.assignedTable : '';
+        return {
+          bookings: prev.bookings.map((b) => (b.id === prev.assignModalBookingId ? { ...b, status: 'confirmed', assignedTable: prev.pickedTableName } : b)),
+          tables: prev.tables.map((t) => {
+            if (t.name === prev.pickedTableName) return { ...t, status: 'busy' };
+            if (oldTable && t.name === oldTable && t.name !== prev.pickedTableName) return { ...t, status: 'empty' };
+            return t;
+          }),
+          assignModalBookingId: null,
+          bannerMsg: 'Đã duyệt đặt bàn và gán ' + prev.pickedTableName + ' cho ' + (currentBooking ? currentBooking.customer : '') + '.'
+        };
+      }),
+
+      menuSearch: this.state.menuSearch,
+      onMenuSearchInput: (e) => this.setState({ menuSearch: e.target.value }),
+      menuCategoryButtons,
+      visibleMenuItems,
+      openNewMenuModal: () => this.openNewMenu(),
+      showMenuModal: this.state.showMenuModal,
+      menuModalTitle: this.state.editMenuId ? 'Chỉnh Sửa Món Ăn' : 'Thêm Món Ăn Mới',
+      formMenuCode: this.state.formMenuCode,
+      formMenuName: this.state.formMenuName,
+      formMenuUnit: this.state.formMenuUnit,
+      formMenuPrice: this.state.formMenuPrice,
+      onFormMenuCode: (e) => this.setState({ formMenuCode: e.target.value }),
+      onFormMenuName: (e) => this.setState({ formMenuName: e.target.value }),
+      onFormMenuUnit: (e) => this.setState({ formMenuUnit: e.target.value }),
+      onFormMenuPrice: (e) => this.setState({ formMenuPrice: e.target.value }),
+      formMenuCatOptions: MENU_CATS.slice(1).map((cat) => ({
+        label: cat,
+        style: this.pillBtnStyle(this.state.formMenuCat === cat),
+        onPick: () => this.setState({ formMenuCat: cat })
+      })),
+      closeMenuModal: () => this.setState({ showMenuModal: false }),
+      saveMenuModal: () => this.saveMenu(),
+
+      tableZoneButtons,
+      visibleTables,
+      openNewTableModal: () => this.openNewTable(),
+      showTableModal: this.state.showTableModal,
+      tableModalTitle: this.state.editTableId ? 'Chỉnh Sửa Bàn Ăn' : 'Thêm Bàn Mới',
+      formTableName: this.state.formTableName,
+      onFormTableName: (e) => this.setState({ formTableName: e.target.value }),
+      formTableZoneOptions: ['Tầng 1 Sảnh chung', 'Tầng 2 Phòng VIP'].map((z) => ({
+        label: z,
+        style: this.pillBtnStyle(this.state.formTableZone === z),
+        onPick: () => this.setState({ formTableZone: z })
+      })),
+      formTableSeatOptions: [2, 4, 6, 8, 10].map((s) => ({
+        label: s + ' ghế',
+        style: this.pillBtnStyle(this.state.formTableSeats === s),
+        onPick: () => this.setState({ formTableSeats: s })
+      })),
+      closeTableModal: () => this.setState({ showTableModal: false }),
+      saveTableModal: () => this.saveTable(),
+
+      accountRoleButtons,
+      visibleAccounts,
+      openNewAccountModal: () => this.openNewAccount(),
+      showAccountModal: this.state.showAccountModal,
+      accountModalTitle: this.state.editAccountId ? 'Cập Nhật Phân Quyền' : 'Cấp Tài Khoản Mới',
+      formAccName: this.state.formAccName,
+      formAccUser: this.state.formAccUser,
+      onFormAccName: (e) => this.setState({ formAccName: e.target.value }),
+      onFormAccUser: (e) => this.setState({ formAccUser: e.target.value }),
+      formAccRoleOptions: ROLES.map((r) => ({
+        label: r,
+        style: this.pillBtnStyle(this.state.formAccRole === r),
+        onPick: () => this.setState({ formAccRole: r })
+      })),
+      formAccShiftOptions: SHIFTS.map((sh) => ({
+        label: sh,
+        style: this.pillBtnStyle(this.state.formAccShift === sh),
+        onPick: () => this.setState({ formAccShift: sh })
+      })),
+      closeAccountModal: () => this.setState({ showAccountModal: false }),
+      saveAccountModal: () => this.saveAccount()
+    };
+  }
+}
+</script>
+</body>
+</html>
+

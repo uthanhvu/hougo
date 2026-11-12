@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Hougo Hotpot — Tinh Hoa Lẩu Trung Hoa &amp; Đài Loan</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&amp;display=swap">
+<style>
+body {
+  margin: 0;
+  background-color: #111827;
+  color: #FAF7F2;
+  font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+* {
+  box-sizing: border-box;
+}
+a {
+  color: #E5E0D8;
+  text-decoration: none;
+}
+a:hover {
+  color: #FBBF24;
+}
+input::placeholder,
+textarea::placeholder {
+  color: #9CA3AF;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #F59E0B;
+  outline-offset: 1px;
+  border-color: #F59E0B;
+}
+</style>
+</helmet>
+
+<div style="min-height: 100%; width: 100%; background-color: #111827; color: #FAF7F2; font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif; overflow-x: hidden;">
+
+  <!-- Header / Navbar -->
+  <header style="width: 100%; background-color: #0D131F; border-bottom: 1px solid rgba(245, 158, 11, 0.2);">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 18px 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px;">
+      <a href="#trang-chu" style="display: flex; align-items: center; gap: 14px; color: #FAF7F2;">
+        <svg width="42" height="42" viewBox="0 0 42 42" fill="none" aria-hidden="true">
+          <circle cx="21" cy="21" r="19.5" fill="#991B1B" stroke="#F59E0B" stroke-width="1.5"></circle>
+          <circle cx="21" cy="21" r="15.5" stroke="rgba(253, 230, 138, 0.35)" stroke-width="1"></circle>
+          <path d="M12 22.5H30C29.5 27.2 25.8 30 21 30C16.2 30 12.5 27.2 12 22.5Z" stroke="#FDE68A" stroke-width="1.6" stroke-linejoin="round"></path>
+          <path d="M10.5 22.5H31.5" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round"></path>
+          <path d="M17 17.5C17 15.8 18.2 15.2 18.2 13.5" stroke="#FDE68A" stroke-width="1.5" stroke-linecap="round"></path>
+          <path d="M21 17.5C21 15.5 22.4 14.8 22.4 12.8" stroke="#FDE68A" stroke-width="1.5" stroke-linecap="round"></path>
+          <path d="M25 17.5C25 15.8 26.2 15.2 26.2 13.5" stroke="#FDE68A" stroke-width="1.5" stroke-linecap="round"></path>
+        </svg>
+        <div style="display: flex; flex-direction: column; gap: 2px;">
+          <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 700; letter-spacing: 0.12em; color: #FAF7F2; line-height: 1.1;">HOUGO HOTPOT</span>
+          <span style="font-size: 10px; font-weight: 600; letter-spacing: 0.22em; color: #F59E0B; line-height: 1.2;">TINH HOA LẨU TRUNG HOA</span>
+        </div>
+      </a>
+
+      <nav aria-label="Điều hướng chính" style="display: flex; flex-wrap: wrap; align-items: center; gap: 32px;">
+        <a href="#trang-chu" style="font-size: 14px; font-weight: 500; color: #FAF7F2; padding: 8px 0;">Trang chủ</a>
+        <a href="#menu-lau" style="font-size: 14px; font-weight: 500; color: #D1D5DB; padding: 8px 0;">Menu Lẩu</a>
+        <a href="#combo" style="font-size: 14px; font-weight: 500; color: #D1D5DB; padding: 8px 0;">Combo</a>
+        <a href="#khong-gian" style="font-size: 14px; font-weight: 500; color: #D1D5DB; padding: 8px 0;">Không gian</a>
+        <a href="#dat-ban" style="font-size: 14px; font-weight: 500; color: #D1D5DB; padding: 8px 0;">Đặt bàn</a>
+      </nav>
+
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
+        <button type="button" onClick="{{ togglePos }}" style="min-height: 44px; padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.45); background-color: rgba(245, 158, 11, 0.08); color: #FDE68A; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+            <path d="M8 20H16"></path>
+            <path d="M12 16V20"></path>
+          </svg>
+          <span>POS Nhân Viên</span>
+        </button>
+        <a href="#dat-ban" style="min-height: 44px; padding: 10px 22px; border-radius: 8px; background-color: {{crimson}}; color: #FAF7F2; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 8px 24px rgba(185, 28, 28, 0.38);">
+          <span>Đặt Bàn Ngay</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12H19"></path>
+            <path d="M13 6L19 12L13 18"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <sc-if value="{{ showPosNotice }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width: 1280px; margin: 0 auto 16px; padding: 0 40px;">
+        <div style="padding: 14px 20px; border-radius: 10px; background-color: #171F2E; border: 1px solid rgba(245, 158, 11, 0.4); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="padding: 4px 10px; border-radius: 4px; background-color: rgba(245, 158, 11, 0.16); color: #FCD34D; font-size: 12px; font-weight: 600;">CỔNG NỘI BỘ</span>
+            <span style="font-size: 14px; color: #E5E7EB;">Khu vực POS Nhân Viên &amp; Sơ đồ bàn: kết nối tới màn hình quản lý bàn của chi nhánh.</span>
+          </div>
+          <button type="button" onClick="{{ togglePos }}" style="min-height: 36px; padding: 6px 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.16); background-color: transparent; color: #D1D5DB; font-family: inherit; font-size: 13px; cursor: pointer;">Đóng thông báo</button>
+        </div>
+      </div>
+    </sc-if>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="trang-chu" style="width: 100%; background-image: radial-gradient(circle at 76% 42%, rgba(185, 28, 28, 0.22), transparent 52%), radial-gradient(circle at 18% 82%, rgba(245, 158, 11, 0.08), transparent 45%);">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 72px 40px 88px; display: flex; flex-wrap: wrap; align-items: center; gap: 56px;">
+      <div style="flex: 1 1 480px; display: flex; flex-direction: column; align-items: flex-start; gap: 24px;">
+        <div style="display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 999px; background-color: rgba(153, 27, 27, 0.35); border: 1px solid rgba(245, 158, 11, 0.5);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2L14.9 8.6L22 9.3L16.6 14L18.2 21L12 17.3L5.8 21L7.4 14L2 9.3L9.1 8.6L12 2Z"></path>
+          </svg>
+          <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em; color: #FDE68A;">Best Hotpot 2026</span>
+        </div>
+
+        <h1 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 56px; font-weight: 700; line-height: 1.14; letter-spacing: -0.01em; color: #FAF7F2;">
+          Tinh Hoa Nước Lẩu Trăm Giờ — <span style="color: {{gold}}; font-style: italic;">Ấm Nồng Vị Trung Hoa</span>
+        </h1>
+
+        <p style="margin: 0; font-size: 17px; line-height: 1.72; color: #D1D5DB; max-width: 540px;">
+          Nồi lẩu 2 ngăn và 4 ngăn nghi ngút khói, ninh chậm 12 giờ cùng thảo mộc quý, phục vụ bên bò nhập khẩu thái lát tươi và quầy gia vị hơn 20 loại pha chế độc bản.
+        </p>
+
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding-top: 4px;">
+          <a href="#dat-ban" style="min-height: 50px; padding: 14px 28px; border-radius: 8px; background-color: {{crimson}}; color: #FAF7F2; font-size: 15px; font-weight: 600; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 12px 28px rgba(185, 28, 28, 0.38);">
+            <span>Đặt Bàn Ngay</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12H19"></path>
+              <path d="M13 6L19 12L13 18"></path>
+            </svg>
+          </a>
+          <a href="#menu-lau" style="min-height: 50px; padding: 14px 26px; border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.55); background-color: rgba(17, 24, 39, 0.65); color: #FDE68A; font-size: 15px; font-weight: 600; display: inline-flex; align-items: center; gap: 10px;">
+            <span>Khám Phá Thực Đơn</span>
+          </a>
+        </div>
+
+        <div style="width: 100%; padding-top: 24px; margin-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-wrap: wrap; gap: 28px;">
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 24px; font-weight: 700; color: {{gold}};">12 Giờ</span>
+            <span style="font-size: 13px; color: #9CA3AF;">Nước lẩu hầm thảo mộc</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 24px; font-weight: 700; color: {{gold}};">20+ Vị</span>
+            <span style="font-size: 13px; color: #9CA3AF;">Quầy nước chấm tự chọn</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 24px; font-weight: 700; color: {{gold}};">4 Ngăn</span>
+            <span style="font-size: 13px; color: #9CA3AF;">Nồi đồng đa vị đặc trưng</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex: 1 1 540px; min-width: 0;">
+        <div style="border-radius: 16px; overflow: hidden; border: 1px solid rgba(245, 158, 11, 0.32); background-color: #0B0F19; box-shadow: 0 28px 64px rgba(0, 0, 0, 0.55);">
+          <img src="/_blob/b140d3f9da1fe115e59e4e298432ebea" alt="Nồi lẩu 4 ngăn Hougo Hotpot bốc khói với 4 vị nước lẩu đặc trưng và thịt bò Wagyu" style="width: 100%; height: 460px; object-fit: cover; display: block;">
+          <div style="padding: 18px 24px; background-color: #0E1525; border-top: 1px solid rgba(245, 158, 11, 0.2); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <span style="font-size: 15px; font-weight: 600; color: #FAF7F2;">Nồi Lẩu Tứ Vị Thượng Hạng</span>
+              <span style="font-size: 13px; color: #9CA3AF;">Tứ Xuyên Mala · Tomyum Hải Sản · Nấm Dưỡng Sinh · Cà Chua Collagen</span>
+            </div>
+            <span style="padding: 6px 14px; border-radius: 6px; background-color: rgba(185, 28, 28, 0.28); border: 1px solid rgba(185, 28, 28, 0.65); color: #FCA5A5; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums;">Buffet từ 199K</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Features Section -->
+  <section style="width: 100%; background-color: #0D131F; border-top: 1px solid rgba(245, 158, 11, 0.14); border-bottom: 1px solid rgba(245, 158, 11, 0.14);">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 80px 40px; display: flex; flex-direction: column; gap: 44px;">
+      <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px;">
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.2em; color: {{gold}};">CAM KẾT CHẤT LƯỢNG</span>
+          <h2 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 38px; font-weight: 700; color: #FAF7F2; line-height: 1.2;">Ba Trụ Cột Tạo Nên Vị Lẩu Hougo</h2>
+        </div>
+        <p style="margin: 0; font-size: 15px; color: #9CA3AF; max-width: 420px; line-height: 1.65;">
+          Mỗi nồi lẩu tại Hougo đều giữ trọn kỹ nghệ chế biến truyền thống kết hợp tiêu chuẩn phục vụ hiện đại.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 24px;">
+        <!-- Feature 1 -->
+        <div style="background-color: #171F2E; border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 14px; padding: 32px; display: flex; flex-direction: column; gap: 18px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="width: 52px; height: 52px; border-radius: 12px; background-color: rgba(153, 27, 27, 0.35); border: 1px solid rgba(245, 158, 11, 0.35); display: flex; align-items: center; justify-content: center;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3C10.5 5 10 6.5 10 8C10 9.1 10.9 10 12 10C13.1 10 14 9.1 14 8C14 6.5 13.5 5 12 3Z"></path>
+                <path d="M5 13H19C19 17.5 15.9 20.5 12 20.5C8.1 20.5 5 17.5 5 13Z"></path>
+                <path d="M3 13H21"></path>
+              </svg>
+            </div>
+            <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 600; color: rgba(245, 158, 11, 0.45);">01</span>
+          </div>
+          <h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 700; color: #FAF7F2; line-height: 1.3;">Nước Lẩu Hầm 12h Với Thảo Mộc</h3>
+          <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #D1D5DB;">
+            Ninh chậm liên tục 12 giờ từ xương ống, táo đỏ Tân Cương, kỷ tử, đẳng sâm và thảo quả, chắt lọc vị ngọt thanh sâu lắng.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div style="background-color: #171F2E; border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 14px; padding: 32px; display: flex; flex-direction: column; gap: 18px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="width: 52px; height: 52px; border-radius: 12px; background-color: rgba(153, 27, 27, 0.35); border: 1px solid rgba(245, 158, 11, 0.35); display: flex; align-items: center; justify-content: center;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 16C4 11 8 6 14 6C18.5 6 20 8.5 20 11.5C20 16 15.5 19 10 19C6.5 19 4 18 4 16Z"></path>
+                <path d="M9 12.5C11 11 13.5 10.5 16 11"></path>
+                <path d="M8.5 15.5C10.8 14.2 13.2 14 15.5 14.5"></path>
+              </svg>
+            </div>
+            <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 600; color: rgba(245, 158, 11, 0.45);">02</span>
+          </div>
+          <h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 700; color: #FAF7F2; line-height: 1.3;">Bò Nhập Khẩu Thái Lát Tươi</h3>
+          <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #D1D5DB;">
+            Bò Mỹ, bò Úc và Wagyu vân mỡ cẩm thạch được bảo quản chuẩn lạnh và thái lát mỏng ngay khi khách gọi, mềm mọng từng thớ thịt.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div style="background-color: #171F2E; border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 14px; padding: 32px; display: flex; flex-direction: column; gap: 18px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="width: 52px; height: 52px; border-radius: 12px; background-color: rgba(153, 27, 27, 0.35); border: 1px solid rgba(245, 158, 11, 0.35); display: flex; align-items: center; justify-content: center;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 12H20C19.5 16.5 16.2 19.5 12 19.5C7.8 19.5 4.5 16.5 4 12Z"></path>
+                <path d="M9 21H15"></path>
+                <path d="M14 5L19 10"></path>
+                <circle cx="9.5" cy="8" r="1.5"></circle>
+              </svg>
+            </div>
+            <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 600; color: rgba(245, 158, 11, 0.45);">03</span>
+          </div>
+          <h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 700; color: #FAF7F2; line-height: 1.3;">Quầy Line Gia Vị Hơn 20 Loại</h3>
+          <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #D1D5DB;">
+            Tự do pha chế nước chấm từ hơn 20 loại sốt đặc trưng: tương mè Đài Loan, sốt XO hải sản, sa tế Triều Châu và hướng dẫn phối vị chuẩn gu.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Signature Menu (4 Best-Sellers) -->
+  <section id="menu-lau" style="width: 100%; background-color: #111827;">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 88px 40px; display: flex; flex-direction: column; gap: 44px;">
+      <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px;">
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.2em; color: {{gold}};">SIGNATURE BROTHS</span>
+          <h2 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 40px; font-weight: 700; color: #FAF7F2; line-height: 1.2;">4 Set Nước Lẩu Best-Seller</h2>
+        </div>
+        <p style="margin: 0; font-size: 15px; color: #9CA3AF; max-width: 440px; line-height: 1.65;">
+          Phục vụ linh hoạt dạng nồi 2 ngăn hoặc 4 ngăn để cả bàn cùng thưởng thức từ vị tê cay nồng nàn đến thanh ngọt dưỡng sinh.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(265px, 100%), 1fr)); gap: 24px;">
+        <!-- Dish 1: Lẩu Tứ Xuyên Mala -->
+        <article style="background-color: #171F2E; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;">
+          <img src="/_blob/8bd8d394a44585882ffe282c79948232" alt="Lẩu Tứ Xuyên Mala đỏ rực với ớt khô và hoa tiêu" style="width: 100%; height: 220px; object-fit: cover; display: block;">
+          <div style="padding: 22px; display: flex; flex-direction: column; gap: 14px; flex: 1;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+              <span style="display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 6px; background-color: rgba(185, 28, 28, 0.28); border: 1px solid #DC2626; color: #FCA5A5; font-size: 12px; font-weight: 600;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 2C12 2 17 7.5 17 13C17 16.5 14.8 19.5 12 21C9.2 19.5 7 16.5 7 13C7 10.5 8.5 8 10 6.5C10 9 11.5 10 12 10C12 7 12 2 12 2Z"></path>
+                </svg>
+                <span>Cay nồng · Cấp 3/3</span>
+              </span>
+              <span style="font-size: 18px; font-weight: 700; color: {{gold}}; font-variant-numeric: tabular-nums;">199.000đ</span>
+            </div>
+            <h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 700; color: #FAF7F2;">Lẩu Tứ Xuyên Mala</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.65; color: #D1D5DB; flex: 1;">
+              Hòa quyện ớt Tứ Xuyên, hoa tiêu xanh đỏ, hồi quế và dầu bò chưng cất tạo vị tê cay bùng nổ chuẩn Trùng Khánh.
+            </p>
+            <a href="#dat-ban" style="min-height: 44px; padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.35); background-color: rgba(245, 158, 11, 0.08); color: #FDE68A; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center;">Đặt bàn thử vị này</a>
+          </div>
+        </article>
+
+        <!-- Dish 2: Lẩu Tomyum Hải Sản -->
+        <article style="background-color: #171F2E; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;">
+          <img src="/_blob/946ee003607b2e348636f394aaf9b552" alt="Lẩu Tomyum Hải Sản với tôm sú, mực ống, vẹm xanh và sả chanh" style="width: 100%; height: 220px; object-fit: cover; display: block;">
+          <div style="padding: 22px; display: flex; flex-direction: column; gap: 14px; flex: 1;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+              <span style="display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 6px; background-color: rgba(245, 158, 11, 0.2); border: 1px solid #D97706; color: #FCD34D; font-size: 12px; font-weight: 600;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 2C12 2 17 7.5 17 13C17 16.5 14.8 19.5 12 21C9.2 19.5 7 16.5 7 13C7 10.5 8.5 8 10 6.5C10 9 11.5 10 12 10C12 7 12 2 12 2Z"></path>
+                </svg>
+                <span>Chua cay · Cấp 2/3</span>
+              </span>
+              <span style="font-size: 18px; font-weight: 700; color: {{gold}}; font-variant-numeric: tabular-nums;">219.000đ</span>
+            </div>
+            <h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 700; color: #FAF7F2;">Lẩu Tomyum Hải Sản</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.65; color: #D1D5DB; flex: 1;">
+              Sả cây đập dập, riềng non, lá chanh kaffir và cốt dừa sánh quyện cùng vị chua cay kích thích, cực hợp hải sản tươi.
+            </p>
+            <a href="#dat-ban" style="min-height: 44px; padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.35); background-color: rgba(245, 158, 11, 0.08); color: #FDE68A; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center;">Đặt bàn thử vị này</a>
+          </div>
+        </article>
+
+        <!-- Dish 3: Lẩu Nấm Dưỡng Sinh -->
+        <article style="background-color: #171F2E; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;">
+          <img src="/_blob/54cda9ffbe549b4cdee31eae82ce4ba8" alt="Lẩu Nấm Dưỡng Sinh với nấm đông cô, nấm kim châm, táo đỏ và kỷ tử" style="width: 100%; height: 220px; object-fit: cover; display: block;">
+          <div style="padding: 22px; display: flex; flex-direction: column; gap: 14px; flex: 1;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+              <span style="display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 6px; background-color: rgba(148, 163, 184, 0.16); border: 1px solid #64748B; color: #E2E8F0; font-size: 12px; font-weight: 600;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 22V12"></path>
+                  <path d="M12 12C7 12 4 8 4 4C9 4 12 7 12 12Z"></path>
+                  <path d="M12 12C17 12 20 8 20 4C15 4 12 7 12 12Z"></path>
+                </svg>
+                <span>Thanh ngọt · Không cay</span>
+              </span>
+              <span style="font-size: 18px; font-weight: 700; color: {{gold}}; font-variant-numeric: tabular-nums;">179.000đ</span>
+            </div>
+            <h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 700; color: #FAF7F2;">Lẩu Nấm Dưỡng Sinh</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.65; color: #D1D5DB; flex: 1;">
+              Tinh chất từ 8 loại nấm rừng, nhân sâm lát, kỷ tử và táo đỏ giúp nước dùng thanh khiết, bồi bổ và dễ dùng cho cả gia đình.
+            </p>
+            <a href="#dat-ban" style="min-height: 44px; padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.35); background-color: rgba(245, 158, 11, 0.08); color: #FDE68A; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center;">Đặt bàn thử vị này</a>
+          </div>
+        </article>
+
+        <!-- Dish 4: Lẩu Cà Chua Collagen -->
+        <article style="background-color: #171F2E; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;">
+          <img src="/_blob/8980f57461f25fe22f9ab69f50ac7f69" alt="Lẩu Cà Chua Collagen sóng sánh cùng cà chua nướng, bắp ngọt và thịt bò" style="width: 100%; height: 220px; object-fit: cover; display: block;">
+          <div style="padding: 22px; display: flex; flex-direction: column; gap: 14px; flex: 1;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+              <span style="display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 6px; background-color: rgba(253, 230, 138, 0.12); border: 1px solid rgba(245, 158, 11, 0.45); color: #FDE68A; font-size: 12px; font-weight: 600;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="8"></circle>
+                  <path d="M9 10L12 13L15 10"></path>
+                </svg>
+                <span>Chua dịu · Không cay</span>
+              </span>
+              <span style="font-size: 18px; font-weight: 700; color: {{gold}}; font-variant-numeric: tabular-nums;">179.000đ</span>
+            </div>
+            <h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 700; color: #FAF7F2;">Lẩu Cà Chua Collagen</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.65; color: #D1D5DB; flex: 1;">
+              Cà chua chín cây hầm nhuyễn hòa cùng nước cốt xương giàu collagen, vị chua ngọt dịu nhẹ bắt miệng khi nhúng thịt bò và đậu hũ non.
+            </p>
+            <a href="#dat-ban" style="min-height: 44px; padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.35); background-color: rgba(245, 158, 11, 0.08); color: #FDE68A; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center;">Đặt bàn thử vị này</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Buffet & Combo Packages Section -->
+  <section id="combo" style="width: 100%; background-color: #0D131F; border-top: 1px solid rgba(245, 158, 11, 0.14); border-bottom: 1px solid rgba(245, 158, 11, 0.14);">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 88px 40px; display: flex; flex-direction: column; gap: 44px;">
+      <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.2em; color: {{gold}};">BUFFET &amp; COMBO PACKAGES</span>
+        <h2 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 40px; font-weight: 700; color: #FAF7F2;">Bảng Giá Buffet Lẩu Trọn Gói</h2>
+        <p style="margin: 0; font-size: 15px; color: #9CA3AF; max-width: 580px; line-height: 1.65;">
+          Lựa chọn gói buffet phù hợp cho bữa trưa nhanh gọn, buổi hẹn hò ấm áp hay tiệc tiếp khách thượng hạng.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 24px; align-items: stretch;">
+        <!-- Combo 199K -->
+        <div style="background-color: #171F2E; border: {{combo199Border}}; border-radius: 16px; padding: 34px 30px; display: flex; flex-direction: column; gap: 22px;">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #9CA3AF;">GÓI TIÊU CHUẨN</span>
+            <h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 700; color: #FAF7F2;">Combo 199K</h3>
+            <div style="display: flex; align-items: baseline; gap: 6px; padding-top: 4px;">
+              <span style="font-size: 38px; font-weight: 700; color: {{gold}}; font-variant-numeric: tabular-nums;">199.000đ</span>
+              <span style="font-size: 14px; color: #9CA3AF;">/ khách</span>
+            </div>
+            <p style="margin: 0; font-size: 14px; color: #D1D5DB; line-height: 1.6;">Trọn vị lẩu truyền thống cùng các món thịt và rau nấm tươi mỗi ngày.</p>
+          </div>
+
+          <div style="height: 1px; background-color: rgba(255, 255, 255, 0.1);"></div>
+
+          <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; flex: 1;">
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #E5E7EB;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13L9 17L19 7"></path></svg>
+              <span>Nồi lẩu 2 ngăn uyên ương tự chọn vị</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #E5E7EB;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13L9 17L19 7"></path></svg>
+              <span>Ba chỉ bò Mỹ thái lát, nạc vai heo &amp; gà cuộn</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #E5E7EB;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13L9 17L19 7"></path></svg>
+              <span>Viên thả lẩu Đài Loan, đậu hũ ky &amp; 12 loại rau nấm</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #E5E7EB;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13L9 17L19 7"></path></svg>
+              <span>Quầy line gia vị pha chế hơn 20 loại</span>
+            </li>
+          </ul>
+
+          <button type="button" onClick="{{ pick199 }}" style="min-height: 46px; padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.45); background-color: {{combo199Bg}}; color: #FAF7F2; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer;">
+            {{combo199Label}}
+          </button>
+        </div>
+
+        <!-- Combo 269K (Featured) -->
+        <div style="background-color: #1B2336; border: {{combo269Border}}; border-radius: 16px; padding: 34px 30px; display: flex; flex-direction: column; gap: 22px; box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+              <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: {{gold}};">BEST SELLER</span>
+              <span style="padding: 4px 10px; border-radius: 999px; background-color: {{gold}}; color: #111827; font-size: 11px; font-weight: 700;">PHỔ BIẾN NHẤT</span>
+            </div>
+            <h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 700; color: #FAF7F2;">Combo 269K</h3>
+            <div style="display: flex; align-items: baseline; gap: 6px; padding-top: 4px;">
+              <span style="font-size: 38px; font-weight: 700; color: {{gold}}; font-variant-numeric: tabular-nums;">269.000đ</span>
+              <span style="font-size: 14px; color: #D1D5DB;">/ khách</span>
+            </div>
+            <p style="margin: 0; font-size: 14px; color: #E5E7EB; line-height: 1.6;">Cân bằng hoàn hảo giữa bò Mỹ – Úc nhập khẩu, hải sản tươi và dimsum nóng hổi.</p>
+          </div>
+
+          <div style="height: 1px; background-color: rgba(245, 158, 11, 0.25);"></div>
+
+          <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; flex: 1;">
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #FAF7F2;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13L9 17L19 7"></path></svg>
+              <span>Nồi lẩu 2 ngăn hoặc 4 ngăn tự chọn</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #FAF7F2;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13L9 17L19 7"></path></svg>
+              <span>Gầu bò Mỹ, lõi vai bò Úc &amp; bò cuộn nấm kim châm</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #FAF7F2;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13L9 17L19 7"></path></svg>
+              <span>Hải sản tươi: tôm sú, mực ống cắt khoanh &amp; vẹm xanh</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #FAF7F2;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13L9 17L19 7"></path></svg>
+              <span>Trọn gói quầy gia vị 20+ vị, dimsum &amp; chè dưỡng nhan</span>
+            </li>
+          </ul>
+
+          <button type="button" onClick="{{ pick269 }}" style="min-height: 46px; padding: 12px 18px; border-radius: 8px; border: none; background-color: {{crimson}}; color: #FAF7F2; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 10px 24px rgba(185, 28, 28, 0.35);">
+            {{combo269Label}}
+          </button>
+        </div>
+
+        <!-- Combo 329K -->
+        <div style="background-color: #171F2E; border: {{combo329Border}}; border-radius: 16px; padding: 34px 30px; display: flex; flex-direction: column; gap: 22px;">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #9CA3AF;">GÓI THƯỢNG HẠNG</span>
+            <h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 700; color: #FAF7F2;">Combo 329K</h3>
+            <div style="display: flex; align-items: baseline; gap: 6px; padding-top: 4px;">
+              <span style="font-size: 38px; font-weight: 700; color: {{gold}}; font-variant-numeric: tabular-nums;">329.000đ</span>
+              <span style="font-size: 14px; color: #9CA3AF;">/ khách</span>
+            </div>
+            <p style="margin: 0; font-size: 14px; color: #D1D5DB; line-height: 1.6;">Trải nghiệm mỹ vị Wagyu thượng hạng, bào ngư và đồ uống thảo mộc không giới hạn.</p>
+          </div>
+
+          <div style="height: 1px; background-color: rgba(255, 255, 255, 0.1);"></div>
+
+          <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; flex: 1;">
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #E5E7EB;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13L9 17L19 7"></path></svg>
+              <span>Trọn bộ 4 ngăn với tất cả vị nước lẩu đặc biệt</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #E5E7EB;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13L9 17L19 7"></path></svg>
+              <span>Bò Wagyu vân cẩm thạch &amp; dẻ sườn bò Mỹ không xương</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #E5E7EB;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13L9 17L19 7"></path></svg>
+              <span>Bào ngư, sò điệp Nhật, chả tôm trúc ống làm tay</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #E5E7EB;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13L9 17L19 7"></path></svg>
+              <span>Không giới hạn trà thảo mộc &amp; kem tráng miệng cao cấp</span>
+            </li>
+          </ul>
+
+          <button type="button" onClick="{{ pick329 }}" style="min-height: 46px; padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.45); background-color: {{combo329Bg}}; color: #FAF7F2; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer;">
+            {{combo329Label}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Space Ambiance & Online Booking Section -->
+  <section id="khong-gian" style="width: 100%; background-color: #111827;">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 88px 40px; display: flex; flex-wrap: wrap; gap: 44px; align-items: stretch;">
+      <!-- Left: Dining Space Spotlight -->
+      <div style="flex: 1 1 480px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px;">
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.2em; color: {{gold}};">KHÔNG GIAN ĐƯƠNG ĐẠI</span>
+          <h2 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 38px; font-weight: 700; color: #FAF7F2; line-height: 1.2;">Ánh Đèn Lồng Ấm Áp Cho Mọi Buổi Hội Ngộ</h2>
+          <p style="margin: 0; font-size: 15px; color: #D1D5DB; line-height: 1.7;">
+            Lấy cảm hứng từ trà quán Đài Loan giao hòa kiến trúc gỗ trầm và sơn mài đỏ thẫm, Hougo mang lại sự riêng tư êm ái cho bữa tối gia đình lẫn tiệc tiếp đãi đối tác.
+          </p>
+        </div>
+
+        <div style="border-radius: 14px; overflow: hidden; border: 1px solid rgba(245, 158, 11, 0.26); background-color: #0B0F19;">
+          <img src="/_blob/113cff0c20651ff1cccb78c87dc86e2b" alt="Không gian nhà hàng Hougo Hotpot với vách gỗ tối màu, đèn lồng ấm và bàn đá cẩm thạch" style="width: 100%; height: 280px; object-fit: cover; display: block;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); gap: 16px;">
+          <div style="padding: 16px 18px; border-radius: 10px; background-color: #171F2E; border: 1px solid rgba(255, 255, 255, 0.08); display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-size: 14px; font-weight: 600; color: #FDE68A;">Phòng VIP Cách Âm</span>
+            <span style="font-size: 13px; color: #9CA3AF; line-height: 1.55;">Phục vụ nhóm 8–20 khách với lối đi và nhân viên phục vụ riêng.</span>
+          </div>
+          <div style="padding: 16px 18px; border-radius: 10px; background-color: #171F2E; border: 1px solid rgba(255, 255, 255, 0.08); display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-size: 14px; font-weight: 600; color: #FDE68A;">Hệ Thống Hút Khói Âm Bàn</span>
+            <span style="font-size: 13px; color: #9CA3AF; line-height: 1.55;">Giữ hương thơm dễ chịu, không ám mùi lên trang phục sau bữa ăn.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Online Booking Form -->
+      <div id="dat-ban" style="flex: 1 1 500px; background-color: #171F2E; border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 16px; padding: 36px; display: flex; flex-direction: column; gap: 24px; box-shadow: 0 24px 56px rgba(0, 0, 0, 0.45);">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.18em; color: {{gold}};">ĐẶT BÀN TRỰC TUYẾN</span>
+          <h3 style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 30px; font-weight: 700; color: #FAF7F2;">Giữ Bàn Ngay Hôm Nay</h3>
+          <p style="margin: 0; font-size: 14px; color: #9CA3AF;">Điền thông tin để Hougo chuẩn bị sẵn nồi lẩu và vị trí đẹp nhất cho bạn.</p>
+        </div>
+
+        <sc-if value="{{ bookingSubmitted }}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 28px; border-radius: 12px; background-color: rgba(153, 27, 27, 0.25); border: 1px solid rgba(245, 158, 11, 0.45); display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: center; gap: 10px; color: #FDE68A; font-size: 18px; font-weight: 700;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M8 12L11 15L16 9"></path></svg>
+              <span>Đã Tiếp Nhận Yêu Cầu Đặt Bàn</span>
+            </div>
+            <p style="margin: 0; font-size: 14px; line-height: 1.65; color: #E5E7EB;">
+              Cảm ơn quý khách <strong style="color: #FAF7F2;">{{bookingSummaryName}}</strong> đã đặt bàn cho <strong style="color: #FAF7F2;">{{bookingSummaryGuests}}</strong> tại <strong style="color: #FAF7F2;">{{bookingSummaryBranch}}</strong>. Lễ tân Hougo sẽ liên hệ xác nhận qua số điện thoại trong ít phút.
+            </p>
+            <button type="button" onClick="{{ resetBooking }}" style="min-height: 44px; padding: 10px 18px; align-self: flex-start; border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.5); background-color: rgba(17, 24, 39, 0.65); color: #FDE68A; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer;">Đặt thêm bàn khác</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ submitBooking }}" style="display: flex; flex-direction: column; gap: 18px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+              <div style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 8px;">
+                <label for="bk-name" style="font-size: 13px; font-weight: 600; color: #E5E7EB;">Họ và tên</label>
+                <input id="bk-name" type="text" value="{{ form.name }}" onInput="{{ onNameInput }}" placeholder="Nguyễn Minh Anh" required style="min-height: 46px; width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.16); background-color: #0D131F; color: #FAF7F2; font-family: inherit; font-size: 14px;">
+              </div>
+              <div style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 8px;">
+                <label for="bk-phone" style="font-size: 13px; font-weight: 600; color: #E5E7EB;">Số điện thoại</label>
+                <input id="bk-phone" type="tel" value="{{ form.phone }}" onInput="{{ onPhoneInput }}" placeholder="090x xxx xxx" required style="min-height: 46px; width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.16); background-color: #0D131F; color: #FAF7F2; font-family: inherit; font-size: 14px;">
+              </div>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+              <div style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 8px;">
+                <label for="bk-guests" style="font-size: 13px; font-weight: 600; color: #E5E7EB;">Số khách</label>
+                <select id="bk-guests" value="{{ form.guests }}" onChange="{{ onGuestsChange }}" style="min-height: 46px; width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.16); background-color: #0D131F; color: #FAF7F2; font-family: inherit; font-size: 14px;">
+                  <option value="2 khách">2 khách</option>
+                  <option value="4 khách">4 khách</option>
+                  <option value="6 khách">6 khách</option>
+                  <option value="8–12 khách (Bàn lớn)">8–12 khách (Bàn lớn)</option>
+                  <option value="12–20 khách (Phòng VIP)">12–20 khách (Phòng VIP)</option>
+                </select>
+              </div>
+              <div style="flex: 1 1 220px; display: flex; flex-direction: column; gap: 8px;">
+                <label for="bk-datetime" style="font-size: 13px; font-weight: 600; color: #E5E7EB;">Ngày &amp; giờ</label>
+                <input id="bk-datetime" type="datetime-local" value="{{ form.datetime }}" onChange="{{ onDatetimeChange }}" style="min-height: 46px; width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.16); background-color: #0D131F; color: #FAF7F2; font-family: inherit; font-size: 14px;">
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <label for="bk-branch" style="font-size: 13px; font-weight: 600; color: #E5E7EB;">Chi nhánh</label>
+              <select id="bk-branch" value="{{ form.branch }}" onChange="{{ onBranchChange }}" style="min-height: 46px; width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.16); background-color: #0D131F; color: #FAF7F2; font-family: inherit; font-size: 14px;">
+                <option value="Chi nhánh Quận 1 — Trung tâm TP.HCM">Chi nhánh Quận 1 — [Địa chỉ Quận 1, TP.HCM]</option>
+                <option value="Chi nhánh Quận 3 — TP.HCM">Chi nhánh Quận 3 — [Địa chỉ Quận 3, TP.HCM]</option>
+                <option value="Chi nhánh Hoàn Kiếm — Hà Nội">Chi nhánh Hoàn Kiếm — [Địa chỉ Hoàn Kiếm, Hà Nội]</option>
+              </select>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <label for="bk-note" style="font-size: 13px; font-weight: 600; color: #E5E7EB;">Ghi chú</label>
+              <textarea id="bk-note" rows="3" value="{{ form.note }}" onInput="{{ onNoteInput }}" placeholder="Ví dụ: Combo 269K, lẩu 4 ngăn, bàn yên tĩnh hoặc ghế trẻ em..." style="width: 100%; padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.16); background-color: #0D131F; color: #FAF7F2; font-family: inherit; font-size: 14px; resize: vertical;"></textarea>
+            </div>
+
+            <button type="submit" style="min-height: 50px; width: 100%; padding: 14px 24px; border-radius: 8px; border: none; background-color: {{crimson}}; color: #FAF7F2; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 10px 28px rgba(185, 28, 28, 0.35);">
+              <span>Xác Nhận Đặt Bàn</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12H19"></path>
+                <path d="M13 6L19 12L13 18"></path>
+              </svg>
+            </button>
+          </form>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="width: 100%; background-color: #0A0E17; border-top: 1px solid rgba(245, 158, 11, 0.2);">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 64px 40px 40px; display: flex; flex-direction: column; gap: 44px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 36px;">
+        <!-- Col 1: Brand -->
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <svg width="34" height="34" viewBox="0 0 42 42" fill="none" aria-hidden="true">
+              <circle cx="21" cy="21" r="19.5" fill="#991B1B" stroke="#F59E0B" stroke-width="1.5"></circle>
+              <path d="M12 22.5H30C29.5 27.2 25.8 30 21 30C16.2 30 12.5 27.2 12 22.5Z" stroke="#FDE68A" stroke-width="1.6" stroke-linejoin="round"></path>
+              <path d="M10.5 22.5H31.5" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round"></path>
+            </svg>
+            <span style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 700; letter-spacing: 0.1em; color: #FAF7F2;">HOUGO HOTPOT</span>
+          </div>
+          <p style="margin: 0; font-size: 14px; line-height: 1.7; color: #9CA3AF;">
+            Nhà hàng lẩu Trung Hoa &amp; Đài Loan hiện đại. Chuyên phục vụ nước lẩu hầm thảo mộc 12 giờ, thịt bò nhập khẩu tươi và phòng tiệc ấm cúng.
+          </p>
+        </div>
+
+        <!-- Col 2: Branches -->
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <h4 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: {{gold}};">HỆ THỐNG CHI NHÁNH</h4>
+          <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: #D1D5DB; line-height: 1.6;">
+            <div><strong style="color: #FAF7F2;">Quận 1:</strong> [Số nhà, Đường, Quận 1, TP.HCM]</div>
+            <div><strong style="color: #FAF7F2;">Quận 3:</strong> [Số nhà, Đường, Quận 3, TP.HCM]</div>
+            <div><strong style="color: #FAF7F2;">Hà Nội:</strong> [Số nhà, Đường, Hoàn Kiếm, Hà Nội]</div>
+          </div>
+        </div>
+
+        <!-- Col 3: Hours & Hotline -->
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <h4 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: {{gold}};">GIỜ MỞ CỬA &amp; HOTLINE</h4>
+          <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: #D1D5DB; line-height: 1.6;">
+            <div>Thứ 2 – Chủ Nhật: <strong style="color: #FAF7F2;">10:30 – 22:30</strong></div>
+            <div>Nhận khách cuối: 21:45</div>
+            <div>Hotline đặt bàn: <strong style="color: #FDE68A; font-size: 16px;">[1900 xxxx]</strong></div>
+            <div>Email: [contact@hougohotpot.vn]</div>
+          </div>
+        </div>
+
+        <!-- Col 4: Social -->
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <h4 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: {{gold}};">MẠNG XÃ HỘI</h4>
+          <p style="margin: 0; font-size: 14px; color: #9CA3AF; line-height: 1.6;">
+            Theo dõi Hougo để cập nhật thực đơn theo mùa và ưu đãi hội viên.
+          </p>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <a href="#trang-chu" aria-label="Facebook Hougo Hotpot" style="width: 44px; height: 44px; border-radius: 10px; background-color: #171F2E; border: 1px solid rgba(255, 255, 255, 0.12); display: inline-flex; align-items: center; justify-content: center; color: #E5E7EB;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 2H15C12.2 2 10 4.2 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.4 14.4 6 15 6H18V2Z"></path>
+              </svg>
+            </a>
+            <a href="#trang-chu" aria-label="Instagram Hougo Hotpot" style="width: 44px; height: 44px; border-radius: 10px; background-color: #171F2E; border: 1px solid rgba(255, 255, 255, 0.12); display: inline-flex; align-items: center; justify-content: center; color: #E5E7EB;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+                <circle cx="12" cy="12" r="4"></circle>
+                <circle cx="17.5" cy="6.5" r="0.8"></circle>
+              </svg>
+            </a>
+            <a href="#trang-chu" aria-label="TikTok Hougo Hotpot" style="width: 44px; height: 44px; border-radius: 10px; background-color: #171F2E; border: 1px solid rgba(255, 255, 255, 0.12); display: inline-flex; align-items: center; justify-content: center; color: #E5E7EB;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 12A4 4 0 1 0 13 16V4C14 6.5 16.5 8 19 8"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; font-size: 13px; color: #9CA3AF;">
+        <span>© 2026 HOUGO HOTPOT. Bảo lưu mọi quyền.</span>
+        <button type="button" onClick="{{ togglePos }}" style="background: none; border: none; padding: 6px 0; color: #9CA3AF; font-family: inherit; font-size: 13px; cursor: pointer;">Truy cập Cổng POS Nhân Viên</button>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"crimson":{"editor":"color","default":"#B91C1C","options":["#B91C1C","#991B1B","#C2410C","#881337"]},"gold":{"editor":"color","default":"#F59E0B","options":["#F59E0B","#D97706","#EAB308","#FB923C"]},"$preview":{"width":1440,"height":3920}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedCombo: '269k',
+      showPosNotice: false,
+      bookingSubmitted: false,
+      form: {
+        name: '',
+        phone: '',
+        guests: '4 khách',
+        datetime: '2026-11-12T19:00',
+        branch: 'Chi nhánh Quận 1 — Trung tâm TP.HCM',
+        note: 'Combo 269K — Nồi lẩu 2 ngăn Tứ Xuyên & Nấm Dưỡng Sinh'
+      }
+    };
+  }
+
+  selectCombo(tier, label) {
+    this.setState((prev) => ({
+      selectedCombo: tier,
+      form: {
+        ...prev.form,
+        note: label + ' — Yêu cầu giữ bàn'
+      }
+    }));
+  }
+
+  renderVals() {
+    const crimson = this.props.crimson ?? '#B91C1C';
+    const gold = this.props.gold ?? '#F59E0B';
+    const tier = this.state.selectedCombo;
+    const f = this.state.form;
+
+    return {
+      crimson,
+      gold,
+      showPosNotice: this.state.showPosNotice,
+      bookingSubmitted: this.state.bookingSubmitted,
+      showForm: !this.state.bookingSubmitted,
+      form: f,
+      bookingSummaryName: f.name && f.name.trim() ? f.name.trim() : 'Quý khách',
+      bookingSummaryGuests: f.guests,
+      bookingSummaryBranch: f.branch,
+
+      combo199Border: tier === '199k' ? '2px solid ' + gold : '1px solid rgba(255, 255, 255, 0.1)',
+      combo199Bg: tier === '199k' ? crimson : 'rgba(245, 158, 11, 0.08)',
+      combo199Label: tier === '199k' ? 'Đã Chọn Combo 199K' : 'Chọn Combo 199K',
+
+      combo269Border: tier === '269k' ? '2px solid ' + gold : '1px solid rgba(245, 158, 11, 0.4)',
+      combo269Label: tier === '269k' ? 'Đã Chọn Combo 269K' : 'Chọn Combo 269K',
+
+      combo329Border: tier === '329k' ? '2px solid ' + gold : '1px solid rgba(255, 255, 255, 0.1)',
+      combo329Bg: tier === '329k' ? crimson : 'rgba(245, 158, 11, 0.08)',
+      combo329Label: tier === '329k' ? 'Đã Chọn Combo 329K' : 'Chọn Combo 329K',
+
+      togglePos: () => this.setState((prev) => ({ showPosNotice: !prev.showPosNotice })),
+      pick199: () => this.selectCombo('199k', 'Combo 199K'),
+      pick269: () => this.selectCombo('269k', 'Combo 269K'),
+      pick329: () => this.selectCombo('329k', 'Combo 329K'),
+
+      onNameInput: (e) => {
+        const val = e.target.value;
+        this.setState((prev) => ({ form: { ...prev.form, name: val } }));
+      },
+      onPhoneInput: (e) => {
+        const val = e.target.value;
+        this.setState((prev) => ({ form: { ...prev.form, phone: val } }));
+      },
+      onGuestsChange: (e) => {
+        const val = e.target.value;
+        this.setState((prev) => ({ form: { ...prev.form, guests: val } }));
+      },
+      onDatetimeChange: (e) => {
+        const val = e.target.value;
+        this.setState((prev) => ({ form: { ...prev.form, datetime: val } }));
+      },
+      onBranchChange: (e) => {
+        const val = e.target.value;
+        this.setState((prev) => ({ form: { ...prev.form, branch: val } }));
+      },
+      onNoteInput: (e) => {
+        const val = e.target.value;
+        this.setState((prev) => ({ form: { ...prev.form, note: val } }));
+      },
+      submitBooking: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        this.setState({ bookingSubmitted: true });
+      },
+      resetBooking: () => this.setState({ bookingSubmitted: false })
+    };
+  }
+}
+</script>
+</body>
+</html>
+

@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>HOUGO KITCHEN (KDT) — Điều Phối Bếp &amp; Báo Hết Món</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;700;800&amp;family=Playfair+Display:wght@600;700&amp;display=swap">
+<style>
+body {
+  margin: 0;
+  background-color: #0B1120;
+  color: #F8FAFC;
+  font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+* {
+  box-sizing: border-box;
+}
+button,
+input,
+select {
+  font-family: inherit;
+}
+button {
+  transition: transform 0.14s ease, filter 0.14s ease, background-color 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
+}
+button:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+button:active:not(:disabled) {
+  transform: scale(0.985);
+}
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #F59E0B;
+  outline-offset: 2px;
+}
+input::placeholder {
+  color: #94A3B8;
+}
+@keyframes kdsUrgentPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.55), 0 12px 28px rgba(239, 68, 68, 0.18);
+    border-color: rgba(239, 68, 68, 0.92);
+  }
+  50% {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25), 0 14px 34px rgba(239, 68, 68, 0.34);
+    border-color: #FCA5A5;
+  }
+}
+@keyframes kdsLiveDot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.25);
+  }
+}
+.kds-ticket-urgent {
+  animation: kdsUrgentPulse 2.1s ease-in-out infinite;
+}
+.kds-live-dot {
+  animation: kdsLiveDot 1.6s ease-in-out infinite;
+}
+.tab-scroll::-webkit-scrollbar {
+  display: none;
+}
+</style>
+</helmet>
+
+<div style="min-height: 100%; width: 100%; background-color: #0B1120; color: #F8FAFC; font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif; display: flex; flex-direction: column;">
+
+  <!-- TOPBAR: Logo HOUGO KITCHEN (KDT), Clock, Back to POS, Speed Stats & 86 List Button -->
+  <header style="background-color: #111827; border-bottom: 1px solid rgba(245, 158, 11, 0.28); padding: 14px 22px; display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;">
+
+      <!-- Brand & Back to POS -->
+      <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+        <button type="button" onClick="{{ goBackPos }}" style="min-height: 44px; padding: 0 15px; border-radius: 10px; background-color: #1E293B; border: 1px solid rgba(148, 163, 184, 0.3); color: #E2E8F0; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 12H5"></path>
+            <path d="M12 19L5 12L12 5"></path>
+          </svg>
+          <span>&#8592; Về Sơ đồ bàn POS</span>
+        </button>
+
+        <div style="display: flex; align-items: center; gap: 11px;">
+          <div style="width: 42px; height: 42px; border-radius: 11px; background: linear-gradient(135deg, #B91C1C, #7F1D1D); border: 1px solid rgba(251, 191, 36, 0.55); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FDE68A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2C12 2 17 6.5 17 11.5A5 5 0 1 1 7 11.5C7 9.5 8 7.5 9.5 6C9.5 6 10 8 11.5 8C11.5 6 12 2 12 2Z"></path>
+            </svg>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+            <span style="font-size: 17px; font-weight: 800; letter-spacing: 0.04em; color: #FAF7F2;">HOUGO KITCHEN <span style="color: #FBBF24;">(KDT)</span></span>
+            <span style="font-size: 12px; color: #94A3B8;">Điều phối Bếp Nóng &amp; Quầy Bar theo SLA thực tế</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real-time Clock & Prep Speed Metrics Strip -->
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+        <div style="min-height: 44px; padding: 0 14px; border-radius: 10px; background-color: #0F172A; border: 1px solid rgba(245, 158, 11, 0.3); display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: #CBD5E1; white-space: nowrap;">
+          <span class="kds-live-dot" style="width: 8px; height: 8px; border-radius: 999px; background-color: #10B981; display: inline-block;"></span>
+          <span>Đang chờ: <strong style="font-family: 'JetBrains Mono', monospace; color: #FBBF24;">{{pendingDishesCount}} món</strong></span>
+          <span style="color: #475569;">|</span>
+          <span>Thời gian ra món TB: <strong style="font-family: 'JetBrains Mono', monospace; color: #6EE7B7;">06:45</strong></span>
+          <span style="color: #475569;">|</span>
+          <span>Hết món hôm nay: <strong style="font-family: 'JetBrains Mono', monospace; color: #FCA5A5;">{{outOfStockCount}}</strong></span>
+        </div>
+
+        <div style="min-height: 44px; padding: 0 14px; border-radius: 10px; background-color: #0F172A; border: 1px solid rgba(148, 163, 184, 0.25); display: inline-flex; align-items: center; gap: 8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 6V12L16 14"></path>
+          </svg>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #F8FAFC; letter-spacing: 0.04em;">{{liveClock}}</span>
+        </div>
+
+        <button type="button" onClick="{{ open86Modal }}" style="min-height: 44px; padding: 0 16px; border-radius: 10px; background-color: #991B1B; border: 1.5px solid rgba(251, 191, 36, 0.65); color: #FAF7F2; font-size: 13px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; box-shadow: 0 6px 18px rgba(153, 27, 27, 0.35);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FDE68A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M10.29 3.86L1.82 18A2 2 0 0 0 3.53 21H20.47A2 2 0 0 0 22.18 18L13.71 3.86A2 2 0 0 0 10.29 3.86Z"></path>
+            <path d="M12 9V13"></path>
+            <path d="M12 17H12.01"></path>
+          </svg>
+          <span>Quản lý Báo hết món (86 List)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Station Tabs & SLA Legend Row -->
+    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+      <nav aria-label="Bộ lọc trạm chế biến" class="tab-scroll" style="display: flex; flex-wrap: nowrap; align-items: center; gap: 8px; background-color: #0F172A; border: 1px solid rgba(148, 163, 184, 0.18); border-radius: 11px; padding: 5px; white-space: nowrap; overflow-x: auto;">
+        <sc-for list="{{stationTabs}}" as="st" hint-placeholder-count="4">
+          <button type="button" onClick="{{st.onSelect}}" style="{{st.style}}">{{st.label}}</button>
+        </sc-for>
+      </nav>
+
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+        <!-- SLA Quick Legend Pills -->
+        <div style="display: inline-flex; align-items: center; gap: 12px; padding: 6px 12px; border-radius: 9px; background-color: #0F172A; border: 1px solid rgba(148, 163, 184, 0.18); font-size: 12px; color: #CBD5E1;">
+          <span style="display: inline-flex; align-items: center; gap: 5px;"><span style="width: 9px; height: 9px; border-radius: 999px; background-color: #10B981; display: inline-block;"></span>&lt; 5p Mới nhận</span>
+          <span style="display: inline-flex; align-items: center; gap: 5px;"><span style="width: 9px; height: 9px; border-radius: 999px; background-color: #F59E0B; display: inline-block;"></span>5-12p Đang chuẩn bị</span>
+          <span style="display: inline-flex; align-items: center; gap: 5px;"><span style="width: 9px; height: 9px; border-radius: 999px; background-color: #EF4444; display: inline-block;"></span>&gt; 12p Gấp / Trễ</span>
+        </div>
+
+        <button type="button" onClick="{{ toggleHistoryView }}" style="{{historyBtnStyle}}">{{historyBtnLabel}}</button>
+      </div>
+    </div>
+
+    <!-- Batch Summary Bar: Aggregated Pending Dishes across Active Tables -->
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 9px 13px; border-radius: 11px; background-color: #0F172A; border: 1px solid rgba(245, 158, 11, 0.25);">
+      <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 800; color: #FDE68A; letter-spacing: 0.02em; white-space: nowrap; flex-shrink: 0;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 6H20"></path>
+          <path d="M4 12H16"></path>
+          <path d="M4 18H12"></path>
+        </svg>
+        <span>Tổng cần làm:</span>
+      </span>
+
+      <sc-if value="{{ hasBatchItems }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; flex: 1;">
+          <sc-for list="{{batchSummaryItems}}" as="bs" hint-placeholder-count="6">
+            <span style="display: inline-flex; align-items: center; gap: 7px; padding: 5px 10px; border-radius: 8px; background-color: #111827; border: 1px solid rgba(148, 163, 184, 0.22); font-size: 12.5px; font-weight: 600; color: #E2E8F0; white-space: nowrap;">
+              <span>{{bs.name}}</span>
+              <span style="{{bs.badgeStyle}}">{{bs.qtyText}}</span>
+            </span>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ noBatchItems }}" hint-placeholder-val="{{ false }}">
+        <span style="font-size: 12.5px; font-weight: 600; color: #6EE7B7;">Đã hoàn tất toàn bộ món đang hiển thị.</span>
+      </sc-if>
+    </div>
+  </header>
+
+  <!-- Feedback Notification Banner -->
+  <sc-if value="{{ hasBanner }}" hint-placeholder-val="{{ false }}">
+    <div style="margin: 12px 22px 0; padding: 10px 16px; border-radius: 10px; background-color: rgba(185, 28, 28, 0.25); border: 1px solid rgba(245, 158, 11, 0.55); display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+      <div style="display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 600; color: #F8FAFC;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FBBF24" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 16V12"></path>
+          <path d="M12 8H12.01"></path>
+        </svg>
+        <span>{{bannerMsg}}</span>
+      </div>
+      <button type="button" onClick="{{ dismissBanner }}" style="min-height: 36px; padding: 0 12px; border-radius: 8px; background-color: #0F172A; border: 1px solid rgba(255, 255, 255, 0.2); color: #CBD5E1; font-size: 12px; font-weight: 600; cursor: pointer;">Đóng</button>
+    </div>
+  </sc-if>
+
+  <!-- MAIN TICKET GRID (Active KDT Orders) -->
+  <main style="flex: 1; padding: 18px 22px 24px; display: flex; flex-direction: column; gap: 16px;">
+
+    <sc-if value="{{ showingActive }}" hint-placeholder-val="{{ true }}">
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(390px, 100%), 1fr)); gap: 16px; align-items: stretch;">
+        <sc-for list="{{visibleTickets}}" as="t" hint-placeholder-count="6">
+          <article class="{{t.cardClass}}" style="{{t.cardStyle}}">
+
+            <!-- Ticket Card Header -->
+            <div style="{{t.headerStyle}}">
+              <div style="display: flex; flex-direction: column; gap: 3px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 20px; font-weight: 800; color: #F8FAFC; white-space: nowrap;">{{t.tableName}}</span>
+                  <span style="padding: 3px 8px; border-radius: 6px; background-color: #1E293B; border: 1px solid rgba(148, 163, 184, 0.25); font-size: 11px; font-weight: 700; color: #CBD5E1;">{{t.zone}}</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #94A3B8;">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #E2E8F0;">{{t.orderCode}}</span>
+                  <span>&middot;</span>
+                  <span>NV: {{t.staff}}</span>
+                </div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px;">
+                <span style="{{t.slaBadgeStyle}}">{{t.slaLabel}}</span>
+                <span style="{{t.timerStyle}}">{{t.elapsedFormatted}}</span>
+              </div>
+            </div>
+
+            <!-- Dish Lines inside Ticket (Full-row touch toggle, framed Qty Badge, no 86 button) -->
+            <div style="flex: 1; padding: 12px 14px; display: flex; flex-direction: column; gap: 9px;">
+              <sc-for list="{{t.items}}" as="item" hint-placeholder-count="3">
+                <button type="button" onClick="{{item.onToggleDone}}" aria-pressed="{{item.done}}" style="{{item.rowBtnStyle}}">
+                  <span style="display: flex; align-items: flex-start; gap: 11px; flex: 1; min-width: 0; text-align: left;">
+                    <span style="{{item.qtyBadgeStyle}}">{{item.qty}}x</span>
+                    <span style="display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1;">
+                      <span style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                        <span style="{{item.nameStyle}}">{{item.name}}</span>
+                        <span style="padding: 2px 6px; border-radius: 5px; background-color: rgba(30, 41, 59, 0.9); border: 1px solid rgba(148, 163, 184, 0.2); font-size: 10.5px; font-weight: 600; color: #94A3B8;">{{item.stationShort}}</span>
+                      </span>
+
+                      <sc-if value="{{item.hasNote}}" hint-placeholder-val="{{true}}">
+                        <span style="font-size: 12px; font-weight: 700; color: #FBBF24; background-color: rgba(245, 158, 11, 0.14); border: 1px solid rgba(245, 158, 11, 0.32); padding: 2px 8px; border-radius: 6px; align-self: flex-start;">Ghi chú: {{item.note}}</span>
+                      </sc-if>
+
+                      <sc-if value="{{item.isOutStock}}" hint-placeholder-val="{{false}}">
+                        <span style="font-size: 11px; font-weight: 700; color: #FECACA;">Cảnh báo: Đang báo hết (86) trên POS</span>
+                      </sc-if>
+                    </span>
+                  </span>
+
+                  <span style="{{item.donePillStyle}}">{{item.doneBtnLabel}}</span>
+                </button>
+              </sc-for>
+            </div>
+
+            <!-- Ticket Footer: Progress & Bump Table Button -->
+            <div style="padding: 12px 14px 14px; border-top: 1px solid rgba(148, 163, 184, 0.16); background-color: #0F172A; border-radius: 0 0 14px 14px; display: flex; flex-direction: column; gap: 9px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #94A3B8;">
+                <span>Tiến độ bàn: <strong style="color: #E2E8F0;">{{t.doneCount}}/{{t.totalCount}} món đã ra</strong></span>
+                <span style="color: #CBD5E1;">{{t.statusHint}}</span>
+              </div>
+
+              <button type="button" onClick="{{t.onBumpTicket}}" style="{{t.bumpBtnStyle}}">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 6L9 17L4 12"></path>
+                </svg>
+                <span>HOÀN THÀNH TOÀN BỘ BÀN</span>
+              </button>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- Completed History View -->
+    <sc-if value="{{ showingHistory }}" hint-placeholder-val="{{ false }}">
+      <section style="background-color: #111827; border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+          <div>
+            <h2 style="margin: 0; font-size: 18px; font-weight: 800; color: #FAF7F2;">Lịch Sử Phiếu Đã Ra Món ({{completedCount}})</h2>
+            <span style="font-size: 12.5px; color: #94A3B8;">Bấm "Khôi phục" nếu cần đưa phiếu quay lại màn hình bếp.</span>
+          </div>
+          <button type="button" onClick="{{ toggleHistoryView }}" style="min-height: 44px; padding: 0 16px; border-radius: 10px; background-color: #1E293B; border: 1px solid rgba(245, 158, 11, 0.45); color: #FDE68A; font-size: 13px; font-weight: 700; cursor: pointer;">Quay lại Phiếu Đang Chờ</button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr)); gap: 12px;">
+          <sc-for list="{{completedTickets}}" as="ct" hint-placeholder-count="2">
+            <div style="padding: 14px; border-radius: 12px; background-color: #0F172A; border: 1px solid rgba(16, 185, 129, 0.3); display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-size: 16px; font-weight: 800; color: #F8FAFC;">{{ct.tableName}} &middot; {{ct.orderCode}}</span>
+                <span style="padding: 3px 9px; border-radius: 999px; background-color: rgba(16, 185, 129, 0.2); color: #6EE7B7; font-size: 11px; font-weight: 700;">Đã ra hết ({{ct.finishedAt}})</span>
+              </div>
+              <span style="font-size: 12.5px; color: #94A3B8;">{{ct.summary}}</span>
+              <button type="button" onClick="{{ct.onRecall}}" style="min-height: 44px; padding: 0 12px; border-radius: 9px; background-color: #1E293B; border: 1px solid rgba(148, 163, 184, 0.3); color: #E2E8F0; font-size: 12.5px; font-weight: 700; cursor: pointer;">Khôi phục lên Bếp</button>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+  </main>
+
+  <!-- 86 LIST DRAWER / MODAL (3.2) -->
+  <sc-if value="{{ show86Modal }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-labelledby="kds-86-title" style="position: fixed; inset: 0; background-color: rgba(2, 6, 23, 0.84); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 60;">
+      <div style="width: 100%; max-width: 620px; background-color: #111827; border: 1px solid rgba(251, 191, 36, 0.45); border-radius: 18px; padding: 24px; box-shadow: 0 28px 64px rgba(0, 0, 0, 0.7); display: flex; flex-direction: column; gap: 16px;">
+
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+          <div style="display: flex; flex-direction: column; gap: 3px;">
+            <span style="font-size: 11.5px; font-weight: 700; letter-spacing: 0.16em; color: #FCA5A5;">KIỂM SOÁT NGUYÊN LIỆU BẾP (3.2)</span>
+            <h2 id="kds-86-title" style="margin: 0; font-family: 'Playfair Display', Georgia, serif; font-size: 24px; font-weight: 700; color: #FAF7F2;">Quản Lý Báo Hết Món (86 List)</h2>
+            <span style="font-size: 13px; color: #94A3B8;">Bật/tắt để khóa gọi món trên POS ngay khi hết nguyên liệu.</span>
+          </div>
+          <button type="button" onClick="{{ close86Modal }}" aria-label="Đóng quản lý báo hết món" style="min-width: 44px; min-height: 44px; border-radius: 10px; background-color: #1E293B; border: 1px solid rgba(148, 163, 184, 0.25); color: #E2E8F0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 6L6 18"></path>
+              <path d="M6 6L18 18"></path>
+            </svg>
+          </button>
+        </div>
+
+        <input type="search" aria-label="Tìm món cần khóa hoặc mở bán" value="{{search86Query}}" onInput="{{onSearch86Input}}" placeholder="Tìm tên món hoặc nguyên liệu (Sò điệp, Wagyu, Tôm...)" style="min-height: 44px; width: 100%; padding: 0 14px; border-radius: 10px; border: 1px solid rgba(148, 163, 184, 0.28); background-color: #0F172A; color: #F8FAFC; font-size: 13.5px;">
+
+        <div style="max-height: 360px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+          <sc-for list="{{catalog86Items}}" as="it86" hint-placeholder-count="6">
+            <div style="{{it86.rowStyle}}">
+              <div style="display: flex; flex-direction: column; gap: 2px;">
+                <span style="font-size: 14px; font-weight: 700; color: #F8FAFC;">{{it86.name}}</span>
+                <span style="font-size: 12px; color: #94A3B8;">Trạm: {{it86.stationLabel}} &middot; {{it86.statusText}}</span>
+              </div>
+              <button type="button" onClick="{{it86.onToggle}}" style="{{it86.btnStyle}}">{{it86.btnLabel}}</button>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 6px; border-top: 1px solid rgba(148, 163, 184, 0.16);">
+          <span style="font-size: 13px; color: #CBD5E1;">Đang khóa hôm nay: <strong style="color: #FCA5A5;">{{outOfStockCount}} món</strong></span>
+          <button type="button" onClick="{{ close86Modal }}" style="min-height: 44px; padding: 0 22px; border-radius: 10px; background-color: #B91C1C; border: 1px solid rgba(251, 191, 36, 0.55); color: #FFFFFF; font-size: 14px; font-weight: 700; cursor: pointer;">Hoàn tất &amp; Đóng</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":980}}'>
+function pad2(n) {
+  return n < 10 ? '0' + n : '' + n;
+}
+
+function formatTimer(totalSec) {
+  const s = Math.max(0, Math.floor(totalSec));
+  return pad2(Math.floor(s / 60)) + ':' + pad2(s % 60);
+}
+
+function formatClock(ms) {
+  const d = new Date(ms);
+  return pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
+}
+
+const STATIONS = [
+  { id: 'all', label: 'Tất cả phiếu' },
+  { id: 'broth_meat', label: 'Bếp Nước Lẩu & Thịt' },
+  { id: 'seafood_veg', label: 'Quầy Hải Sản & Rau' },
+  { id: 'bar', label: 'Quầy Bar / Đồ Uống' }
+];
+
+const INITIAL_TICKETS = [
+  {
+    id: 'ord-011',
+    tableName: 'BÀN 11',
+    zone: 'VIP - T2',
+    orderCode: '#ORD-011',
+    staff: 'Minh',
+    baseSec: 14 * 60 + 32,
+    items: [
+      { id: 't11-1', name: 'Nước Lẩu Tứ Xuyên Mala', qty: 1, station: 'broth_meat', stationShort: 'Lẩu & Thịt', note: 'Cay cấp 2, không hoa tiêu', done: false },
+      { id: 't11-2', name: 'Bò Wagyu Nhật A5 (150g)', qty: 2, station: 'broth_meat', stationShort: 'Lẩu & Thịt', note: 'Thái lát mỏng, tách 2 khay', done: false },
+      { id: 't11-3', name: 'Tôm Sú & Mực Hoa Tươi', qty: 1, station: 'seafood_veg', stationShort: 'Hải sản & Rau', note: 'Ưu tiên lên trước', done: false }
+    ]
+  },
+  {
+    id: 'ord-009',
+    tableName: 'BÀN 09',
+    zone: 'VIP - T2',
+    orderCode: '#ORD-009',
+    staff: 'Linh',
+    baseSec: 12 * 60 + 54,
+    items: [
+      { id: 't9-1', name: 'Bò Wagyu Nhật A5 (150g)', qty: 2, station: 'broth_meat', stationShort: 'Lẩu & Thịt', note: 'Bàn VIP đang đợi', done: false },
+      { id: 't9-2', name: 'Nước Lẩu Tứ Xuyên Mala', qty: 1, station: 'broth_meat', stationShort: 'Lẩu & Thịt', note: 'Ít dầu ớt', done: false },
+      { id: 't9-3', name: 'Tôm Sú & Mực Hoa Tươi', qty: 1, station: 'seafood_veg', stationShort: 'Hải sản & Rau', note: 'Bỏ đầu tôm', done: false }
+    ]
+  },
+  {
+    id: 'ord-002',
+    tableName: 'BÀN 02',
+    zone: 'T1',
+    orderCode: '#ORD-002',
+    staff: 'Minh',
+    baseSec: 8 * 60 + 15,
+    items: [
+      { id: 't2-1', name: 'Nước Lẩu Tứ Xuyên Mala', qty: 1, station: 'broth_meat', stationShort: 'Lẩu & Thịt', note: 'Ít cay', done: false },
+      { id: 't2-2', name: 'Tháp Bò Mỹ Thượng Hạng', qty: 2, station: 'broth_meat', stationShort: 'Lẩu & Thịt', note: 'Khay lớn', done: false },
+      { id: 't2-3', name: 'Trà Đào Cam Sả', qty: 2, station: 'bar', stationShort: 'Quầy Bar', note: 'Ít đá, ít đường', done: false }
+    ]
+  },
+  {
+    id: 'ord-006',
+    tableName: 'BÀN 06',
+    zone: 'T1',
+    orderCode: '#ORD-006',
+    staff: 'Nam',
+    baseSec: 6 * 60 + 40,
+    items: [
+      { id: 't6-1', name: 'Nước Lẩu Cà Chua Collagen', qty: 1, station: 'broth_meat', stationShort: 'Lẩu & Thịt', note: 'Không hành', done: true },
+      { id: 't6-2', name: 'Ba chỉ bò Mỹ nhúng lẩu', qty: 2, station: 'broth_meat', stationShort: 'Lẩu & Thịt', note: '', done: true }
+    ]
+  },
+  {
+    id: 'ord-003',
+    tableName: 'BÀN 03',
+    zone: 'T1',
+    orderCode: '#ORD-003',
+    staff: 'Lan',
+    baseSec: 4 * 60 + 18,
+    items: [
+      { id: 't3-1', name: 'Nước Lẩu Tomyum Hải Sản', qty: 1, station: 'broth_meat', stationShort: 'Lẩu & Thịt', note: 'Ít cay', done: true },
+      { id: 't3-2', name: 'Ba chỉ bò Mỹ nhúng lẩu', qty: 3, station: 'broth_meat', stationShort: 'Lẩu & Thịt', note: 'Thái mỏng, ít mỡ', done: false },
+      { id: 't3-3', name: 'Trà Bí Đao Hạt Chia (Bình)', qty: 1, station: 'bar', stationShort: 'Quầy Bar', note: 'Ít đá, thêm 4 ly', done: false }
+    ]
+  },
+  {
+    id: 'ord-013',
+    tableName: 'BÀN 13',
+    zone: 'T2',
+    orderCode: '#ORD-013',
+    staff: 'Lan',
+    baseSec: 1 * 60 + 52,
+    items: [
+      { id: 't13-1', name: 'Tháp Rau Nấm & Váng Đậu', qty: 2, station: 'seafood_veg', stationShort: 'Hải sản & Rau', note: 'Rửa kỹ, làm sạch', done: false },
+      { id: 't13-2', name: 'Tháp Bò Mỹ Thượng Hạng', qty: 1, station: 'broth_meat', stationShort: 'Lẩu & Thịt', note: '', done: false },
+      { id: 't13-3', name: 'Trà Đào Cam Sả', qty: 2, station: 'bar', stationShort: 'Quầy Bar', note: 'Không đường', done: false }
+    ]
+  }
+];
+
+const INITIAL_HISTORY = [
+  { id: 'ord-008', tableName: 'BÀN 08', zone: 'T1', orderCode: '#ORD-008', staff: 'Nam', baseSec: 320, finishedAt: '10:02:14', summary: 'Combo 269K · Lẩu Nấm Dưỡng Sinh · Đã lên đủ 4 món', items: [{ id: 'h8-1', name: 'Nước Lẩu Nấm Dưỡng Sinh', qty: 1, station: 'broth_meat', stationShort: 'Lẩu & Thịt', note: '', done: true }] },
+  { id: 'ord-001', tableName: 'BÀN 01', zone: 'T1', orderCode: '#ORD-001', staff: 'Minh', baseSec: 410, finishedAt: '09:54:08', summary: 'Thịt Bò Mỹ & Trà Bí Đao · Đã lên đủ 3 món', items: [{ id: 'h1-1', name: 'Ba chỉ bò Mỹ nhúng lẩu', qty: 2, station: 'broth_meat', stationShort: 'Lẩu & Thịt', note: '', done: true }] }
+];
+
+const BASE_86_CATALOG = [
+  { name: 'Sò điệp Nhật Hokkaido', stationLabel: 'Quầy Hải Sản & Rau' },
+  { name: 'Tôm càng xanh size lớn', stationLabel: 'Quầy Hải Sản & Rau' },
+  { name: 'Bò Wagyu Nhật A5 (150g)', stationLabel: 'Bếp Nước Lẩu & Thịt' },
+  { name: 'Ba chỉ bò Mỹ nhúng lẩu', stationLabel: 'Bếp Nước Lẩu & Thịt' },
+  { name: 'Tháp Bò Mỹ Thượng Hạng', stationLabel: 'Bếp Nước Lẩu & Thịt' },
+  { name: 'Tôm Sú & Mực Hoa Tươi', stationLabel: 'Quầy Hải Sản & Rau' },
+  { name: 'Tháp Rau Nấm & Váng Đậu', stationLabel: 'Quầy Hải Sản & Rau' },
+  { name: 'Trà Bí Đao Hạt Chia (Bình)', stationLabel: 'Quầy Bar / Đồ Uống' },
+  { name: 'Trà Đào Cam Sả', stationLabel: 'Quầy Bar / Đồ Uống' }
+];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      stationFilter: 'all',
+      viewMode: 'active',
+      tickets: INITIAL_TICKETS,
+      completed: INITIAL_HISTORY,
+      outOfStockNames: ['Sò điệp Nhật Hokkaido', 'Tôm càng xanh size lớn'],
+      show86Modal: false,
+      search86Query: '',
+      tickOffset: 0,
+      nowEpoch: Date.now(),
+      bannerMsg: ''
+    };
+    this._timer = null;
+  }
+
+  componentDidMount() {
+    this._timer = setInterval(() => {
+      this.setState((prev) => ({
+        tickOffset: prev.tickOffset + 1,
+        nowEpoch: Date.now()
+      }));
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    if (this._timer) {
+      clearInterval(this._timer);
+      this._timer = null;
+    }
+  }
+
+  toggleItemDone(ticketId, itemId) {
+    this.setState((prev) => ({
+      tickets: prev.tickets.map((tk) => {
+        if (tk.id !== ticketId) return tk;
+        return {
+          ...tk,
+          items: tk.items.map((it) => (it.id === itemId ? { ...it, done: !it.done } : it))
+        };
+      })
+    }));
+  }
+
+  flagItem86(dishName) {
+    this.setState((prev) => {
+      const exists = prev.outOfStockNames.indexOf(dishName) !== -1;
+      const nextList = exists
+        ? prev.outOfStockNames.filter((n) => n !== dishName)
+        : [...prev.outOfStockNames, dishName];
+      return {
+        outOfStockNames: nextList,
+        bannerMsg: exists
+          ? ('Đã mở bán lại "' + dishName + '" trên POS & Bếp.')
+          : ('Đã báo Hết (86): "' + dishName + '" — đồng bộ khóa gọi món trên POS.')
+      };
+    });
+  }
+
+  bumpTicket(ticketId) {
+    const stamp = formatClock(Date.now());
+    this.setState((prev) => {
+      const target = prev.tickets.find((tk) => tk.id === ticketId);
+      if (!target) return {};
+      const completedEntry = {
+        ...target,
+        finishedAt: stamp,
+        summary: 'Đã lên đủ ' + target.items.length + ' món · NV: ' + target.staff,
+        items: target.items.map((it) => ({ ...it, done: true }))
+      };
+      return {
+        tickets: prev.tickets.filter((tk) => tk.id !== ticketId),
+        completed: [completedEntry, ...prev.completed],
+        bannerMsg: 'Đã hoàn thành toàn bộ phiếu ' + target.tableName + ' (' + target.orderCode + ') và chuyển sang Lịch sử.'
+      };
+    });
+  }
+
+  recallTicket(ticketId) {
+    this.setState((prev) => {
+      const target = prev.completed.find((ct) => ct.id === ticketId);
+      if (!target) return {};
+      return {
+        completed: prev.completed.filter((ct) => ct.id !== ticketId),
+        tickets: [target, ...prev.tickets],
+        viewMode: 'active',
+        bannerMsg: 'Đã khôi phục ' + target.tableName + ' (' + target.orderCode + ') quay lại điều phối bếp.'
+      };
+    });
+  }
+
+  renderVals() {
+    const activeCount = this.state.tickets.length;
+    let pendingDishesCount = 0;
+    for (let i = 0; i < this.state.tickets.length; i++) {
+      for (let j = 0; j < this.state.tickets[i].items.length; j++) {
+        if (!this.state.tickets[i].items[j].done) pendingDishesCount++;
+      }
+    }
+
+    const stationTabs = STATIONS.map((s) => {
+      const isSelected = this.state.stationFilter === s.id;
+      const lbl = s.id === 'all' ? ('Tất cả phiếu (' + activeCount + ')') : s.label;
+      return {
+        ...s,
+        label: lbl,
+        style:
+          'flex: 0 0 auto; min-height: 44px; padding: 0 15px; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; border: ' +
+          (isSelected ? '1px solid rgba(245, 158, 11, 0.72)' : '1px solid transparent') +
+          '; background-color: ' + (isSelected ? '#B91C1C' : 'transparent') +
+          '; color: ' + (isSelected ? '#FDE68A' : '#94A3B8') + ';',
+        onSelect: () => this.setState({ stationFilter: s.id, viewMode: 'active' })
+      };
+    });
+
+    const filteredTickets = this.state.tickets.filter((tk) => {
+      if (this.state.stationFilter === 'all') return true;
+      return tk.items.some((it) => it.station === this.state.stationFilter);
+    });
+
+    const batchMap = {};
+    for (let i = 0; i < filteredTickets.length; i++) {
+      const tk = filteredTickets[i];
+      for (let j = 0; j < tk.items.length; j++) {
+        const it = tk.items[j];
+        if (this.state.stationFilter !== 'all' && it.station !== this.state.stationFilter) continue;
+        if (it.done) continue;
+        if (!batchMap[it.name]) {
+          batchMap[it.name] = { name: it.name, qty: 0 };
+        }
+        batchMap[it.name].qty += it.qty;
+      }
+    }
+    const batchSummaryItems = Object.values(batchMap)
+      .sort((a, b) => b.qty - a.qty || a.name.localeCompare(b.name))
+      .slice(0, 6)
+      .map((b) => ({
+        name: b.name,
+        qtyText: '×' + b.qty,
+        badgeStyle:
+          'padding: 2px 7px; border-radius: 6px; font-family: \'JetBrains Mono\', monospace; font-size: 13px; font-weight: 800; ' +
+          (b.qty >= 2
+            ? 'background-color: #F59E0B; color: #0B1120;'
+            : 'background-color: #1E293B; color: #E2E8F0; border: 1px solid rgba(148, 163, 184, 0.3);')
+      }));
+
+    const visibleTickets = filteredTickets.map((tk) => {
+      const elapsedSec = tk.baseSec + this.state.tickOffset;
+      const mins = elapsedSec / 60;
+      const isUrgent = mins >= 12;
+      const isWarning = mins >= 5 && mins < 12;
+
+      const borderCol = isUrgent ? '#EF4444' : (isWarning ? '#F59E0B' : '#10B981');
+      const headerTint = isUrgent
+        ? 'rgba(153, 27, 27, 0.34)'
+        : (isWarning ? 'rgba(245, 158, 11, 0.14)' : 'rgba(16, 185, 129, 0.12)');
+      const slaLabel = isUrgent ? 'Gấp / Trễ' : (isWarning ? 'Đang chuẩn bị' : 'Mới nhận');
+      const slaBadgeBg = isUrgent ? 'rgba(239, 68, 68, 0.28)' : (isWarning ? 'rgba(245, 158, 11, 0.22)' : 'rgba(16, 185, 129, 0.2)');
+      const slaBadgeCol = isUrgent ? '#FECACA' : (isWarning ? '#FDE68A' : '#A7F3D0');
+      const slaBadgeBdr = isUrgent ? 'rgba(239, 68, 68, 0.65)' : (isWarning ? 'rgba(245, 158, 11, 0.55)' : 'rgba(16, 185, 129, 0.55)');
+      const timerCol = isUrgent ? '#FCA5A5' : (isWarning ? '#FBBF24' : '#6EE7B7');
+
+      const scopedItems = this.state.stationFilter === 'all'
+        ? tk.items
+        : tk.items.filter((it) => it.station === this.state.stationFilter);
+
+      const doneCount = scopedItems.filter((it) => it.done).length;
+      const totalCount = scopedItems.length;
+      const allDone = totalCount > 0 && doneCount === totalCount;
+
+      const items = scopedItems.map((it) => {
+        const isOutStock = this.state.outOfStockNames.indexOf(it.name) !== -1;
+        const isMulti = it.qty >= 2;
+        return {
+          ...it,
+          hasNote: Boolean(it.note && it.note.trim()),
+          isOutStock,
+          rowBtnStyle:
+            'width: 100%; padding: 10px 11px; border-radius: 11px; display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; background-color: ' +
+            (it.done ? 'rgba(15, 23, 42, 0.5)' : '#0F172A') +
+            '; border: 1px solid ' + (isOutStock ? 'rgba(239, 68, 68, 0.55)' : (it.done ? 'rgba(148, 163, 184, 0.14)' : 'rgba(148, 163, 184, 0.24)')) + ';',
+          qtyBadgeStyle:
+            'font-family: \'JetBrains Mono\', monospace; min-width: 44px; min-height: 36px; padding: 0 7px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; font-size: ' +
+            (isMulti ? '17px' : '15px') + '; ' +
+            (it.done
+              ? 'background-color: #0F172A; border: 1.5px solid rgba(148, 163, 184, 0.22); color: #64748B;'
+              : (isMulti
+                ? 'background-color: #F59E0B; border: 1.5px solid #FDE68A; color: #0B1120; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.28);'
+                : 'background-color: #1E293B; border: 1.5px solid #475569; color: #F8FAFC;')),
+          nameStyle:
+            'font-size: 14px; font-weight: 700; line-height: 1.3; color: ' +
+            (it.done ? '#64748B' : '#F8FAFC') +
+            (it.done ? '; text-decoration: line-through;' : ';'),
+          doneBtnLabel: it.done ? '✓ Đã ra' : 'Ra món',
+          donePillStyle:
+            'min-height: 44px; min-width: 96px; padding: 0 16px; border-radius: 9px; font-size: 13px; font-weight: 800; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; border: 1.5px solid ' +
+            (it.done ? 'rgba(148, 163, 184, 0.28)' : '#10B981') +
+            '; background-color: ' + (it.done ? '#1E293B' : '#065F46') +
+            '; color: ' + (it.done ? '#CBD5E1' : '#ECFDF5') + ';',
+          onToggleDone: () => this.toggleItemDone(tk.id, it.id)
+        };
+      });
+
+      return {
+        ...tk,
+        elapsedFormatted: formatTimer(elapsedSec),
+        cardClass: isUrgent ? 'kds-ticket-urgent' : '',
+        cardStyle:
+          'background-color: #111827; border: 1.5px solid ' + borderCol +
+          '; border-radius: 15px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 12px 26px rgba(2, 6, 23, 0.45);',
+        headerStyle:
+          'padding: 13px 14px; background-color: ' + headerTint +
+          '; border-bottom: 1px solid rgba(148, 163, 184, 0.16); display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;',
+        slaLabel,
+        slaBadgeStyle:
+          'padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; background-color: ' +
+          slaBadgeBg + '; color: ' + slaBadgeCol + '; border: 1px solid ' + slaBadgeBdr + ';',
+        timerStyle:
+          'font-family: \'JetBrains Mono\', monospace; font-size: 20px; font-weight: 800; color: ' + timerCol + ';',
+        items,
+        doneCount,
+        totalCount,
+        statusHint: allDone ? 'Sẵn sàng đóng phiếu' : ((totalCount - doneCount) + ' món đang làm'),
+        bumpBtnStyle:
+          'min-height: 46px; width: 100%; padding: 0 16px; border-radius: 10px; font-size: 13.5px; font-weight: 800; letter-spacing: 0.03em; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1.5px solid ' +
+          (allDone ? '#34D399' : '#334155') +
+          '; background-color: ' + (allDone ? '#10B981' : '#1E293B') +
+          '; color: ' + (allDone ? '#022C22' : '#CBD5E1') +
+          (allDone ? '; box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);' : ';'),
+        onBumpTicket: () => this.bumpTicket(tk.id)
+      };
+    });
+
+    const completedTickets = this.state.completed.map((ct) => ({
+      ...ct,
+      onRecall: () => this.recallTicket(ct.id)
+    }));
+
+    const q86 = (this.state.search86Query || '').trim().toLowerCase();
+    const allDishNames = [...BASE_86_CATALOG];
+    const catalog86Items = allDishNames
+      .filter((x) => !q86 || x.name.toLowerCase().indexOf(q86) !== -1 || x.stationLabel.toLowerCase().indexOf(q86) !== -1)
+      .map((x) => {
+        const isOut = this.state.outOfStockNames.indexOf(x.name) !== -1;
+        return {
+          ...x,
+          statusText: isOut ? 'Đang báo hết (Khóa POS)' : 'Còn hàng phục vụ',
+          rowStyle:
+            'padding: 11px 14px; border-radius: 11px; display: flex; align-items: center; justify-content: space-between; gap: 12px; background-color: ' +
+            (isOut ? 'rgba(153, 27, 27, 0.25)' : '#0F172A') +
+            '; border: 1px solid ' + (isOut ? 'rgba(239, 68, 68, 0.55)' : 'rgba(148, 163, 184, 0.2)') + ';',
+          btnLabel: isOut ? 'Mở bán lại' : 'Báo hết (86)',
+          btnStyle:
+            'min-height: 44px; padding: 0 14px; border-radius: 9px; font-size: 12.5px; font-weight: 700; cursor: pointer; white-space: nowrap; border: 1px solid ' +
+            (isOut ? '#10B981' : 'rgba(239, 68, 68, 0.65)') +
+            '; background-color: ' + (isOut ? '#065F46' : '#991B1B') +
+            '; color: #FFFFFF;',
+          onToggle: () => this.flagItem86(x.name)
+        };
+      });
+
+    return {
+      liveClock: formatClock(this.state.nowEpoch),
+      pendingDishesCount,
+      outOfStockCount: this.state.outOfStockNames.length,
+      stationTabs,
+      hasBatchItems: batchSummaryItems.length > 0,
+      noBatchItems: batchSummaryItems.length === 0,
+      batchSummaryItems,
+      visibleTickets,
+      showingActive: this.state.viewMode === 'active',
+      showingHistory: this.state.viewMode === 'history',
+      completedCount: this.state.completed.length,
+      completedTickets,
+      historyBtnLabel: this.state.viewMode === 'history'
+        ? 'Quay lại Bếp (' + activeCount + ')'
+        : 'Đã hoàn thành (' + this.state.completed.length + ')',
+      historyBtnStyle:
+        'min-height: 44px; padding: 0 14px; border-radius: 10px; font-size: 12.5px; font-weight: 700; cursor: pointer; white-space: nowrap; border: 1px solid ' +
+        (this.state.viewMode === 'history' ? '#F59E0B' : 'rgba(16, 185, 129, 0.45)') +
+        '; background-color: ' + (this.state.viewMode === 'history' ? '#991B1B' : '#0F172A') +
+        '; color: ' + (this.state.viewMode === 'history' ? '#FDE68A' : '#6EE7B7') + ';',
+      hasBanner: Boolean(this.state.bannerMsg),
+      bannerMsg: this.state.bannerMsg,
+      show86Modal: this.state.show86Modal,
+      search86Query: this.state.search86Query,
+      catalog86Items,
+
+      goBackPos: () => this.setState({ bannerMsg: 'Điều hướng về màn hình Sơ đồ bàn POS (/pos) khi tích hợp Java Web.' }),
+      dismissBanner: () => this.setState({ bannerMsg: '' }),
+      toggleHistoryView: () => this.setState((prev) => ({ viewMode: prev.viewMode === 'history' ? 'active' : 'history' })),
+      open86Modal: () => this.setState({ show86Modal: true }),
+      close86Modal: () => this.setState({ show86Modal: false }),
+      onSearch86Input: (e) => this.setState({ search86Query: e.target.value })
+    };
+  }
+}
+</script>
+</body>
+</html>
+
